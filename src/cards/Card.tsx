@@ -2,7 +2,7 @@ import {Paper} from '@mui/material';
 import React from 'react';
 import styles from './Card.module.css'
 
-function Card() {
+function Card({cardId}: Readonly<{ cardId: number }>) {
   const moveCard = (event: React.MouseEvent<HTMLDivElement>) => {
     const dMax = 15;
     const img = event.currentTarget
@@ -23,7 +23,7 @@ function Card() {
 
   return (
     <Paper elevation={3} onMouseMove={moveCard} onMouseLeave={resetCard} onMouseEnter={activateCard} className={styles.cardstyle}>
-      <img src="cards/card-021.jpg" alt="" style={{width: '100%', height: '100%'}} />
+      <img src={`cards/card-0${cardId}.jpg`} alt="" style={{width: '100%', height: '100%'}} />
     </Paper>
   );
 }
