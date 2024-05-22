@@ -1,8 +1,9 @@
 import {Paper} from '@mui/material';
 import React from 'react';
-import styles from './Card.module.css'
+import styles from './HoverCard.module.css'
+import {cardById} from '../Card.tsx';
 
-function Card({cardId}: Readonly<{ cardId: number }>) {
+function HoverCard({cardId}: Readonly<{ cardId: number }>) {
   const moveCard = (event: React.MouseEvent<HTMLDivElement>) => {
     const dMax = 15;
     const img = event.currentTarget
@@ -21,11 +22,13 @@ function Card({cardId}: Readonly<{ cardId: number }>) {
     event.currentTarget.style.transform = "";
   }
 
+  const card = cardById(cardId);
+
   return (
     <Paper elevation={3} onMouseMove={moveCard} onMouseLeave={resetCard} onMouseEnter={activateCard} className={styles.cardstyle}>
-      <img src={`cards/card-0${cardId}.jpg`} alt="" style={{width: '100%', height: '100%'}} />
+      <img src={card.imageSrc()} alt="" style={{width: '100%', height: '100%'}} />
     </Paper>
   );
 }
 
-export default Card;
+export default HoverCard;

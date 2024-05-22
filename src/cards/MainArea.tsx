@@ -1,12 +1,14 @@
 import CardBoard from './CardBoard.tsx';
 import CardFilter from './CardFilter.tsx';
+import {Box, Toolbar} from '@mui/material';
 
 function MainArea() {
   return (
-    <main>
+    <Box component="main">
+      <Toolbar />
       <CardFilter />
       <CardBoard/>
-    </main>
+    </Box>
   );
 }
 
