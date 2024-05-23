@@ -14,10 +14,6 @@ function HoverCard({cardId}: Readonly<{ cardId: number }>) {
     img.style.transform = `perspective(1000px) rotateX(${dy}deg) rotateY(${dx}deg) scale3d(1.1,1.1,1.1)`;
   };
 
-  const activateCard = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.currentTarget.style.transition = "1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)";
-  }
-
   const resetCard = (event: React.MouseEvent<HTMLDivElement>) => {
     event.currentTarget.style.transform = "";
   }
@@ -25,7 +21,7 @@ function HoverCard({cardId}: Readonly<{ cardId: number }>) {
   const card = cardById(cardId);
 
   return (
-    <Paper elevation={3} onMouseMove={moveCard} onMouseLeave={resetCard} onMouseEnter={activateCard} className={styles.cardstyle}>
+    <Paper elevation={3} onMouseMove={moveCard} onMouseLeave={resetCard} className={styles.cardstyle}>
       <img src={card.imageSrc()} alt="" style={{width: '100%', height: '100%'}} />
     </Paper>
   );

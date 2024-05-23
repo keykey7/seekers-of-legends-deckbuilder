@@ -1,39 +1,34 @@
 import Drawer from '@mui/material/Drawer';
-import {Box, Divider, List, ListItem, ListItemText, Toolbar} from '@mui/material';
+import {Divider, List, Paper, Toolbar} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
 
+export const drawerWidth = 300;
+
 function DeckDrawer() {
+
+  const items = Array.from({ length: 5 }, (_, i) => i * 2 + 21);
   return (
     <Drawer
       variant="permanent"
       anchor="right"
       sx={{
         position: 'relative',
-        pl: 4,
-        width: 240,
+        pl: 3,
+        width: drawerWidth,
         flexShrink: 0,
-        [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box', position: "relative" },
+        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', position: "relative" },
       }}
     >
       <Toolbar />
-      <Box>
+      <Paper sx={{px: 1}}>
         <List>
-          <DeckItem cardId={21} />
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text) => (
-            <ListItem key={text}>
-              <ListItemText primary={text} />
-            </ListItem>
+          <DeckItem cardId={30} />
+          <Divider />
+          {items.map((cardId) => (
+            <DeckItem cardId={cardId} />
           ))}
         </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text) => (
-            <ListItem key={text}>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </Box>
+      </Paper>
     </Drawer>
   );
 }
