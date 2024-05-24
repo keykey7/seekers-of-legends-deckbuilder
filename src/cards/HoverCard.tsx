@@ -1,4 +1,4 @@
-import {Paper} from '@mui/material';
+import {Box, Paper} from '@mui/material';
 import React from 'react';
 import styles from './HoverCard.module.css'
 import {cardById} from '../Card.tsx';
@@ -21,8 +21,14 @@ function HoverCard({cardId}: Readonly<{ cardId: number }>) {
   const card = cardById(cardId);
 
   return (
-    <Paper elevation={3} onMouseMove={moveCard} onMouseLeave={resetCard} className={styles.cardstyle}>
-      <img src={card.imageSrc()} alt="" style={{width: '100%', height: '100%'}} />
+    <Paper elevation={3} onMouseMove={moveCard} onMouseLeave={resetCard} className={styles.cardstyle} sx={{
+      backgroundImage: `url(${card.imageSrc()})`,
+      borderRadius: 2.5,
+      transition: '1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)',
+    }}>
+      <Box aria-label={card.name} sx={{
+        width: '10em', // spacing
+      }}/>
     </Paper>
   );
 }

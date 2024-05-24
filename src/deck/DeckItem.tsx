@@ -8,7 +8,7 @@ function DeckItem({cardId} :{readonly cardId: number}) {
     <ListItem sx={{
       height: '48px',
       my: 1,
-      background: `linear-gradient(to right, white, white, white, white, black, black), url('${card.imageSrc()}') 50% 4% / ${drawerWidth * 1.2}px`,
+      background: `linear-gradient(to right, white, white, white, white, black, black), url('${card.imageSrc()}') 76% 5.5% / ${drawerWidth * 1.4}px`,
       backgroundBlendMode: 'multiply', // gradient combined with image
     }}>
       {/* this draws the right preview of the center motive on top of the title text */}

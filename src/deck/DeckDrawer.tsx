@@ -6,7 +6,7 @@ export const drawerWidth = 300;
 
 function DeckDrawer() {
 
-  const items = Array.from({ length: 5 }, (_, i) => i * 2 + 21);
+  const items = Array.from({ length: 10 }, (_, i) => i * 2 + 21);
   return (
     <Drawer
       variant="permanent"
