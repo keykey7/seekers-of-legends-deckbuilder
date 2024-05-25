@@ -1,13 +1,18 @@
 import CardBoard from './CardBoard.tsx';
-import CardFilter from './CardFilter.tsx';
+import FractionFilter from './FractionFilter.tsx';
 import {Box, Toolbar} from '@mui/material';
+import React from 'react';
+import {cards, Fraction} from '../Card.tsx';
 
 function MainArea() {
+  const [filterFractions, setFilterFractions] = React.useState((): Fraction[] => []);
+  const shownCards = cards.filter(x => filterFractions.length == 0 || filterFractions.includes(x.fraction));
+
   return (
     <Box component="main">
       <Toolbar />
-      <CardFilter />
-      <CardBoard/>
+      <FractionFilter filterFractions={filterFractions} setFilterFractions={setFilterFractions}/>
+      <CardBoard cards={shownCards}/>
     </Box>
   );
 }

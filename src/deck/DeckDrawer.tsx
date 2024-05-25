@@ -25,7 +25,7 @@ function DeckDrawer() {
           <DeckItem cardId={30} />
           <Divider />
           {items.map((cardId) => (
-            <DeckItem cardId={cardId} />
+            <DeckItem key={"deckItem" + cardId} cardId={cardId} />
           ))}
         </List>
       </Paper>
