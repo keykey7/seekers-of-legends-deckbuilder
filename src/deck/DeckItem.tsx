@@ -2,26 +2,79 @@ import {Box, ListItem} from '@mui/material';
 import {cardById} from '../Card.tsx';
 import {drawerWidth} from './DeckDrawer.tsx';
 
-function DeckItem({cardId} :{readonly cardId: number}) {
+interface DeckItemProps {
+  cardId: number,
+  actualCost: number,
+  isExpensive: boolean,
+}
+
+function DeckItem({cardId, actualCost, isExpensive} : Readonly<DeckItemProps>) {
   const card = cardById(cardId);
   return (
     <ListItem sx={{
       height: '48px',
       my: 1,
-      background: `linear-gradient(to right, white, white, white, white, black, black), url('${card.imageSrc()}') 76% 5.5% / ${drawerWidth * 1.4}px`,
-      backgroundBlendMode: 'multiply', // gradient combined with image
     }}>
-      {/* this draws the right preview of the center motive on top of the title text */}
+      {/* this draws the title text of the card */}
       <Box component="span" sx={{
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        background: `linear-gradient(to left, white, white, black, black, black, black), url('${card.imageSrc()}') right -300% top 25% / ${drawerWidth / 1.2}px`,
+        background: `linear-gradient(to right, black 52px, white 56px, white 70%, black 85%), ` +
+          `linear-gradient(to top, black 0px, transparent 8px), ` + // hide a bit of the bottom
+          `url('${card.imageSrc()}') 55% 5.5% / ${drawerWidth * 1.2}px`,
         backgroundBlendMode: 'multiply', // gradient combined with image
-        mixBlendMode: 'screen', // the combined background printed onto the layer below
-      }}></Box>
+      }}>
+        {/* this draws the diamond (outline) containing the cost */}
+        <Box component="span" sx={{
+          position: 'absolute',
+          width: '62px',
+          top: -5,
+          left: -5,
+          right: -5,
+          bottom: -5,
+          background: `linear-gradient(45deg, black 17px, transparent 17px), ` + // from bot left
+            `linear-gradient(135deg, black 23px, transparent 23px), ` + // from top left
+            `linear-gradient(225deg, black 23px, transparent 23px), ` + // from top right
+            `linear-gradient(-45deg, black 17px, transparent 17px), ` + // from bot right
+            `linear-gradient(to top, black 0px, transparent 5px), ` + // hide the unicorn icon at the bottom
+            `linear-gradient(to right, white 62px, black 62px), url('${card.imageSrc()}') right 92% top 4.6% / ${drawerWidth * 1.6}px`,
+          backgroundBlendMode: 'multiply', // gradient combined with image
+          mixBlendMode: 'screen', // the combined background printed onto the layer below
+        }}>
+          {/* this draws the actual cost on a grey background to hide the original number */}
+          <Box component="span" sx={{
+            position: 'absolute',
+            top: 20,
+            left: 20,
+            right: 20,
+            bottom: 16,
+            background: '#3c3c3e',
+            textAlign: 'center',
+            fontSize: '22px',
+            lineHeight: '1',
+            fontWeight: 'bold',
+            color: isExpensive ? 'red' : 'white',
+          }}>
+            {actualCost}
+          </Box>
+        </Box>
+        {/* this draws the right-side preview of the center motive on top of the title text */}
+        <Box component="span" sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: `linear-gradient(to right, black 70%, white 85%), url('${card.imageSrc()}') right -300% top 25% / ${drawerWidth / 1.2}px`,
+          backgroundBlendMode: 'multiply', // gradient combined with image
+          mixBlendMode: 'screen', // the combined background printed onto the layer below
+        }}></Box>
+      </Box>
+
+
     </ListItem>
   );
 }

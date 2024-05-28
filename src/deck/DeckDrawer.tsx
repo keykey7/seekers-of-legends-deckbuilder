@@ -2,7 +2,7 @@ import Drawer from '@mui/material/Drawer';
 import {Divider, List, Paper, Toolbar} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
 
-export const drawerWidth = 300;
+export const drawerWidth = 348;
 
 function DeckDrawer() {
 
@@ -22,10 +22,10 @@ function DeckDrawer() {
       <Toolbar />
       <Paper sx={{px: 1}}>
         <List>
-          <DeckItem cardId={30} />
+          <DeckItem cardId={30} actualCost={3} isExpensive={false} />
           <Divider />
           {items.map((cardId) => (
-            <DeckItem key={"deckItem" + cardId} cardId={cardId} />
+            <DeckItem key={"deckItem" + cardId} cardId={cardId} actualCost={3} isExpensive={true} />
           ))}
         </List>
       </Paper>
