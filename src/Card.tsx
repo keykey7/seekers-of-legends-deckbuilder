@@ -5,6 +5,8 @@ export enum CardType {Avatar, Charakter, Einfluss, Aktion, Feld }
 
 export type CardCost = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 'X';
 
+export type CardCostModifier = 0 | 1 | 2;
+
 export enum Skill {
   Flug,
   Fernkampf,
@@ -37,6 +39,26 @@ export class Card {
   imageSrc() : string {
     return "/cards/card-" + String(this.id).padStart(3, '0') + ".jpg"
   }
+
+  costModifier(targetFraction: Fraction) : CardCostModifier {
+    if (targetFraction == this.fraction) {
+      return 0;
+    }
+    const expensiveMap : {[key in Fraction] : Fraction} = {
+      "BLUE": "YELLOW",
+      "RED": "BLUE",
+      "VIOLET": "GREEN",
+      "WHITE": "BLACK",
+      "YELLOW": "BROWN",
+      "BLACK": "WHITE",
+      "GREEN": "RED",
+      "BROWN": "VIOLET",
+    }
+    if(expensiveMap[this.fraction] == targetFraction){
+      return 2;
+    }
+    return 1;
+  }
 }
 
 export const cards: Readonly<Card[]> = [
@@ -46,20 +68,20 @@ export const cards: Readonly<Card[]> = [
   new Card(4, 1, "Wasserritual", CardType.Aktion, "BLUE"),
   new Card(5, 1, "Versinken", CardType.Aktion, "BLUE"),
   new Card(6, 3, "Tiefsee", CardType.Feld, "BLUE"),
-  new Card(7, 1, "", CardType.Charakter, "BLUE"),
-  new Card(8, 1, "", CardType.Charakter, "BLUE"),
-  new Card(9, 1, "", CardType.Charakter, "BLUE"),
-  new Card(10, 1, "", CardType.Charakter, "BLUE"),
-  new Card(11, 1, "", CardType.Charakter, "BLUE"),
-  new Card(12, 1, "", CardType.Charakter, "BLUE"),
-  new Card(13, 1, "", CardType.Charakter, "BLUE"),
-  new Card(14, 1, "", CardType.Charakter, "BLUE"),
-  new Card(15, 1, "", CardType.Charakter, "BLUE"),
-  new Card(16, 1, "", CardType.Charakter, "BLUE"),
-  new Card(17, 1, "", CardType.Charakter, "BLUE"),
-  new Card(18, 1, "", CardType.Charakter, "BLUE"),
-  new Card(19, 1, "", CardType.Charakter, "BLUE"),
-  new Card(20, 1, "", CardType.Charakter, "BLUE"),
+  new Card(7, 3, "Stürmische See", CardType.Feld, "BLUE"),
+  new Card(8, 2, "Schwert des Wassers", CardType.Einfluss, "BLUE"),
+  new Card(9, 2, "Tiefenkrieger", CardType.Charakter, "BLUE"),
+  new Card(10, 3, "Psari Klonos", CardType.Charakter, "BLUE"),
+  new Card(11, 3, "Prinzessin Amaryllis", CardType.Avatar, "BLUE"),
+  new Card(12, 5, "Panzerspeer Okeanos", CardType.Avatar, "BLUE"),
+  new Card(13, 4, "Mächtiger Wasserschild", CardType.Aktion, "BLUE"),
+  new Card(14, 3, "Kirian", CardType.Charakter, "BLUE"),
+  new Card(15, 1, "Kartographieren", CardType.Aktion, "BLUE"),
+  new Card(16, 2, "Eindringen in die Seele", CardType.Aktion, "BLUE"),
+  new Card(17, 3, "Durch den Strudel", CardType.Aktion, "BLUE"),
+  new Card(18, 3, "Chiton Thorax", CardType.Charakter, "BLUE"),
+  new Card(19, 1, "Auf den Meeresgrund versenken", CardType.Aktion, "BLUE"),
+  new Card(20, 7, "Anisy Thalassa", CardType.Charakter, "BLUE"),
   new Card(21, 1, "Zersplittern", CardType.Aktion, "RED"),
   new Card(22, 1, "Siwarat", CardType.Charakter, "RED"),
   new Card(23, 3, "Mirza Feuerchimäre", CardType.Charakter, "RED"),
@@ -203,7 +225,7 @@ export const cards: Readonly<Card[]> = [
 ]
 
 export function cardById(id: number): Card {
-  const card = cards[id + 1];
+  const card = cards[id - 1];
   if (card === undefined) {
     throw new Error('unknown cardId=' + id);
   }

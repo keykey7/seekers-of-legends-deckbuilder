@@ -1,14 +1,24 @@
 import {Box, ListItem} from '@mui/material';
-import {cardById} from '../Card.tsx';
+import {cardById, CardCostModifier} from '../Card.tsx';
 import {drawerWidth} from './DeckDrawer.tsx';
 
 interface DeckItemProps {
   cardId: number,
-  actualCost: number,
-  isExpensive: boolean,
+  actualCost: string,
+  costModifier: CardCostModifier,
 }
 
-function DeckItem({cardId, actualCost, isExpensive} : Readonly<DeckItemProps>) {
+function costModifierToColor(costModifier : CardCostModifier) : string {
+  if(costModifier === 0) {
+    return 'white';
+  }
+  if(costModifier === 1) {
+    return 'orange';
+  }
+  return 'red';
+}
+
+function DeckItem({cardId, actualCost, costModifier} : Readonly<DeckItemProps>) {
   const card = cardById(cardId);
   return (
     <ListItem sx={{
@@ -31,10 +41,10 @@ function DeckItem({cardId, actualCost, isExpensive} : Readonly<DeckItemProps>) {
         <Box component="span" sx={{
           position: 'absolute',
           width: '62px',
-          top: -5,
+          top: -10,
           left: -5,
           right: -5,
-          bottom: -5,
+          bottom: 0,
           background: `linear-gradient(45deg, black 17px, transparent 17px), ` + // from bot left
             `linear-gradient(135deg, black 23px, transparent 23px), ` + // from top left
             `linear-gradient(225deg, black 23px, transparent 23px), ` + // from top right
@@ -56,7 +66,7 @@ function DeckItem({cardId, actualCost, isExpensive} : Readonly<DeckItemProps>) {
             fontSize: '22px',
             lineHeight: '1',
             fontWeight: 'bold',
-            color: isExpensive ? 'red' : 'white',
+            color: costModifierToColor(costModifier),
           }}>
             {actualCost}
           </Box>

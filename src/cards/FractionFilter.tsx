@@ -9,7 +9,11 @@ function FractionFilterItem({fraction}: Readonly<{ fraction: Fraction }>) {
       p: 0,
     }}> <Icon sx={{
       // original image list, then a black diamon around it, then lighten with the background
-      background: `linear-gradient(45deg, black 27%, transparent 27%), linear-gradient(135deg, black 27%, transparent 27%), linear-gradient(225deg, black 27%, transparent 27%), linear-gradient(-45deg, black 27%, transparent 27%), url('${card.imageSrc()}') 207% 4.5% / 800%`,
+      background: `linear-gradient(45deg, black 27%, transparent 27%), ` +
+        `linear-gradient(135deg, black 27%, transparent 27%), ` +
+        `linear-gradient(225deg, black 27%, transparent 27%), ` +
+        `linear-gradient(-45deg, black 27%, transparent 27%), ` +
+        `url('${card.imageSrc()}') 207% 4.5% / 800%`,
       mixBlendMode: 'lighten',
       height: '2em',
       width: '2em',
