@@ -1,16 +1,17 @@
 import Drawer from '@mui/material/Drawer';
 import {Divider, List, Paper, Toolbar} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
-import {cardById} from '../Card.tsx';
+import { useDeck} from './DeckContext.tsx';
+import DeckAvatar from './DeckAvatar.tsx';
 
 export const drawerWidth = 348;
 
 function DeckDrawer() {
-  const avatar = cardById(33);
-  const cards = Array.from({ length: 10 }, (_, i) => i * 3 + 12).map(cardId => cardById(cardId));
-  const deckItems = cards.map(card => {
+  const deck = useDeck();
+  const deckItems = deck.cards.map(cardAndCount => {
+    const card = cardAndCount[0];
     const cost = card.cost;
-    const mod = avatar.costModifier(card.fraction);
+    const mod = deck.avatar?.costModifier(card.fraction) ?? 0;
     let costStr : string;
     if (mod === 0) {
       costStr = cost.toString();
@@ -38,7 +39,7 @@ function DeckDrawer() {
       <Toolbar />
       <Paper sx={{px: 1}}>
         <List>
-          <DeckItem cardId={avatar.id} actualCost={avatar.cost as string} costModifier={0} />
+          <DeckAvatar cardId={deck.avatar?.id} />
           <Divider />
           {deckItems}
         </List>
