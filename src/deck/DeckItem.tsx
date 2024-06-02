@@ -1,6 +1,7 @@
 import {Box, ListItem} from '@mui/material';
 import {cardById, CardCostModifier} from '../Card.tsx';
 import {drawerWidth} from './DeckDrawer.tsx';
+import {useDeckDispatch} from './DeckContext.tsx';
 
 interface DeckItemProps {
   cardId: number,
@@ -19,11 +20,17 @@ function costModifierToColor(costModifier : CardCostModifier) : string {
 }
 
 function DeckItem({cardId, actualCost, costModifier} : Readonly<DeckItemProps>) {
+  const dispatch = useDeckDispatch();
   const card = cardById(cardId);
   return (
-    <ListItem sx={{
-      height: '48px',
-      my: 1,
+    <ListItem
+      onClick={() => dispatch({
+        type: 'remove',
+        card: card,
+      })}
+      sx={{
+        height: '48px',
+        my: 1,
     }}>
       {/* this draws the title text of the card */}
       <Box component="span" sx={{

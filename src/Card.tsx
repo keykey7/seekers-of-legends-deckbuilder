@@ -36,6 +36,10 @@ export class Card {
     public readonly fraction: Fraction,
   ) {}
 
+  equals(other: Card | undefined): boolean {
+    return this.id === other?.id;
+  }
+
   imageSrc() : string {
     return "/cards/card-" + String(this.id).padStart(3, '0') + ".jpg"
   }
@@ -61,7 +65,7 @@ export class Card {
   }
 }
 
-export const cards: Readonly<Card[]> = [
+export const allCards: Readonly<Card[]> = [
   new Card(1, 5, "Neues Land entdecken", CardType.Aktion, "BLUE"),
   new Card(2, 4, "Lazaros, der Wächter", CardType.Avatar, "BLUE"),
   new Card(3, 4, "Wasserwandlerin", CardType.Charakter, "BLUE"),
@@ -225,7 +229,7 @@ export const cards: Readonly<Card[]> = [
 ]
 
 export function cardById(id: number): Card {
-  const card = cards[id - 1];
+  const card = allCards[id - 1];
   if (card === undefined) {
     throw new Error('unknown cardId=' + id);
   }
