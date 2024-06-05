@@ -12,7 +12,7 @@ function DeckAvatar({cardId}: {cardId: number | undefined}) {
   const avatar = cardById(cardId)
   return (
     <>
-      <DeckItem cardId={avatar.id} actualCost={avatar.cost as string} costModifier={0} />
+      <DeckItem cardId={avatar.id} actualCost={avatar.cost as string} costModifier={0} amount={1} />
     </>
   );
 }

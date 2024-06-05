@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import {Card, CardType} from '../Card.tsx';
 
-type CardAndCount = [Card, number];
+type CardAndCount = [Card, 1 | 2 | 3 | 4];
 
 class InvalidDeckOperation extends Error {}
 
@@ -39,7 +39,7 @@ export class DeckContextType {
     // increment count of cards only
     return new DeckContextType(this.avatar, this.cards.map(tuple => {
       if (tuple[0].equals(newCard)) {
-        return [tuple[0], tuple[1] + 1];
+        return [tuple[0], tuple[1] + 1] as CardAndCount;
       }
       return tuple;
     }));

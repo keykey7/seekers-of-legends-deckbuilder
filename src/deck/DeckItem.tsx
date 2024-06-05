@@ -7,6 +7,7 @@ interface DeckItemProps {
   cardId: number,
   actualCost: string,
   costModifier: CardCostModifier,
+  amount: 1 | 2 | 3 | 4;
 }
 
 function costModifierToColor(costModifier : CardCostModifier) : string {
@@ -19,7 +20,7 @@ function costModifierToColor(costModifier : CardCostModifier) : string {
   return 'red';
 }
 
-function DeckItem({cardId, actualCost, costModifier} : Readonly<DeckItemProps>) {
+function DeckItem({cardId, actualCost, costModifier, amount} : Readonly<DeckItemProps>) {
   const dispatch = useDeckDispatch();
   const card = cardById(cardId);
   return (
@@ -88,9 +89,20 @@ function DeckItem({cardId, actualCost, costModifier} : Readonly<DeckItemProps>) 
           background: `linear-gradient(to right, black 70%, white 85%), url('${card.imageSrc()}') right -300% top 25% / ${drawerWidth / 1.2}px`,
           backgroundBlendMode: 'multiply', // gradient combined with image
           mixBlendMode: 'screen', // the combined background printed onto the layer below
-        }}></Box>
+        }}>
+          <Box component="div" sx={{
+            float: 'right',
+            p: '14px',
+            textAlign: 'center',
+            fontSize: '22px',
+            lineHeight: '1',
+            fontWeight: 'bold',
+            textShadow: '0 0 5px #000, 0 0 10px #000', // dark glow around it
+          }}>
+            {amount > 1 ? amount : ""}
+          </Box>
+        </Box>
       </Box>
-
 
     </ListItem>
   );
