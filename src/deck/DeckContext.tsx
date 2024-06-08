@@ -74,12 +74,12 @@ const DeckContext = createContext<DeckContextType>(initialDeck);
 const DeckDispatchContext = createContext<React.Dispatch<DeckActionType>>(() => {});
 
 export function DeckProvider({ children }: Readonly<{children: React.ReactNode}>) {
-  const [tasks, dispatch] = useReducer(
+  const [deck, dispatch] = useReducer(
     deckReducer,
     initialDeck,
   );
   return (
-    <DeckContext.Provider value={tasks}>
+    <DeckContext.Provider value={deck}>
       <DeckDispatchContext.Provider value={dispatch}>
         {children}
       </DeckDispatchContext.Provider>
@@ -102,10 +102,16 @@ interface DeckActionType {
 }
 
 function deckReducer(deck: DeckContextType, action: DeckActionType): DeckContextType {
-  console.debug("deckReducer", action);
   switch (action.type) {
     case 'add': {
-      return deck.withAnyCard(action.card);
+      try {
+        return deck.withAnyCard(action.card);
+      } catch (e) {
+        if (e instanceof InvalidDeckOperation) {
+          return deck;
+        }
+        throw e;
+      }
     }
     case 'remove': {
       return deck.withoutCard(action.card);

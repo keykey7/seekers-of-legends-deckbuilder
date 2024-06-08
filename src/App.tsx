@@ -3,6 +3,7 @@ import TopHeader from './TopHeader.tsx';
 import MainArea from './cards/MainArea.tsx';
 import DeckDrawer from './deck/DeckDrawer.tsx';
 import {DeckProvider} from './deck/DeckContext.tsx';
+import ParticleAnimation from './ParticleAnimation.tsx';
 
 function App() {
   // https://mui.com/material-ui/customization/dark-mode/
@@ -17,9 +18,11 @@ function App() {
       <CssBaseline />
       <Container sx={{ display: 'flex' }} maxWidth="xl">
         <TopHeader />
+
         <DeckProvider>
           <MainArea/>
           <DeckDrawer />
+          <ParticleAnimation />
         </DeckProvider>
       </Container>
     </ThemeProvider>
