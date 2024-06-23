@@ -2,7 +2,7 @@ import {Box, Paper} from '@mui/material';
 import React from 'react';
 import styles from './HoverCard.module.css'
 import {Card} from '../Card.tsx';
-import {useDeckDispatch} from '../deck/DeckContext.tsx';
+import {useDeckDispatch} from '../deck/context/DeckProvider.tsx';
 
 function HoverCard({card}: Readonly<{ card: Card }>) {
   const cardDispatch = useDeckDispatch();
@@ -22,9 +22,10 @@ function HoverCard({card}: Readonly<{ card: Card }>) {
     <Paper elevation={3}
       onMouseMove={moveCard}
       onMouseLeave={resetCard}
-      onClick={() => cardDispatch({
+      onClick={e => cardDispatch({
         type: 'add',
         card: card,
+        eventOrigin: e.currentTarget.getBoundingClientRect(),
       })}
       className={styles.cardstyle}
       sx={{

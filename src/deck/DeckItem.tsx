@@ -1,13 +1,15 @@
 import {Box, ListItem} from '@mui/material';
 import {cardById, CardCostModifier} from '../Card.tsx';
 import {drawerWidth} from './DeckDrawer.tsx';
-import {useDeckDispatch} from './DeckContext.tsx';
+import {useDeckDispatch} from './context/DeckProvider.tsx';
+import {Rect} from '../particles/ParticleAnimation.tsx';
+import React, {useLayoutEffect, useRef} from 'react';
 
 interface DeckItemProps {
   cardId: number,
   actualCost: string,
   costModifier: CardCostModifier,
-  amount: 1 | 2 | 3 | 4;
+  amount: 1 | 2 | 3 | 4,
 }
 
 function costModifierToColor(costModifier : CardCostModifier) : string {
@@ -25,9 +27,10 @@ function DeckItem({cardId, actualCost, costModifier, amount} : Readonly<DeckItem
   const card = cardById(cardId);
   return (
     <ListItem
-      onClick={() => dispatch({
+      onClick={e => dispatch({
         type: 'remove',
         card: card,
+        eventOrigin: e.currentTarget.getBoundingClientRect(),
       })}
       sx={{
         height: '48px',

@@ -1,5 +1,6 @@
 .dot {
-    position: absolute;
+    position: fixed;
     border-radius: 50%;
     background-color: hsl(211, 100%, 95%);
+    z-index: 100;
 }

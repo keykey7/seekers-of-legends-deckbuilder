@@ -1,13 +1,18 @@
-import React, {createContext, useContext, useReducer} from 'react';
-import {Card, CardType} from '../Card.tsx';
+import {Card, CardType} from '../../Card.tsx';
 
 type CardAndCount = [Card, 1 | 2 | 3 | 4];
 
 class InvalidDeckOperation extends Error {}
 
-export class DeckContextType {
+export interface DeckActionType {
+  type: 'add' | 'remove',
+  card: Card,
+  eventOrigin: DOMRectReadOnly,
+}
 
-  constructor(public avatar: Card | undefined, public cards: CardAndCount[]) {}
+export class AvatarAndCards {
+
+  constructor(public avatar: Card | undefined, public cards: CardAndCount[], public lastEvent: DeckActionType | undefined) {}
 
   count(card: Card): number {
     if (card.equals(this.avatar)) {
@@ -21,7 +26,7 @@ export class DeckContextType {
     return this.count(card) > 0;
   }
 
-  withAnyCard(newCard: Card): DeckContextType {
+  withAnyCard(newCard: Card): AvatarAndCards {
     const existingCount = this.count(newCard);
     if (newCard.type === CardType.Avatar && existingCount > 0) {
       throw new InvalidDeckOperation('already an avatar of same type in deck');
@@ -31,13 +36,13 @@ export class DeckContextType {
     }
     // at this point we are sure we can add the card
     if(newCard.type === CardType.Avatar && this.avatar === undefined) {
-      return new DeckContextType(newCard, this.cards);
+      return this.withAvatar(newCard);
     }
     if (existingCount === 0) { // append to end
-      return new DeckContextType(this.avatar, [ ...this.cards, [newCard, 1]]);
+      return this.withCards([ ...this.cards, [newCard, 1]]);
     }
     // increment count of cards only
-    return new DeckContextType(this.avatar, this.cards.map(tuple => {
+    return this.withCards(this.cards.map(tuple => {
       if (tuple[0].equals(newCard)) {
         return [tuple[0], tuple[1] + 1] as CardAndCount;
       }
@@ -45,9 +50,21 @@ export class DeckContextType {
     }));
   }
 
-  withoutCard(card: Card): DeckContextType {
+  withAvatar(avatar: Card | undefined) {
+    return new AvatarAndCards(avatar, this.cards, this.lastEvent);
+  }
+
+  withCards(cards: CardAndCount[]) {
+    return new AvatarAndCards(this.avatar, cards, this.lastEvent);
+  }
+
+  withEvent(event: DeckActionType) {
+    return new AvatarAndCards(this.avatar, this.cards, event);
+  }
+
+  withoutCard(card: Card): AvatarAndCards {
     if (card.equals(this.avatar)) {
-      return new DeckContextType(undefined, this.cards);
+      return this.withAvatar(undefined);
     }
     let found = false;
     const updatedCards = this.cards.map(x => {
@@ -63,58 +80,28 @@ export class DeckContextType {
     if(!found) {
       throw new InvalidDeckOperation('cannot remove a card which is missing in the deck');
     }
-    return new DeckContextType(this.avatar, updatedCards);
+    return this.withCards(updatedCards);
   }
 }
 
-const initialDeck = new DeckContextType(undefined, []);
+export const emptyDeck = new AvatarAndCards(undefined, [], undefined);
 
-const DeckContext = createContext<DeckContextType>(initialDeck);
-
-const DeckDispatchContext = createContext<React.Dispatch<DeckActionType>>(() => {});
-
-export function DeckProvider({ children }: Readonly<{children: React.ReactNode}>) {
-  const [deck, dispatch] = useReducer(
-    deckReducer,
-    initialDeck,
-  );
-  return (
-    <DeckContext.Provider value={deck}>
-      <DeckDispatchContext.Provider value={dispatch}>
-        {children}
-      </DeckDispatchContext.Provider>
-    </DeckContext.Provider>
-  );
-}
-
-
-export function useDeck() {
-  return useContext(DeckContext);
-}
-
-export function useDeckDispatch() {
-  return useContext(DeckDispatchContext);
-}
-
-interface DeckActionType {
-  type: 'add' | 'remove',
-  card: Card,
-}
-
-function deckReducer(deck: DeckContextType, action: DeckActionType): DeckContextType {
+export function deckReducer(deck: AvatarAndCards, action: DeckActionType): AvatarAndCards {
+  console.debug("deck-reducer", action);
   switch (action.type) {
     case 'add': {
       try {
-        return deck.withAnyCard(action.card);
+        return deck.withAnyCard(action.card).withEvent(action);
       } catch (e) {
         if (e instanceof InvalidDeckOperation) {
+          console.debug(e.message);
           return deck;
         }
         throw e;
       }
     }
     case 'remove': {
-      return deck.withoutCard(action.card);
+      return deck.withoutCard(action.card).withEvent(action);
     }
     default: {
       throw Error('Unknown action: ' + action.type);
