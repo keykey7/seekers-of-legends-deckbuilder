@@ -2,8 +2,6 @@ import {Box, ListItem} from '@mui/material';
 import {cardById, CardCostModifier} from '../Card.tsx';
 import {drawerWidth} from './DeckDrawer.tsx';
 import {useDeckDispatch} from './context/DeckProvider.tsx';
-import {Rect} from '../particles/ParticleAnimation.tsx';
-import React, {useLayoutEffect, useRef} from 'react';
 
 interface DeckItemProps {
   cardId: number,

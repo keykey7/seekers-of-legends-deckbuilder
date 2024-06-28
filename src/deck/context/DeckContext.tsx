@@ -1,6 +1,7 @@
 import {Card, CardType} from '../../Card.tsx';
+import {fromUrl} from '../StableUrl.tsx';
 
-type CardAndCount = [Card, 1 | 2 | 3 | 4];
+export type CardAndCount = [Card, 1 | 2 | 3 | 4];
 
 class InvalidDeckOperation extends Error {}
 
@@ -84,10 +85,9 @@ export class AvatarAndCards {
   }
 }
 
-export const emptyDeck = new AvatarAndCards(undefined, [], undefined);
+export const initialDeck = fromUrl();
 
 export function deckReducer(deck: AvatarAndCards, action: DeckActionType): AvatarAndCards {
-  console.debug("deck-reducer", action);
   switch (action.type) {
     case 'add': {
       try {
