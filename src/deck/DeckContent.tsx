@@ -1,5 +1,5 @@
 import DeckAvatar from './DeckAvatar.tsx';
-import {Box, Divider, List} from '@mui/material';
+import {Box, List} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
 import {useDeck} from './context/DeckProvider.tsx';
 import ParticleAnimation, {Rect} from '../particles/ParticleAnimation.tsx';

@@ -22,7 +22,7 @@ function HoverCard({card}: Readonly<{ card: Card }>) {
     <Paper elevation={3}
       onMouseMove={moveCard}
       onMouseLeave={resetCard}
-      onClick={e => cardDispatch({
+      onMouseDown={e => cardDispatch({
         type: 'add',
         card: card,
         eventOrigin: e.currentTarget.getBoundingClientRect(),
@@ -32,6 +32,7 @@ function HoverCard({card}: Readonly<{ card: Card }>) {
         backgroundImage: `url(${card.imageSrc()})`,
         borderRadius: 2.5,
         transition: '1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)',
+        cursor: 'pointer',
         // backfaceVisibility: 'none',
         // transform: 'translateZ(0)',
     }}>

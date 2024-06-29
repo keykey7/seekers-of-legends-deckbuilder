@@ -1,4 +1,5 @@
 export const Fractions = ["BLUE" , "RED" , "VIOLET" , "WHITE" , "YELLOW" , "BLACK" , "GREEN" , "BROWN"];
+export const FractionsColors = ["#437282" , "#b71d25" , "#6e439f" , "#d5d5d5" , "#bdb218" , "#1b191a" , "#2f963d" , "#583016"];
 export type Fraction = typeof Fractions[number];
 
 export enum CardType {Avatar, Charakter, Einfluss, Aktion, Feld }
@@ -44,8 +45,8 @@ export class Card {
     return "/cards/card-" + String(this.id).padStart(3, '0') + ".jpg"
   }
 
-  costModifier(targetFraction: Fraction) : CardCostModifier {
-    if (targetFraction == this.fraction) {
+  costModifier(targetFraction: Fraction | undefined) : CardCostModifier {
+    if (targetFraction === undefined || targetFraction === this.fraction) {
       return 0;
     }
     const expensiveMap : {[key in Fraction] : Fraction} = {

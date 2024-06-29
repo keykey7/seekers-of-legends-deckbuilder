@@ -33,6 +33,7 @@ function DeckItem({cardId, actualCost, costModifier, amount} : Readonly<DeckItem
       sx={{
         height: '48px',
         my: 1,
+        cursor: 'pointer',
     }}>
       {/* this draws the title text of the card */}
       <Box component="span" sx={{

@@ -1,6 +1,7 @@
 import Drawer from '@mui/material/Drawer';
 import { Paper, Toolbar} from '@mui/material';
 import DeckContent from './DeckContent.tsx';
+import DeckStats from './DeckStats.tsx';
 
 export const drawerWidth = 348;
 
@@ -20,6 +21,9 @@ function DeckDrawer() {
       }}
     >
       <Toolbar />
+      <Paper>
+        <DeckStats/>
+      </Paper>
       <Paper sx={{px: 1}}>
         <DeckContent />
       </Paper>
