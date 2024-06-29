@@ -14,7 +14,9 @@ function CardBoard({cards}: Readonly<CardBoardProps>) {
       justifyContent: 'center',
     }}>
       {cards.map((card) => (
-        <Grid key={'deck' + card.id} xs={1}> <HoverCard card={card} /> </Grid>
+        <Grid key={'deck' + card.id} xs={1}>
+          <HoverCard card={card} />
+        </Grid>
       ))}
     </Grid>
   );
