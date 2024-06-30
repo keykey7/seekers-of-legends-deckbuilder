@@ -1,7 +1,6 @@
 import {Box, Icon, ToggleButton, ToggleButtonGroup, toggleButtonGroupClasses} from '@mui/material';
 import React from 'react';
 import {cardById, Fraction, Fractions} from '../Card.tsx';
-import TuneIcon from '@mui/icons-material/Tune';
 
 function FractionFilterItem({fraction}: Readonly<{ fraction: Fraction }>) {
   const card = cardById(Fractions.indexOf(fraction) * 20 + 1);

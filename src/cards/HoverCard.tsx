@@ -1,8 +1,9 @@
-import {Box, Paper} from '@mui/material';
+import {Box} from '@mui/material';
 import React from 'react';
 import styles from './HoverCard.module.css'
 import {Card} from '../Card.tsx';
 import {useDeckDispatch} from '../deck/context/DeckProvider.tsx';
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 
 function HoverCard({card}: Readonly<{ card: Card }>) {
   const cardDispatch = useDeckDispatch();
@@ -18,28 +19,41 @@ function HoverCard({card}: Readonly<{ card: Card }>) {
   const resetCard = (event: React.MouseEvent<HTMLDivElement>) => {
     event.currentTarget.style.transform = "";
   }
+  const addCard = (event: React.MouseEvent<HTMLDivElement>) => {
+    cardDispatch({
+      type: 'add',
+      card: card,
+      eventOrigin: event.currentTarget.getBoundingClientRect(),
+    })
+  }
   return (
-    <Paper elevation={3}
-      onMouseMove={moveCard}
-      onMouseLeave={resetCard}
-      onMouseDown={e => cardDispatch({
-        type: 'add',
-        card: card,
-        eventOrigin: e.currentTarget.getBoundingClientRect(),
-      })}
-      className={styles.cardstyle}
+    <Box
       sx={{
-        backgroundImage: `url(${card.imageSrc()})`,
-        borderRadius: 2.5,
-        transition: '1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)',
-        cursor: 'pointer',
-        // backfaceVisibility: 'none',
-        // transform: 'translateZ(0)',
-    }}>
-      <Box aria-label={card.name} sx={{
-        width: '10em', // spacing
-      }}/>
-    </Paper>
+        width: '12em',
+      }}
+      >
+      <Box aria-label={card.name}
+        onMouseMove={moveCard}
+        onMouseLeave={resetCard}
+        onMouseDown={addCard}
+        className={styles.cardstyle}
+        sx={{
+          backgroundImage: `url(${card.imageSrc()})`,
+          borderRadius: 2.5,
+          transition: '1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)',
+          cursor: 'pointer',
+          // backfaceVisibility: 'none',
+          transform: 'translateZ(0)', // hack to avoid flickering between no-transition and transition on FF
+        }}>
+        <InfoTwoToneIcon
+          fontSize="large"
+          sx={{
+            position: 'absolute',
+            right: 0,
+            transform: 'scale(1.8)',
+          }} />
+      </Box>
+    </Box>
   );
 }
 
