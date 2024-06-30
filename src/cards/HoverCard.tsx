@@ -29,7 +29,9 @@ function HoverCard({card}: Readonly<{ card: Card }>) {
   return (
     <Box
       sx={{
-        width: '12em',
+        p: 2,
+        minWidth: '12em',
+        aspectRatio: '2429 / 3308', // same as actual image
       }}
       >
       <Box aria-label={card.name}

@@ -9,8 +9,8 @@ interface CardBoardProps {
 function CardBoard({cards}: Readonly<CardBoardProps>) {
   // https://mui.com/material-ui/react-grid2/
   return (
-    <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 1, sm: 2, md: 3, lg: 4, xl: 5}} mt={1} sx={{
-      lineHeight: 0,
+    <Grid container columns={{xs: 1, sm: 2, md: 3, lg: 4, xl: 5}} sx={{
+      // lineHeight: 0,
       justifyContent: 'center',
     }}>
       {cards.map((card) => (

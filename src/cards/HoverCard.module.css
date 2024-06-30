@@ -20,7 +20,8 @@
     background-size: 105%; /* since cards are cut */
     background-position: center;
     width: 100%;
-    aspect-ratio: 2429 / 3308; /* matching actual image */
+    height: 100%;
+    /*aspect-ratio: 2429 / 3308; !* matching actual image *!*/
     backface-visibility: hidden;
     -webkit-font-smoothing: subpixel-antialiased;
 }
