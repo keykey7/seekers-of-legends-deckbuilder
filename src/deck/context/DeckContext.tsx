@@ -1,4 +1,4 @@
-import {Card, CardType} from '../../Card.tsx';
+import {Card, CardType, DeckSort} from '../../Card.tsx';
 import {fromUrl} from '../StableUrl.tsx';
 
 export type CardAndCount = [Card, 1 | 2 | 3 | 4];
@@ -52,11 +52,18 @@ export class AvatarAndCards {
   }
 
   withAvatar(avatar: Card | undefined) {
-    return new AvatarAndCards(avatar, this.cards, this.lastEvent);
+    return new AvatarAndCards(avatar, this.cards, this.lastEvent).sorted();
+  }
+
+  private sorted(): AvatarAndCards {
+    return new AvatarAndCards(this.avatar, this.cards.slice()
+        .sort((a, b) => DeckSort.byFraction(a[0], b[0]))
+        .sort((a, b) => a[0].costNumber(this.avatar?.fraction) - b[0].costNumber(this.avatar?.fraction)),
+      this.lastEvent);
   }
 
   withCards(cards: CardAndCount[]) {
-    return new AvatarAndCards(this.avatar, cards, this.lastEvent);
+    return new AvatarAndCards(this.avatar, cards, this.lastEvent).sorted();
   }
 
   withEvent(event: DeckActionType) {

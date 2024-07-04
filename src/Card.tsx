@@ -1,4 +1,5 @@
 export const Fractions = ["BLUE" , "RED" , "VIOLET" , "WHITE" , "YELLOW" , "BLACK" , "GREEN" , "BROWN"];
+export const FractionNames = ["", "Vaakhil", "", "", "Heepurianer", "", "", "Archtaren"]
 export const FractionsColors = ["#437282" , "#b71d25" , "#6e439f" , "#d5d5d5" , "#bdb218" , "#1b191a" , "#2f963d" , "#583016"];
 export type Fraction = typeof Fractions[number];
 
@@ -28,6 +29,12 @@ export enum Skill {
   Schnelligkeit,
 }
 
+export const DeckSort = {
+  byFraction: (a: Card, b: Card) => Fractions.indexOf(a.fraction) - Fractions.indexOf(b.fraction),
+  byCost: (a: Card, b: Card) => a.costNumber() - b.costNumber(),
+  byType: (a: Card, b: Card) => a.type - b.type,
+}
+
 export class Card {
   constructor(
     public readonly id: number,
@@ -37,8 +44,8 @@ export class Card {
     public readonly fraction: Fraction,
   ) {}
 
-  costNumber() : number {
-    return this.cost === 'X' ? 1 : this.cost;
+  costNumber(avatarFraction: Fraction | undefined = undefined) : number {
+    return this.cost === 'X' ? 1 : this.cost + this.costModifier(avatarFraction);
   }
 
   equals(other: Card | undefined): boolean {
@@ -117,7 +124,7 @@ export const allCards: Readonly<Card[]> = [
   new Card(44, 4, "Tenshi Jakun", CardType.Charakter, "VIOLET"),
   new Card(45, 2, "Sturmbastion", CardType.Feld, "VIOLET"),
   new Card(46, 8, "Sasaki Jojiro", CardType.Avatar, "VIOLET"),
-  new Card(47, 3, "Ratsältester Kankei", CardType.Charakter, "VIOLET"),
+  new Card(47, 3, "Ratsältester Kankei", CardType.Avatar, "VIOLET"),
   new Card(48, 3, "Naoki, der Windgeist", CardType.Charakter, "VIOLET"),
   new Card(49, 3, "Kaze Oni", CardType.Charakter, "VIOLET"),
   new Card(50, 2, "Katano Hikaoki", CardType.Avatar, "VIOLET"),
