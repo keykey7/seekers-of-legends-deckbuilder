@@ -5,21 +5,22 @@ import {Box} from '@mui/material';
 
 function DeckAvatar({cardId}: {cardId: number | undefined}) {
   let element = <Box sx={{
-    height: '100%',
+    pt: 2,
+    pb: 1,
     textAlign: "center",
-  }}>NO AVATAR</Box>;
+  }}>Wähle dein Avatar</Box>;
   if (cardId !== undefined) {
     const avatar = cardById(cardId);
-    element = <DeckItem cardId={avatar.id} actualCost={avatar.cost as string} costModifier={0} amount={1} />
+    element = <Box my={"20px"} sx={{
+      boxShadow: '0 0 20px grey',
+    }}>
+      <DeckItem cardId={avatar.id} actualCost={avatar.cost as string} costModifier={0} amount={1} />
+    </Box>
   }
   return (
     <>
       <StableUrl />
-      <Box my={"20px"} sx={{
-        boxShadow: '0 0 20px grey',
-      }}>
-        {element}
-      </Box>
+      {element}
     </>
   );
 }

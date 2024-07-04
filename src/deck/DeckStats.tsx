@@ -2,6 +2,7 @@ import {useDeck} from './context/DeckProvider.tsx';
 import {BarChart, Gauge, gaugeClasses} from '@mui/x-charts';
 import {drawerWidth} from './DeckDrawer.tsx';
 import {Card} from '../Card.tsx';
+import {Box, Tooltip} from '@mui/material';
 
 function DeckStats() {
   const deck = useDeck();
@@ -24,29 +25,44 @@ function DeckStats() {
     addCard(cardAndCount[0], cardAndCount[1]);
   })
   const count = colorCost.reduce((a, b) => a + b, 0);
+  const max = colorCost.reduce((a, b) => Math.max(a, b), 0);
+  let gauge = <Box sx={{
+    right: '10px',
+    position: 'absolute',
+    zIndex: 10,
+  }}>
+    <Gauge width={70} height={70} value={count} valueMax={40} sx={{
+      [`& .${gaugeClasses.valueArc}`]: {
+        fill: '#d5d5d5',
+      },
+      [`& .${gaugeClasses.valueText} text`]: {
+        fill: count < 40 ? '#b71d25' : '#d5d5d5',
+        fontWeight: 'bold',
+      },
+    }} />
+  </Box>;
+
+  if (count < 40) {
+    gauge = <Tooltip title={<p>
+        Es fehlen noch mindestens<br/>
+        {40-count} Karten für ein gültiges Deck.
+      </p > } placement="left">
+      {gauge}
+    </Tooltip>
+  }
   return (
     <>
-      <Gauge width={70} height={70} value={count} valueMax={40} sx={{
-        [`& .${gaugeClasses.valueArc}`]: {
-          fill: "#d5d5d5",
-        },
-        [`& .${gaugeClasses.valueText} text`]: {
-          fill: count < 40 ? "#b71d25" : "#d5d5d5",
-          fontWeight: "bold"
-        },
-        right: "10px",
-        position: 'absolute',
-        zIndex: 10,
-      }}/>
+      {gauge}
       <BarChart
         width={drawerWidth}
         height={200}
         series={[{ data: colorCost, color: "#d5d5d5"}]}
         xAxis={[{
           data: [1, 2, 3, 4, 5, 6, '7+'],
-          scaleType: 'band'
+          scaleType: 'band',
         }]}
         yAxis={[{
+            max: Math.max(10, max),
             tickMinStep: 1,
           }]}
       />

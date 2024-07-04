@@ -37,6 +37,10 @@ export class Card {
     public readonly fraction: Fraction,
   ) {}
 
+  costNumber() : number {
+    return this.cost === 'X' ? 1 : this.cost;
+  }
+
   equals(other: Card | undefined): boolean {
     return this.id === other?.id;
   }
