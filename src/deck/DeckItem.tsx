@@ -20,6 +20,9 @@ function costModifierToColor(costModifier : CardCostModifier) : string {
   return 'red';
 }
 
+/**
+ * A card-type + amount in your deck.
+ */
 function DeckItem({cardId, actualCost, costModifier, amount} : Readonly<DeckItemProps>) {
   const dispatch = useDeckDispatch();
   const card = cardById(cardId);

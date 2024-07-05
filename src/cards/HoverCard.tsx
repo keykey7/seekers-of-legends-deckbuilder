@@ -5,7 +5,12 @@ import {Card} from '../Card.tsx';
 import {useDeckDispatch} from '../deck/context/DeckProvider.tsx';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 
-function HoverCard({card}: Readonly<{ card: Card }>) {
+export interface HoverCardProps {
+  card: Card,
+  onDetailClick: () => void,
+}
+
+function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
   const cardDispatch = useDeckDispatch();
   const moveCard = (event: React.MouseEvent<HTMLDivElement>) => {
     const dMax = 15;
@@ -49,6 +54,10 @@ function HoverCard({card}: Readonly<{ card: Card }>) {
         }}>
         <InfoTwoToneIcon
           fontSize="large"
+          onMouseDown={e => {
+            onDetailClick();
+            e.stopPropagation();
+          }}
           sx={{
             position: 'absolute',
             right: 0,

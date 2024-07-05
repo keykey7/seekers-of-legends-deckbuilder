@@ -1,14 +1,21 @@
 import DeckItem from './DeckItem.tsx';
 import {cardById} from '../Card.tsx';
 import StableUrl from './StableUrl.tsx';
-import {Box} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 
+/**
+ * A special version of a DeckItem representing the Avatar.
+ */
 function DeckAvatar({cardId}: {cardId: number | undefined}) {
   let element = <Box sx={{
     pt: 2,
     pb: 1,
     textAlign: "center",
-  }}>Wähle dein Avatar</Box>;
+  }}>
+    <Typography variant="h5" component="div">
+      Wähle dein Avatar
+    </Typography>
+  </Box>;
   if (cardId !== undefined) {
     const avatar = cardById(cardId);
     element = <Box my={"20px"} sx={{

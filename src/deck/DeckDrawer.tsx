@@ -1,5 +1,5 @@
 import Drawer from '@mui/material/Drawer';
-import { Paper, Toolbar} from '@mui/material';
+import {drawerClasses, Paper, Toolbar} from '@mui/material';
 import DeckContent from './DeckContent.tsx';
 import DeckStats from './DeckStats.tsx';
 
@@ -14,7 +14,7 @@ function DeckDrawer() {
       sx={{
         width: drawerWidth,
         flexShrink: 0,
-        [`& .MuiDrawer-paper`]: {
+        [`& .${drawerClasses.paper}`]: {
           width: drawerWidth,
           boxSizing: 'border-box',
         },
