@@ -54,6 +54,7 @@ function DeckStats() {
     <>
       {gauge}
       <BarChart
+        tooltip={{ trigger: 'none' }}
         width={drawerWidth}
         height={200}
         series={[{ data: colorCost, color: "#d5d5d5"}]}
