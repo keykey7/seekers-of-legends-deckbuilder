@@ -15,7 +15,7 @@ interface ParticleAnimationProps {
 }
 
 function ParticleAnimation({from, to}: Readonly<ParticleAnimationProps>) {
-  const ref = useRef<typeof anime>(null);
+  const ref = useRef<anime.AnimeInstance | null>(null);
   useEffect(() => {
     const animeTargets = document.querySelectorAll('.' + styles.dot);
     const stagger = anime.stagger(1, {easing: 'easeInCubic'}); // https://easings.net/
@@ -57,7 +57,6 @@ function ParticleAnimation({from, to}: Readonly<ParticleAnimationProps>) {
   }, [from, to]);
 
   const elements: ReactElement[] = [];
-  //const amount = Math.floor(Math.sqrt(Math.pow(from.top - to.top, 2) + Math.pow(from.left - to.left, 2)) / 10);
   const amount = 200;
   for (let i = 0; i < amount; i++) {
     const spawnArea: Rect = {
