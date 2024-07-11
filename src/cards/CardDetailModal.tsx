@@ -39,15 +39,13 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
         alignItems: 'center',
         pointerEvents: 'none',
       }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', maxWidth: '100%' }}>
           <KeyboardArrowLeftIcon sx={{...iconStyle, visibility: props.hasPrevious ? 'visible' : 'hidden'}} onClick={props.onPrevious} />
           <CardMedia component="img" image={card.imageSrc()} alt={card.name} sx={{
-            width: 'auto',
             maxHeight: '100vh',
             p: 2,
             borderRadius: 7,
             pointerEvents: 'initial',
-            // clipPath: 'inset(5px 5px 5px 5px)'
           }} />
           <KeyboardArrowRightIcon sx={{...iconStyle, visibility: props.hasNext ? 'visible' : 'hidden'}} onClick={props.onNext} />
         </Box>

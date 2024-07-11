@@ -35,7 +35,6 @@ function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
     <Box
       sx={(theme) => ({
         p: 2,
-        //minWidth: '12em',
         aspectRatio: '2429 / 3308', // same as actual image
         [theme.breakpoints.down('md')]: {
           p: 1,
@@ -52,7 +51,6 @@ function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
           borderRadius: 2.5,
           transition: '1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)',
           cursor: 'pointer',
-          // backfaceVisibility: 'none',
           transform: 'translateZ(0)', // hack to avoid flickering between no-transition and transition on FF
         }}>
         <InfoTwoToneIcon
