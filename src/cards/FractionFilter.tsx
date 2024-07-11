@@ -11,7 +11,7 @@ function FractionFilterItem({fraction}: Readonly<{ fraction: Fraction }>) {
         boxShadow: '0 0 10px grey',
       },
     }}>
-      <Icon sx={{
+      <Icon sx={(theme) => ({
         // original image list, then a black diamon around it, then lighten with the background
         background: `linear-gradient(45deg, black 27%, transparent 27%), ` +
           `linear-gradient(135deg, black 27%, transparent 27%), ` +
@@ -21,7 +21,11 @@ function FractionFilterItem({fraction}: Readonly<{ fraction: Fraction }>) {
         mixBlendMode: 'lighten',
         height: '2em',
         width: '2em',
-      }} />
+        [theme.breakpoints.down('sm')]: {
+          height: '1.5em',
+          width: '1.5em',
+        },
+      })} />
     </ToggleButton>
   );
 }
@@ -39,7 +43,12 @@ function FractionFilter({filterFractions, setFilterFractions}: Readonly<Fraction
     setFilterFractions(newFormats);
   };
   return (
-    <Box p={2}>
+    <Box sx={(theme) => ({
+      p: 2,
+      [theme.breakpoints.down('md')]: {
+        p: 1,
+      },
+    })}>
       <ToggleButtonGroup exclusive value={filterFractions} onChange={handleChange}>
         {Fractions.map((value) =>
             <FractionFilterItem key={'filter' + value} fraction={value} />,

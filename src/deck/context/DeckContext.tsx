@@ -15,7 +15,7 @@ export class AvatarAndCards {
 
   constructor(public avatar: Card | undefined, public cards: CardAndCount[], public lastEvent: DeckActionType | undefined) {}
 
-  count(card: Card): number {
+  countByType(card: Card): number {
     if (card.equals(this.avatar)) {
       return 1;
     }
@@ -23,12 +23,12 @@ export class AvatarAndCards {
     return thisTuple.length === 0 ? 0 : thisTuple[0][1];
   }
 
-  contains(card: Card): boolean {
-    return this.count(card) > 0;
+  count(): number {
+    return this.cards.map(x => x[1]).reduce((a, b) => a + b, this.avatar === undefined ? 0 : 1);
   }
 
   withAnyCard(newCard: Card): AvatarAndCards {
-    const existingCount = this.count(newCard);
+    const existingCount = this.countByType(newCard);
     if (newCard.type === CardType.Avatar && existingCount > 0) {
       throw new InvalidDeckOperation('already an avatar of same type in deck');
     }

@@ -13,7 +13,7 @@ function MainArea() {
     .sort(DeckSort.byCost)
     .sort(DeckSort.byFraction);
   return (
-    <Box component="main">
+    <Box component="main" sx={{width: '100%'}}>
       <Toolbar />
       <FractionFilter filterFractions={filterFractions} setFilterFractions={setFilterNullSafe}/>
       <CardBoard cards={shownCards}/>

@@ -33,11 +33,14 @@ function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
   }
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         p: 2,
-        minWidth: '12em',
+        //minWidth: '12em',
         aspectRatio: '2429 / 3308', // same as actual image
-      }}
+        [theme.breakpoints.down('md')]: {
+          p: 1,
+        },
+      })}
       >
       <Box aria-label={card.name}
         onMouseMove={moveCard}

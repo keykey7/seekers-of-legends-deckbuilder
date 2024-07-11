@@ -28,7 +28,7 @@ function CardBoard({cards}: Readonly<CardBoardProps>) {
   return (
     <>
       {modal}
-      <Grid container columns={{xs: 1, sm: 2, md: 3, lg: 4, xl: 5}} sx={{
+      <Grid container columns={{xs: 2, sm: 3, md: 3, lg: 4, xl: 5}} sx={{
         // lineHeight: 0,
         justifyContent: 'center',
       }}>
