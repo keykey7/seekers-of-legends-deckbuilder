@@ -8,7 +8,7 @@ import {useDeck} from './context/DeckProvider.tsx';
 
 export const drawerWidth = 348;
 
-function SmallScreenDeckToggle({open, toggle}: {open: boolean, toggle: () => void}) {
+function SmallScreenDeckToggle({toggle}: Readonly<{toggle: () => void}>) {
   const deck = useDeck();
   const count = deck.count();
   return (
@@ -37,7 +37,7 @@ function DeckDrawer() {
   }
   return (
     <>
-      {isSmallScreen && <SmallScreenDeckToggle open={open} toggle={toggle} />}
+      {isSmallScreen && <SmallScreenDeckToggle toggle={toggle} />}
       <Drawer
         anchor="right"
         variant={isSmallScreen ? "temporary" : "permanent"}
