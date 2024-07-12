@@ -1,27 +1,26 @@
-.cardstyle:hover {
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
-}
+/*.cardstyle:hover {*/
+/*    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));*/
+/*}*/
 
-.cardstyle > svg {
-    opacity: 0;
-    filter: brightness(85%);
-    transition: opacity 0.2s linear;
-}
+/*.cardstyle > svg {*/
+/*    opacity: 0;*/
+/*    filter: brightness(85%);*/
+/*    transition: opacity 0.2s linear;*/
+/*}*/
 
 .cardstyle:hover > svg {
     opacity: 1;
 }
 
-.cardstyle > svg:hover {
-    filter: brightness(100%);
-}
+/*.cardstyle > svg:hover {*/
+/*    filter: brightness(100%);*/
+/*}*/
 
-.cardstyle {
-    background-size: 105%; /* since cards are cut */
-    background-position: center;
-    width: 100%;
-    height: 100%;
-    /*aspect-ratio: 2429 / 3308; !* matching actual image *!*/
-    backface-visibility: hidden;
-    -webkit-font-smoothing: subpixel-antialiased;
-}
+/*.cardstyle {*/
+/*    background-size: 105%; !* since cards are cut *!*/
+/*    background-position: center;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    backface-visibility: hidden;*/
+/*    -webkit-font-smoothing: subpixel-antialiased;*/
+/*}*/

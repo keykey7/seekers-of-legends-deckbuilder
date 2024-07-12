@@ -1,10 +1,11 @@
 import Drawer from '@mui/material/Drawer';
-import {Box, Button, drawerClasses, Paper, Toolbar, useMediaQuery, useTheme} from '@mui/material';
+import {Box, Button, drawerClasses, Paper, Toolbar, useTheme} from '@mui/material';
 import DeckContent from './DeckContent.tsx';
 import DeckStats from './DeckStats.tsx';
 import {useState} from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {useDeck} from './context/DeckProvider.tsx';
+import {useIsMobile} from '../MobileUtil.ts';
 
 export const drawerWidth = 348;
 
@@ -31,7 +32,7 @@ function DeckDrawer() {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const permanentDrawerBreakpoint= theme.breakpoints.down('md')
-  const isSmallScreen = useMediaQuery(permanentDrawerBreakpoint);
+  const isSmallScreen = useIsMobile();
   function toggle() {
     setOpen(!open);
   }

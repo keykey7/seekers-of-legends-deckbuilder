@@ -26,23 +26,23 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
       onClose={props.onClose}
       sx={{
         [`& .${modalClasses.backdrop}`]: {
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          backgroundColor: 'rgba(0, 0, 0, 0.8)', // slightly darker than the default
         },
       }}
     >
       <Box sx={{
         // center the modal horizontally and vertically on screen
-        width: '100%',
         height: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         pointerEvents: 'none',
       }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', maxWidth: '100%' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <KeyboardArrowLeftIcon sx={{...iconStyle, visibility: props.hasPrevious ? 'visible' : 'hidden'}} onClick={props.onPrevious} />
           <CardMedia component="img" image={card.imageSrc()} alt={card.name} sx={{
             maxHeight: '100vh',
+            minWidth: 0, // prevent overflow of flex-items on chrome: https://stackoverflow.com/a/66689926
             p: 2,
             borderRadius: 7,
             pointerEvents: 'initial',
