@@ -2,17 +2,27 @@ import DeckAvatar from './DeckAvatar.tsx';
 import {Box, List} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
 import {useDeck} from './context/DeckProvider.tsx';
-import ParticleAnimation, {Rect} from '../particles/ParticleAnimation.tsx';
-import {useLayoutEffect, useRef, useState} from 'react';
+import {useLayoutEffect, useRef} from 'react';
+import {Rect} from '../particles/ParticleAnimation.tsx';
 
-function DeckContent() {
+function DeckContent({setParticleTarget}: Readonly<{setParticleTarget: (arg: Rect) => void}>) {
   const deck = useDeck();
-  const [particleTarget, setParticleTarget] = useState<Rect>();
+
   const animationTargetRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     // we have to wait until after rendering to know the final position of the animation target
     if (animationTargetRef.current) {
-      setParticleTarget(animationTargetRef.current.getBoundingClientRect());
+      let targetRect: Rect = animationTargetRef.current.getBoundingClientRect();
+      if (targetRect.width === 0) { // this is a hack in case the deck is collapsed
+        targetRect = {
+          width: 32,
+          height: 24,
+          top: 14,
+          left: window.innerWidth - 24 - 32,
+        }
+      }
+      console.log("trigger animation to", targetRect);
+      setParticleTarget(targetRect);
     }
   }, [deck.lastEvent]);
   // all cards of the deck
@@ -43,14 +53,8 @@ function DeckContent() {
   if(deck.avatar && deck.avatar.id === deck.lastEvent?.card.id) {
     avatarRef = animationTargetRef;
   }
-  // the invisible animation node
-  let animation = <></>;
-  if (deck.lastEvent && particleTarget) {
-    animation = <ParticleAnimation from={deck.lastEvent.eventOrigin} to={particleTarget} />;
-  }
   return (
     <List>
-      {animation}
       <Box ref={avatarRef}>
         <DeckAvatar cardId={deck.avatar?.id} />
       </Box>

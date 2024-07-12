@@ -62,7 +62,6 @@ function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
           width: '100%',
           height: '100%',
           backfaceVisibility: 'hidden',
-          '-webkit-font-smoothing': 'subpixel-antialiased',
           [':hover']: {
             filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))',
           },
