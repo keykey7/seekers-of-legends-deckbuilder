@@ -74,6 +74,9 @@ export class Card {
     if (this.type === CardType.Avatar && (this.stats === null || !('health' in this.stats))) {
       throw new Error(`avatar ${id} missing stats`);
     }
+    if (this.type === CardType.Charakter && (this.stats === null || ('health' in this.stats))) {
+      throw new Error(`character ${id} has health`);
+    }
     if ((this.type === CardType.Feld || this.type === CardType.Aktion || this.type === CardType.Einfluss) && stats !== null) {
       throw new Error(`non-character ${id} has stats`);
     }
@@ -237,7 +240,7 @@ export const allCards: Readonly<Card[]> = [
   new Card(122, 2, 'Wächter Chimali', CardType.Avatar, 'GREEN', stats(1, 1, 45)),
   new Card(123, 1, 'Späherin Tochtli', CardType.Charakter, 'GREEN', stats(1, 5), [Skill.Fernkampf]),
   new Card(124, 1, 'Rast im Grünen', CardType.Aktion, 'GREEN', null, [Skill.Schnelligkeit]),
-  new Card(125, 3, 'Priesterin Amankaya', CardType.Charakter, 'GREEN', stats(1, 7, 35), [Skill.Lebensraub]),
+  new Card(125, 3, 'Priesterin Amankaya', CardType.Avatar, 'GREEN', stats(1, 7, 35), [Skill.Lebensraub]),
   new Card(126, 1, 'Neuer Anfang', CardType.Aktion, 'GREEN', null, [Skill.Schnelligkeit]),
   new Card(127, 2, 'Nagual Tauren', CardType.Charakter, 'GREEN', stats(1, 1)),
   new Card(128, 2, 'Mayel, die Diplomatin', CardType.Charakter, 'GREEN', stats(1, 1), [Skill.Ausdauer]),
