@@ -50,9 +50,7 @@ function StableUrl() {
     document.location.hash = toUrl(deck);
   }, [deck])
   return (
-    <>
-      <div></div>
-    </>
+    <></>
   );
 }
 

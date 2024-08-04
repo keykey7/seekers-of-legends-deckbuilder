@@ -21,10 +21,9 @@ function DeckContent({setParticleTarget}: Readonly<{setParticleTarget: (arg: Rec
           left: window.innerWidth - 24 - 32,
         }
       }
-      // console.debug("trigger animation to", targetRect);
       setParticleTarget(targetRect);
     }
-  }, [deck.lastEvent]);
+  }, [deck.lastEvent, setParticleTarget]);
   // all cards of the deck
   const deckItems = deck.cards.map(cardAndCount => {
     const card = cardAndCount[0];
