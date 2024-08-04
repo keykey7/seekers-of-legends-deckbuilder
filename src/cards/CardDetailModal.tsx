@@ -2,6 +2,8 @@ import {CardMedia, Modal, modalClasses, Box} from '@mui/material';
 import {Card} from '../Card.tsx';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import {useSwipeable} from 'react-swipeable';
+import {useIsMobile} from '../MobileUtil.ts';
 
 export interface CardDetailModalProps {
   card: Card,
@@ -13,11 +15,17 @@ export interface CardDetailModalProps {
 }
 
 function CardDetailModal(props: Readonly<CardDetailModalProps>) {
+  const isSmallScreen = useIsMobile();
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: props.onNext,
+    onSwipedRight: props.onPrevious,
+    // for debugging: trackMouse: true,
+  });
   const card = props.card;
   // https://mui.com/material-ui/react-modal/
   const iconStyle = {
     transform: 'scale(4)',
-    m: 2,
+    m: 3,
     cursor: 'pointer',
     pointerEvents: 'initial',
   };
@@ -39,15 +47,25 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
         pointerEvents: 'none',
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <KeyboardArrowLeftIcon sx={{...iconStyle, visibility: props.hasPrevious ? 'visible' : 'hidden'}} onClick={props.onPrevious} />
-          <CardMedia component="img" image={card.imageSrc()} alt={card.name} sx={{
+          <KeyboardArrowLeftIcon sx={{
+            ...iconStyle,
+            visibility: props.hasPrevious ? 'visible' : 'hidden',
+            // move inside the picture to allow max width for card on small screens
+            // there is anyway the option to swipe on mobile...
+            mr: isSmallScreen ? -6 : 1,
+          }} onClick={props.onPrevious} />
+          <CardMedia {...swipeHandlers} draggable={false} component="img" image={card.imageSrc()} alt={card.name} sx={{
             maxHeight: '100vh',
             minWidth: 0, // prevent overflow of flex-items on chrome: https://stackoverflow.com/a/66689926
             p: 2,
             borderRadius: 7,
             pointerEvents: 'initial',
           }} />
-          <KeyboardArrowRightIcon sx={{...iconStyle, visibility: props.hasNext ? 'visible' : 'hidden'}} onClick={props.onNext} />
+          <KeyboardArrowRightIcon sx={{
+            ...iconStyle,
+            visibility: props.hasNext ? 'visible' : 'hidden',
+            ml: isSmallScreen ? -6 : 1,
+          }} onClick={props.onNext} />
         </Box>
       </Box>
     </Modal>
