@@ -21,7 +21,7 @@ function DeckContent({setParticleTarget}: Readonly<{setParticleTarget: (arg: Rec
           left: window.innerWidth - 24 - 32,
         }
       }
-      console.log("trigger animation to", targetRect);
+      // console.debug("trigger animation to", targetRect);
       setParticleTarget(targetRect);
     }
   }, [deck.lastEvent]);

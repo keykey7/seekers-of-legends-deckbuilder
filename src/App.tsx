@@ -11,13 +11,14 @@ function App() {
       mode: 'dark',
     },
   });
-
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Container sx={{ display: 'flex' }} maxWidth="xl">
+      <Container maxWidth='xl'  sx={{
+        display: 'flex',
+        px: 1,
+      }}>
         <TopHeader />
-
         <DeckProvider>
           <MainArea/>
           <DeckDrawer />

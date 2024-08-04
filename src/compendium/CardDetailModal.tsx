@@ -1,9 +1,10 @@
-import {CardMedia, Modal, modalClasses, Box} from '@mui/material';
+import {CardMedia, Modal, modalClasses, Box, useMediaQuery} from '@mui/material';
 import {Card} from '../Card.tsx';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useSwipeable} from 'react-swipeable';
 import {useIsMobile} from '../MobileUtil.ts';
+import {useDeckDispatch} from '../deck/context/DeckProvider.tsx';
 
 export interface CardDetailModalProps {
   card: Card,
@@ -15,13 +16,26 @@ export interface CardDetailModalProps {
 }
 
 function CardDetailModal(props: Readonly<CardDetailModalProps>) {
+  const cardDispatch = useDeckDispatch();
+  const card = props.card;
+  const isLandscape = useMediaQuery('(orientation: landscape)');
   const isSmallScreen = useIsMobile();
+  const showArrowsInline = isSmallScreen && !isLandscape;
+  // https://www.npmjs.com/package/react-swipeable
   const swipeHandlers = useSwipeable({
+    swipeDuration: 250, // [ms]
     onSwipedLeft: props.onNext,
     onSwipedRight: props.onPrevious,
-    // for debugging: trackMouse: true,
+    trackMouse: true, // we need the onTab to act like an onClick, because onClick and swipes don't like each other
+    onTap: swipeEvent => {
+      console.log(swipeEvent);
+      cardDispatch({
+        type: 'add',
+        card: card,
+        eventOrigin: (swipeEvent.event.target as HTMLElement).getBoundingClientRect(),
+      });
+    }
   });
-  const card = props.card;
   // https://mui.com/material-ui/react-modal/
   const iconStyle = {
     transform: 'scale(4)',
@@ -52,7 +66,7 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
             visibility: props.hasPrevious ? 'visible' : 'hidden',
             // move inside the picture to allow max width for card on small screens
             // there is anyway the option to swipe on mobile...
-            mr: isSmallScreen ? -6 : 1,
+            mr: showArrowsInline ? -6 : 1,
           }} onClick={props.onPrevious} />
           <CardMedia {...swipeHandlers} draggable={false} component="img" image={card.imageSrc()} alt={card.name} sx={{
             maxHeight: '100vh',
@@ -64,7 +78,7 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
           <KeyboardArrowRightIcon sx={{
             ...iconStyle,
             visibility: props.hasNext ? 'visible' : 'hidden',
-            ml: isSmallScreen ? -6 : 1,
+            ml: showArrowsInline ? -6 : 1,
           }} onClick={props.onNext} />
         </Box>
       </Box>
