@@ -1,6 +1,6 @@
 import {Container, createTheme, CssBaseline, ThemeProvider} from '@mui/material';
 import TopHeader from './TopHeader.tsx';
-import MainArea from './cards/MainArea.tsx';
+import MainArea from './compendium/MainArea.tsx';
 import DeckDrawer from './deck/DeckDrawer.tsx';
 import DeckProvider from './deck/context/DeckProvider.tsx';
 

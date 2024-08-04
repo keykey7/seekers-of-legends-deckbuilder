@@ -25,6 +25,7 @@ function DeckStats() {
     addCard(cardAndCount[0], cardAndCount[1]);
   })
   const count = colorCost.reduce((a, b) => a + b, 0);
+  const isValid = count >= 40 && deck.avatar !== undefined;
   const max = colorCost.reduce((a, b) => Math.max(a, b), 0);
   let gauge = <Box sx={{
     right: '10px',
@@ -36,7 +37,7 @@ function DeckStats() {
         fill: '#d5d5d5',
       },
       [`& .${gaugeClasses.valueText} text`]: {
-        fill: count < 40 ? '#b71d25' : '#d5d5d5',
+        fill: isValid ? '#d5d5d5' : '#b71d25',
         fontWeight: 'bold',
       },
     }} />
