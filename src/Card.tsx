@@ -90,28 +90,37 @@ export class Card {
     return this.id === other?.id;
   }
 
-  imageSrc() : string {
-    return "/cards/card-" + String(this.id).padStart(3, '0') + ".jpg"
+  imageSrc(): string {
+    return '/cards/card-' + String(this.id)
+      .padStart(3, '0') + '.jpg';
   }
 
-  costModifier(targetFraction: Fraction | undefined) : CardCostModifier {
+  costModifier(targetFraction: Fraction | undefined): CardCostModifier {
     if (targetFraction === undefined || targetFraction === this.fraction) {
       return 0;
     }
-    const expensiveMap : {[key in Fraction] : Fraction} = {
-      "BLUE": "YELLOW",
-      "RED": "BLUE",
-      "VIOLET": "GREEN",
-      "WHITE": "BLACK",
-      "YELLOW": "BROWN",
-      "BLACK": "WHITE",
-      "GREEN": "RED",
-      "BROWN": "VIOLET",
-    }
-    if(expensiveMap[this.fraction] == targetFraction){
+    const expensiveMap: { [key in Fraction]: Fraction } = {
+      'BLUE': 'YELLOW',
+      'RED': 'BLUE',
+      'VIOLET': 'GREEN',
+      'WHITE': 'BLACK',
+      'YELLOW': 'BROWN',
+      'BLACK': 'WHITE',
+      'GREEN': 'RED',
+      'BROWN': 'VIOLET',
+    };
+    if (expensiveMap[this.fraction] == targetFraction) {
       return 2;
     }
     return 1;
+  }
+
+  matchesText(text: string): boolean {
+    const lc = text.toLowerCase();
+    return this.name.toLowerCase().includes(lc)
+      || this.cost == lc
+      || CardType[this.type].toLowerCase().startsWith(lc)
+      || this.skill.find(skill => Skill[skill].toLowerCase().startsWith(lc)) !== undefined;
   }
 }
 
