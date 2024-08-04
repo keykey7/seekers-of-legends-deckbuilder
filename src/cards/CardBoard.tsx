@@ -1,8 +1,9 @@
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import HoverCard from './HoverCard.tsx';
 import {Card} from '../Card.tsx';
 import {useState} from 'react';
 import CardDetailModal, {CardDetailModalProps} from './CardDetailModal.tsx';
+import {Box} from '@mui/material';
 
 interface CardBoardProps {
   cards: Card[];
@@ -28,16 +29,18 @@ function CardBoard({cards}: Readonly<CardBoardProps>) {
   return (
     <>
       {modal}
-      <Grid container columns={{xs: 2, sm: 3, md: 3, lg: 4, xl: 5}} sx={{
+      <Box sx={{
         // lineHeight: 0,
         justifyContent: 'center',
       }}>
-        {cards.map((card) => (
-          <Grid key={'deck' + card.id} xs={1}>
-            <HoverCard card={card} onDetailClick={() => setDetailCard(card)}/>
-          </Grid>
-        ))}
-      </Grid>
+        <Grid container columns={{xs: 2, sm: 3, md: 3, lg: 4, xl: 5}} >
+          {cards.map((card) => (
+            <Grid item key={'deck' + card.id} xs={1}>
+              <HoverCard card={card} onDetailClick={() => setDetailCard(card)}/>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </>
 
   );
