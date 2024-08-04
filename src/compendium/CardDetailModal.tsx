@@ -28,10 +28,9 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
     onSwipedRight: props.onPrevious,
     trackMouse: true, // we need the onTab to act like an onClick, because onClick and swipes don't like each other
     onTap: swipeEvent => {
-      console.log(swipeEvent);
       cardDispatch({
         type: 'add',
-        card: card,
+        card,
         eventOrigin: (swipeEvent.event.target as HTMLElement).getBoundingClientRect(),
       });
     }

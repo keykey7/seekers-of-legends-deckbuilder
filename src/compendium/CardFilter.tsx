@@ -32,15 +32,15 @@ function FractionFilterItem({fraction}: Readonly<{ fraction: Fraction }>) {
   );
 }
 
-interface Filter {
-  filter: CardFilterProps,
-}
-
 export interface CardFilterProps {
   filterFractions: Fraction[],
   setFilterFractions: (value: (((prevState: Fraction[]) => Fraction[]) | Fraction[])) => void,
   filterText: string,
   setFilterText: (text: string) => void,
+}
+
+interface Filter {
+  filter: CardFilterProps,
 }
 
 export function SearchFilter({filter}: Readonly<Filter>) {
@@ -70,7 +70,7 @@ function FractionFilter({filter}: Readonly<Filter>) {
   return (
     <ToggleButtonGroup exclusive value={filter.filterFractions} onChange={handleChange}>
       {Fractions.map((value) =>
-        <FractionFilterItem key={'filter' + value} fraction={value} />,
+        <FractionFilterItem key={`filter${value}`} fraction={value} />,
       )}
     </ToggleButtonGroup>
   );

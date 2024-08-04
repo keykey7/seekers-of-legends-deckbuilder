@@ -33,7 +33,7 @@ function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
   const addCard = (event: React.MouseEvent<HTMLDivElement>) => {
     cardDispatch({
       type: 'add',
-      card: card,
+      card,
       eventOrigin: event.currentTarget.getBoundingClientRect(),
     })
   };
@@ -62,21 +62,21 @@ function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
           width: '100%',
           height: '100%',
           backfaceVisibility: 'hidden',
-          [':hover']: {
+          ':hover': {
             filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))',
           },
-          ['> svg']: {
+          '> svg': {
             filter: 'brightness(85%)',
           },
-          ['> svg:hover']: { // to realize that this is something else when clicked
+          '> svg:hover': { // to realize that this is something else when clicked
             filter: 'brightness(100%)',
           },
           [theme.breakpoints.up('md')]: { // hide the info icon until hover on non-touch devices
-            ['> svg']: {
+            '> svg': {
               opacity: 0,
               transition: 'opacity 0.2s linear', // fade the info button in on hover
             },
-            [':hover > svg']: {
+            ':hover > svg': {
               opacity: 1
             },
           }

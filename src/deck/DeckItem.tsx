@@ -30,7 +30,7 @@ function DeckItem({cardId, actualCost, costModifier, amount} : Readonly<DeckItem
     <ListItem
       onClick={e => dispatch({
         type: 'remove',
-        card: card,
+        card,
         eventOrigin: e.currentTarget.getBoundingClientRect(),
       })}
       sx={{

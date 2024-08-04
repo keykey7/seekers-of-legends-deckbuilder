@@ -1,6 +1,5 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import {AvatarAndCards, DeckActionType, deckReducer, initialDeck} from './DeckContext.tsx';
-import {Card} from '../../Card.tsx';
 
 export const DeckContext = createContext<AvatarAndCards>(initialDeck);
 
@@ -20,14 +19,6 @@ export default function DeckProvider({ children }: Readonly<{children: React.Rea
   );
 }
 
-export function useDeck() {
-  return useContext(DeckContext);
-}
+export const useDeck = () => useContext(DeckContext);
 
-export function useDeckDispatch() {
-  return useContext(DeckDispatchContext);
-}
-
-export function useAvatar(): Card | undefined {
-  return useDeck().avatar;
-}
+export const useDeckDispatch = () => useContext(DeckDispatchContext);

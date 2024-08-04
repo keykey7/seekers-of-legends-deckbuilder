@@ -27,13 +27,13 @@ function DeckContent({setParticleTarget}: Readonly<{setParticleTarget: (arg: Rec
   // all cards of the deck
   const deckItems = deck.cards.map(cardAndCount => {
     const card = cardAndCount[0];
-    const cost = card.cost;
+    const {cost} = card;
     const mod = deck.avatar?.costModifier(card.fraction) ?? 0;
     let costStr: string;
     if (mod === 0) {
       costStr = cost.toString();
     } else if (cost === 'X') {
-      costStr = 'X+' + mod;
+      costStr = `X+${mod}`;
     } else {
       costStr = (cost + mod).toString();
     }
@@ -42,7 +42,7 @@ function DeckContent({setParticleTarget}: Readonly<{setParticleTarget: (arg: Rec
       thisRef = animationTargetRef;
     }
     return (
-      <Box key={'deckItem' + card.id} ref={thisRef}>
+      <Box key={`deckItem${card.id}`} ref={thisRef}>
         <DeckItem cardId={card.id} actualCost={costStr} costModifier={mod} amount={cardAndCount[1]} />
       </Box>
     );

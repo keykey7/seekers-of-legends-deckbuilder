@@ -111,7 +111,7 @@ export function deckReducer(deck: AvatarAndCards, action: DeckActionType): Avata
       return deck.withoutCard(action.card).withEvent(action);
     }
     default: {
-      throw Error('Unknown action: ' + action.type);
+      throw Error(`Unknown action: ${action.type}`);
     }
   }
 }

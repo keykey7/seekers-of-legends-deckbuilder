@@ -35,7 +35,7 @@ function CardBoard({cards}: Readonly<CardBoardProps>) {
       }}>
         <Grid container columns={{xs: 2, sm: 3, md: 3, lg: 4, xl: 5}} >
           {cards.map((card) => (
-            <Grid item key={'deck' + card.id} xs={1}>
+            <Grid item key={`deck${card.id}`} xs={1}>
               <HoverCard card={card} onDetailClick={() => setDetailCard(card)}/>
             </Grid>
           ))}

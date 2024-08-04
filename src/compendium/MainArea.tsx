@@ -7,14 +7,14 @@ import {allCards, Card, DeckSort, Fraction} from '../Card.tsx';
 function MainArea() {
   const [filterFractions, setFilterFractions] = useState((): Fraction[] => []);
   const setFilterNullSafe: typeof setFilterFractions = (value: SetStateAction<string[]>) => setFilterFractions(value ?? []);
-  const fractionPredicate = (x: Card) => filterFractions.length == 0 || filterFractions.includes(x.fraction);
+  const fractionPredicate = (x: Card) => filterFractions.length === 0 || filterFractions.includes(x.fraction);
   const [filterText, setFilterText] = useState('');
   const textPredicate = (x: Card) => filterText.length === 0 || x.matchesText(filterText);
   const filter: CardFilterProps = {
-    filterFractions: filterFractions,
+    filterFractions,
     setFilterFractions: setFilterNullSafe,
-    filterText: filterText,
-    setFilterText: setFilterText,
+    filterText,
+    setFilterText,
   };
 
   const shownCards = allCards.filter(fractionPredicate)
