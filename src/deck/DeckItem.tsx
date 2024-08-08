@@ -75,6 +75,7 @@ function DeckItem({cardId, actualCost, costModifier, amount} : Readonly<DeckItem
             top: 19,
             fontSize: '24px',
             lineHeight: '0.9',
+            letterSpacing: '-0.1em',
             color: costModifierToColor(costModifier),
           }}>
             <Box component="span" sx={{
