@@ -68,20 +68,20 @@ function DeckItem({cardId, actualCost, costModifier, amount} : Readonly<DeckItem
           mixBlendMode: 'screen', // the combined background printed onto the layer below
         }}>
           {/* this draws the actual cost on a grey background to hide the original number */}
-          <Box component="span" sx={{
-            position: 'absolute',
-            top: 20,
-            left: 20,
-            right: 20,
-            bottom: 16,
-            background: '#3c3c3e',
-            textAlign: 'center',
-            fontSize: '22px',
-            lineHeight: '1',
-            fontWeight: 'bold',
+          <Box sx={{
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            top: 19,
+            fontSize: '24px',
+            lineHeight: '0.9',
             color: costModifierToColor(costModifier),
           }}>
-            {actualCost}
+            <Box component="span" sx={{
+              background: '#3c3c3e',
+            }}>
+              {actualCost}
+            </Box>
           </Box>
         </Box>
         {/* this draws the right-side preview of the center motive on top of the title text */}

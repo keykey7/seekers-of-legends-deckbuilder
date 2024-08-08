@@ -8,7 +8,7 @@ function TopHeader() {
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
-        <a href="#">
+        <a href="/">
           <IconButton edge="start" sx={{
             height: '2em',
           }}>
