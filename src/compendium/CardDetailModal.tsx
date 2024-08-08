@@ -6,6 +6,38 @@ import {useSwipeable} from 'react-swipeable';
 import {useIsMobile} from '../MobileUtil.ts';
 import {useDeckDispatch} from '../deck/context/DeckProvider.tsx';
 
+interface NextPrevIconProps {
+  direction: 'left' | 'right';
+  isVisible: boolean;
+  onClick?: () => void;
+}
+
+/**
+ * Icon left/right indicating more cards,
+ * moved inside image to save space on mobile.
+ */
+function NextPrevIcon({direction, isVisible, onClick}: Readonly<NextPrevIconProps>) {
+  const isLandscape = useMediaQuery('(orientation: landscape)');
+  const isSmallScreen = useIsMobile();
+  const showArrowsInline = isSmallScreen && !isLandscape;
+  // https://mui.com/material-ui/react-modal/
+  const iconStyle = {
+    transform: 'scale(4)',
+    m: 3,
+    cursor: 'pointer',
+    pointerEvents: 'initial',
+  };
+  const Icon = direction==='left' ? KeyboardArrowLeftIcon : KeyboardArrowRightIcon;
+  const thisMargin = direction==='left' ? 'mr' : 'ml';
+  return <Icon sx={{
+    ...iconStyle,
+    visibility: isVisible ? 'visible' : 'hidden',
+    // move inside the picture to allow max width for card on small screens
+    // there is anyway the option to swipe on mobile...
+    [thisMargin]: showArrowsInline ? -6 : 1,
+  }} onClick={onClick} />
+}
+
 export interface CardDetailModalProps {
   card: Card,
   hasNext: boolean,
@@ -15,12 +47,13 @@ export interface CardDetailModalProps {
   onClose: () => void,
 }
 
+/**
+ * Fullscreen popup of a single card to view its details.
+ */
 function CardDetailModal(props: Readonly<CardDetailModalProps>) {
   const cardDispatch = useDeckDispatch();
   const card = props.card;
-  const isLandscape = useMediaQuery('(orientation: landscape)');
-  const isSmallScreen = useIsMobile();
-  const showArrowsInline = isSmallScreen && !isLandscape;
+
   // https://www.npmjs.com/package/react-swipeable
   const swipeHandlers = useSwipeable({
     swipeDuration: 250, // [ms]
@@ -35,13 +68,6 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
       });
     }
   });
-  // https://mui.com/material-ui/react-modal/
-  const iconStyle = {
-    transform: 'scale(4)',
-    m: 3,
-    cursor: 'pointer',
-    pointerEvents: 'initial',
-  };
   return (
     <Modal open={true}
       onClose={props.onClose}
@@ -60,13 +86,7 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
         pointerEvents: 'none',
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <KeyboardArrowLeftIcon sx={{
-            ...iconStyle,
-            visibility: props.hasPrevious ? 'visible' : 'hidden',
-            // move inside the picture to allow max width for card on small screens
-            // there is anyway the option to swipe on mobile...
-            mr: showArrowsInline ? -6 : 1,
-          }} onClick={props.onPrevious} />
+          <NextPrevIcon direction='left' isVisible={props.hasPrevious} onClick={props.onPrevious} />
           <CardMedia {...swipeHandlers} draggable={false} component="img" image={card.imageSrc()} alt={card.name} sx={{
             maxHeight: '100vh',
             minWidth: 0, // prevent overflow of flex-items on chrome: https://stackoverflow.com/a/66689926
@@ -74,11 +94,7 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
             borderRadius: 7,
             pointerEvents: 'initial',
           }} />
-          <KeyboardArrowRightIcon sx={{
-            ...iconStyle,
-            visibility: props.hasNext ? 'visible' : 'hidden',
-            ml: showArrowsInline ? -6 : 1,
-          }} onClick={props.onNext} />
+          <NextPrevIcon direction='right' isVisible={props.hasNext} onClick={props.onNext} />
         </Box>
       </Box>
     </Modal>

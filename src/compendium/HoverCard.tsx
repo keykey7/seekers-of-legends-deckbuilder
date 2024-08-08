@@ -6,15 +6,9 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
 import {useIsMobile} from '../MobileUtil.ts';
 
-export interface InfoIconProps {
-  onDetailClick: () => void,
-}
-
-export interface HoverCardProps extends InfoIconProps {
-  card: Card,
-  count: number,
-}
-
+/**
+ * An indicator when no more cards of a given type can be added.
+ */
 function Lock({visible}: Readonly<{ visible: boolean }>) {
   return <LockIcon sx={{
     position: 'absolute',
@@ -27,6 +21,13 @@ function Lock({visible}: Readonly<{ visible: boolean }>) {
   }}/>
 }
 
+export interface InfoIconProps {
+  onDetailClick: () => void,
+}
+
+/**
+ * The little i-Icon top right on every card allows viewing more details.
+ */
 function InfoIcon({onDetailClick}: Readonly<InfoIconProps>) {
   return <InfoTwoToneIcon
     fontSize="large"
@@ -39,7 +40,7 @@ function InfoIcon({onDetailClick}: Readonly<InfoIconProps>) {
       position: 'absolute',
       right: 0,
       transform: 'scale(1.8)',
-      filter: 'brightness(85%) drop-shadow(1px 1px 2px rgba(0,0,0,0.5))',
+      filter: 'brightness(85%) drop-shadshadow(1px 1px 2px rgba(0,0,0,0.5))',
       ':hover': { // to realize that this is something else when clicked
         filter: 'brightness(100%) drop-shadow(1px 1px 2px rgba(0,0,0,0.5))',
       },
@@ -55,29 +56,36 @@ function InfoIcon({onDetailClick}: Readonly<InfoIconProps>) {
     })} />
 }
 
+const moveCard = (event: React.MouseEvent<HTMLDivElement>) => {
+  const dMax = 15;
+  const img = event.currentTarget
+  const x = event.pageX - img.offsetLeft;
+  const y = event.pageY - img.offsetTop;
+  const dx = dMax - (x/img.clientWidth)*2*dMax;
+  const dy = -dMax + (y/img.clientHeight)*2*dMax;
+  img.style.transform = `perspective(1000px) rotateX(${dy}deg) rotateY(${dx}deg) scale3d(1.1,1.1,1.1)`;
+};
+
+const resetCard = (event: React.MouseEvent<HTMLDivElement>) => {
+  event.currentTarget.style.transform = "";
+}
+
+export interface HoverCardProps extends InfoIconProps {
+  card: Card,
+}
+
+/**
+ * A card of the compendium. Moves funny...
+ */
 function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
   const theme = useTheme();
   const cardDispatch = useDeckDispatch();
   const isSmallScreen = useIsMobile();
   const count = useDeck().countByType(card);
-  const isMaxCount = count === (card.type === CardType.Avatar ? 1 : 4);
-  const maxFilter = isMaxCount ? 'brightness(60%)' : '';
 
-  let moveCard = (event: React.MouseEvent<HTMLDivElement>) => {
-    const dMax = 15;
-    const img = event.currentTarget
-    const x = event.pageX - img.offsetLeft;
-    const y = event.pageY - img.offsetTop;
-    const dx = dMax - (x/img.clientWidth)*2*dMax;
-    const dy = -dMax + (y/img.clientHeight)*2*dMax;
-    img.style.transform = `perspective(1000px) rotateX(${dy}deg) rotateY(${dx}deg) scale3d(1.1,1.1,1.1)`;
-  };
-  const resetCard = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.currentTarget.style.transform = "";
-  }
-  if (isSmallScreen) {
-    moveCard = () => {}; // noop, because there is no hover on mobile
-  }
+  const isMaxCount = count === (card.type === CardType.Avatar ? 1 : 4);
+  const maxFilter = isMaxCount ? 'brightness(50%)' : '';
+  const onMoveCard = isSmallScreen ? () => {} : moveCard;
   const addCard = (event: React.MouseEvent<HTMLDivElement>) => {
     cardDispatch({
       type: 'add',
@@ -96,7 +104,7 @@ function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
       }}
       >
       <Box aria-label={card.name}
-        onMouseMove={moveCard}
+        onMouseMove={onMoveCard}
         onMouseLeave={resetCard}
         onMouseDown={addCard}
         sx={{
