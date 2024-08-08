@@ -13,6 +13,10 @@ export interface DeckActionType {
 
 export class AvatarAndCards {
 
+  static empty() : AvatarAndCards{
+    return new AvatarAndCards(undefined, [], undefined);
+  }
+
   constructor(public avatar: Card | undefined, public cards: CardAndCount[], public lastEvent: DeckActionType | undefined) {}
 
   countByType(card: Card): number {
@@ -57,7 +61,7 @@ export class AvatarAndCards {
 
   private sorted(): AvatarAndCards {
     return new AvatarAndCards(this.avatar, this.cards.slice()
-        .sort((a, b) => DeckSort.byFraction(a[0], b[0]))
+        .sort((a, b) => DeckSort.byId(a[0], b[0]))
         .sort((a, b) => a[0].costNumber(this.avatar?.fraction) - b[0].costNumber(this.avatar?.fraction)),
       this.lastEvent);
   }

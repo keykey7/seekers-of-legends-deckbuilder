@@ -42,7 +42,7 @@ function DeckContent({setParticleTarget}: Readonly<{setParticleTarget: (arg: Rec
       thisRef = animationTargetRef;
     }
     return (
-      <Box key={`deckItem${card.id}`} ref={thisRef}>
+      <Box key={`kk7-deckItem${card.id}`} ref={thisRef}>
         <DeckItem cardId={card.id} actualCost={costStr} costModifier={mod} amount={cardAndCount[1]} />
       </Box>
     );

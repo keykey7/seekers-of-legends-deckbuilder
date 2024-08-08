@@ -122,6 +122,7 @@ export class Card {
 }
 
 export const DeckSort = {
+  byId: (a: Card, b: Card) => a.id - b.id,
   byFraction: (a: Card, b: Card) => Fractions.indexOf(a.fraction) - Fractions.indexOf(b.fraction),
   byCost: (a: Card, b: Card) => a.costNumber() - b.costNumber(),
   byType: (a: Card, b: Card) => a.type - b.type,
