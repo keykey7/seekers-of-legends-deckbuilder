@@ -13,7 +13,7 @@ export const drawerWidth = 348;
 /**
  * Compacted / collapsed view of the Deck used on mobile.
  */
-function SmallScreenDeckToggle({toggle}: Readonly<{toggle: () => void}>) {
+function SmallScreenDeckToggle({toggle}: Readonly<{ toggle: () => void }>) {
   const deck = useDeck();
   const count = deck.count();
   return (
@@ -23,7 +23,8 @@ function SmallScreenDeckToggle({toggle}: Readonly<{toggle: () => void}>) {
       zIndex: 2000,
       right: 0,
     }}>
-      <Button variant={count===0 ? 'outlined' : 'contained'} onClick={toggle}>
+      <Button variant={count === 0 ? 'outlined' : 'contained'}
+        onClick={toggle}>
         {count}
         <ArrowDropDownIcon />
       </Button>
@@ -36,7 +37,7 @@ function DeckDrawer() {
   const [open, setOpen] = useState(false);
   const [particleTarget, setParticleTarget] = useState<Rect>();
   const theme = useTheme();
-  const permanentDrawerBreakpoint= theme.breakpoints.down('md')
+  const permanentDrawerBreakpoint = theme.breakpoints.down('md');
   const isSmallScreen = useIsMobile();
   const toggle = () => setOpen(!open);
 
@@ -44,7 +45,8 @@ function DeckDrawer() {
   let animation = <></>;
   if (deck.lastEvent && particleTarget) {
     animation = <Box sx={{zIndex: 3000}}>
-      <ParticleAnimation from={deck.lastEvent.eventOrigin} to={particleTarget} />
+      <ParticleAnimation from={deck.lastEvent.eventOrigin}
+        to={particleTarget} />
     </Box>;
   }
 
@@ -52,9 +54,8 @@ function DeckDrawer() {
     <>
       {animation}
       {isSmallScreen && <SmallScreenDeckToggle toggle={toggle} />}
-      <Drawer
-        anchor="right"
-        variant={isSmallScreen ? "temporary" : "permanent"}
+      <Drawer anchor="right"
+        variant={isSmallScreen ? 'temporary' : 'permanent'}
         open={open}
         onClose={() => setOpen(false)}
         ModalProps={{
@@ -70,11 +71,10 @@ function DeckDrawer() {
           [permanentDrawerBreakpoint]: {
             ...(!open && {display: 'none'}),
           },
-        }}
-      >
+        }}>
         <Toolbar />
         <Paper>
-          <DeckStats/>
+          <DeckStats />
         </Paper>
         <Paper sx={{px: 1}}>
           <DeckContent setParticleTarget={setParticleTarget} />

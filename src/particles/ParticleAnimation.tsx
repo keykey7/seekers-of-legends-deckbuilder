@@ -14,7 +14,10 @@ interface ParticleAnimationProps {
   to: Rect,
 }
 
-function ParticleAnimation({from, to}: Readonly<ParticleAnimationProps>) {
+function ParticleAnimation({
+  from,
+  to,
+}: Readonly<ParticleAnimationProps>) {
   const ref = useRef<anime.AnimeInstance | null>(null);
   useEffect(() => {
     const animeTargets = document.querySelectorAll(`.${styles.dot}`);
@@ -25,13 +28,25 @@ function ParticleAnimation({from, to}: Readonly<ParticleAnimationProps>) {
       loop: false,
       easing: 'linear',
       opacity: [
-        {value: 1, duration: 100, delay: stagger},
         {
-          value: 0, duration: () => anime.random(500, dtMax),
+          value: 1,
+          duration: 100,
+          delay: stagger,
+        }, {
+          value: 0,
+          duration: () => anime.random(500, dtMax),
         },
       ],
-      width: {value: 2, duration: 500, delay: stagger},
-      height: {value: 2, duration: 500, delay: stagger},
+      width: {
+        value: 2,
+        duration: 500,
+        delay: stagger,
+      },
+      height: {
+        value: 2,
+        duration: 500,
+        delay: stagger,
+      },
       translateX: {
         value: () => anime.random(-5, 50),
         duration: dtMax,
@@ -60,20 +75,20 @@ function ParticleAnimation({from, to}: Readonly<ParticleAnimationProps>) {
       height: from.height + (to.height - from.height) / amount * i,
     };
     const size = anime.random(10, 20);
-    const Dot = <div key={`anim${i}`} className={styles.dot} style={{
-      width: `${size}px`,
-      height: `${size}px`,
-      top: `${spawnArea.top + anime.random(0, spawnArea.height - size)}px`,
-      left: `${spawnArea.left + anime.random(0, spawnArea.width - size)}px`,
-      opacity: 0,
-    }} />;
+    const Dot = <div key={`anim${i}`}
+      className={styles.dot}
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        top: `${spawnArea.top + anime.random(0, spawnArea.height - size)}px`,
+        left: `${spawnArea.left + anime.random(0, spawnArea.width - size)}px`,
+        opacity: 0,
+      }} />;
     elements.push(Dot);
   }
-  return (
-    <>
+  return (<>
       {elements}
-    </>
-  );
+    </>);
 }
 
 export default ParticleAnimation;

@@ -3,7 +3,7 @@ import {useEffect} from 'react';
 import {AvatarAndCards, CardAndCount} from './context/DeckContext.tsx';
 import {allCards, Card, cardById, CardType} from '../Card.ts';
 
-const VERSION = "3";
+const VERSION = '3';
 // max card is excluding zero: data-range [0-160]
 // +1 because index is 1-based
 // +1 because we need the zero to know when we are done parsing
@@ -11,7 +11,7 @@ const MAXID = BigInt(allCards.length + 2);
 // max card-amount (non-avatar cards), data-range [0,3]
 const MAXAMOUNT = 4n;
 // all characters allowed within an url-fragment (after the #)
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890?/:@-._~!$&'()*+,;="
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890?/:@-._~!$&\'()*+,;=';
 const CHARS_MAX = BigInt(CHARS.length);
 
 /** converts a positive number to a valid url-fragment using all valid characters */
@@ -65,14 +65,14 @@ function fromString(s: string): AvatarAndCards {
   const cards: CardAndCount[] = [];
   // generally the read-order is reversed from the write-order
   const avatarId = Number(num % MAXID);
-  const avatar = avatarId===0 ? undefined : cardById(avatarId);
+  const avatar = avatarId === 0 ? undefined : cardById(avatarId);
   deck = deck.withAvatar(avatar);
   num /= MAXID;
   while (num > BigInt(0)) {
     const card = cardById(Number(num % MAXID));
     num /= MAXID;
     let amount = 1;
-    if(card.type !== CardType.Avatar) {
+    if (card.type !== CardType.Avatar) {
       // +1 because range is [0,3]
       amount = Number(num % MAXAMOUNT) + 1;
       num /= MAXAMOUNT;
@@ -86,7 +86,7 @@ export function fromUrl(): AvatarAndCards {
   const {hash} = document.location;
   if (hash.length > 1) {
     try {
-      return fromString(hash?.substring(1))
+      return fromString(hash?.substring(1));
     } catch (e) {
       console.error(`unexpected #hash, cannot load ${hash}`, e);
     }
@@ -98,10 +98,8 @@ function StableUrl() {
   const deck = useDeck();
   useEffect(() => {
     document.location.hash = toUrl(deck);
-  }, [deck])
-  return (
-    <></>
-  );
+  }, [deck]);
+  return (<></>);
 }
 
 export default StableUrl;

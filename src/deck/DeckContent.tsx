@@ -19,7 +19,7 @@ function DeckContent({setParticleTarget}: Readonly<{setParticleTarget: (arg: Rec
           height: 24,
           top: 14,
           left: window.innerWidth - 24 - 32,
-        }
+        };
       }
       setParticleTarget(targetRect);
     }
@@ -41,25 +41,25 @@ function DeckContent({setParticleTarget}: Readonly<{setParticleTarget: (arg: Rec
     if (card.id === deck.lastEvent?.card.id) {
       thisRef = animationTargetRef;
     }
-    return (
-      <Box key={`kk7-deckItem${card.id}`} ref={thisRef}>
-        <DeckItem cardId={card.id} actualCost={costStr} costModifier={mod} amount={cardAndCount[1]} />
-      </Box>
-    );
+    return (<Box key={`kk7-deckItem${card.id}`}
+      ref={thisRef}>
+      <DeckItem cardId={card.id}
+        actualCost={costStr}
+        costModifier={mod}
+        amount={cardAndCount[1]} />
+    </Box>);
   });
   // handle avatar click target
   let avatarRef = null;
-  if(deck.avatar && deck.avatar.id === deck.lastEvent?.card.id) {
+  if (deck.avatar && deck.avatar.id === deck.lastEvent?.card.id) {
     avatarRef = animationTargetRef;
   }
-  return (
-    <List>
-      <Box ref={avatarRef}>
-        <DeckAvatar cardId={deck.avatar?.id} />
-      </Box>
-      {deckItems}
-    </List>
-  );
+  return (<List>
+    <Box ref={avatarRef}>
+      <DeckAvatar cardId={deck.avatar?.id} />
+    </Box>
+    {deckItems}
+  </List>);
 }
 
 export default DeckContent;

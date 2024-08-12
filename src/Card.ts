@@ -1,6 +1,6 @@
-export const Fractions = ["BLUE" , "RED" , "VIOLET" , "WHITE" , "YELLOW" , "BLACK" , "GREEN" , "BROWN"];
-export const FractionNames = ["", "Vaakhil", "", "", "Heepurianer", "", "", "Archtaren"]
-export const FractionsColors = ["#437282" , "#b71d25" , "#6e439f" , "#d5d5d5" , "#bdb218" , "#1b191a" , "#2f963d" , "#583016"];
+export const Fractions = ['BLUE', 'RED', 'VIOLET', 'WHITE', 'YELLOW', 'BLACK', 'GREEN', 'BROWN'];
+export const FractionNames = ['', 'Vaakhil', '', '', 'Heepurianer', '', '', 'Archtaren'];
+export const FractionsColors = ['#437282', '#b71d25', '#6e439f', '#d5d5d5', '#bdb218', '#1b191a', '#2f963d', '#583016'];
 export type Fraction = typeof Fractions[number];
 
 // eslint-disable-next-line no-shadow
@@ -79,7 +79,7 @@ export class Card {
     }
   }
 
-  costNumber(avatarFraction: Fraction | undefined = undefined) : number {
+  costNumber(avatarFraction: Fraction | undefined = undefined): number {
     return this.cost === 'X' ? 1 : this.cost + this.costModifier(avatarFraction);
   }
 
@@ -126,7 +126,7 @@ export const DeckSort = {
   byFraction: (a: Card, b: Card) => Fractions.indexOf(a.fraction) - Fractions.indexOf(b.fraction),
   byCost: (a: Card, b: Card) => a.costNumber() - b.costNumber(),
   byType: (a: Card, b: Card) => a.type - b.type,
-}
+};
 
 export const allCards: Readonly<Card[]> = [
   new Card(1, 5, 'Neues Land entdecken', CardType.Aktion, 'BLUE'),
@@ -279,15 +279,15 @@ export const allCards: Readonly<Card[]> = [
   new Card(148, 4, 'Mor Schildträger', CardType.Charakter, 'BROWN', s(2, 10), [Skill.Ausdauer, Skill.Festigung]),
   new Card(149, 4, 'Mienenausbau', CardType.Aktion, 'BROWN'),
   new Card(150, 2, 'Medium Roya', CardType.Avatar, 'BROWN', s(1, 5, 45), [Skill.Verhuellung]),
-  new Card(151, 7, 'Leigir Ord Mor', CardType.Charakter, 'BROWN', s(6,6), [Skill.Schnelligkeit]),
+  new Card(151, 7, 'Leigir Ord Mor', CardType.Charakter, 'BROWN', s(6, 6), [Skill.Schnelligkeit]),
   new Card(152, 5, 'Keir Steinbrecher', CardType.Avatar, 'BROWN', s(4, 8, 40)),
   new Card(153, 3, 'In Stein rahmen', CardType.Aktion, 'BROWN', null, [Skill.Schnelligkeit]),
   new Card(154, 2, 'Hartstein Hammer', CardType.Einfluss, 'BROWN'),
   new Card(155, 2, 'Erzfund', CardType.Aktion, 'BROWN'),
   new Card(156, 8, 'Eoghan', CardType.Avatar, 'BROWN', s(14, 12, 40), [Skill.Duellant, Skill.Durchbruch]),
-  new Card(157, 5, 'Enya Dylan', CardType.Charakter, 'BROWN', s(6,6), [Skill.Verhuellung]),
+  new Card(157, 5, 'Enya Dylan', CardType.Charakter, 'BROWN', s(6, 6), [Skill.Verhuellung]),
   new Card(158, 2, 'Domhainn Zitadelle', CardType.Feld, 'BROWN'),
-  new Card(159, 3, 'Baya, die Stürmerin', CardType.Charakter, 'BROWN', s(9,8)),
+  new Card(159, 3, 'Baya, die Stürmerin', CardType.Charakter, 'BROWN', s(9, 8)),
   new Card(160, 5, 'Söldner rekrutieren', CardType.Aktion, 'BROWN'),
 ];
 

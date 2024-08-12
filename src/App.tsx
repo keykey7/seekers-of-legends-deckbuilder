@@ -11,21 +11,20 @@ function App() {
       mode: 'dark',
     },
   });
-  return (
-    <ThemeProvider theme={darkTheme}>
+  return (<ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Container maxWidth='xl'  sx={{
-        display: 'flex',
-        px: 1,
-      }}>
+      <Container maxWidth="xl"
+        sx={{
+          display: 'flex',
+          px: 1,
+        }}>
         <TopHeader />
         <DeckProvider>
-          <MainArea/>
+          <MainArea />
           <DeckDrawer />
         </DeckProvider>
       </Container>
-    </ThemeProvider>
-  )
+    </ThemeProvider>);
 }
 
-export default App
+export default App;
