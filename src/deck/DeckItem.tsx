@@ -1,5 +1,5 @@
 import {Box, ListItem} from '@mui/material';
-import {cardById, CardCostModifier} from '../Card.tsx';
+import {cardById, CardCostModifier} from '../Card.ts';
 import {drawerWidth} from './DeckDrawer.tsx';
 import {useDeckDispatch} from './context/DeckProvider.tsx';
 

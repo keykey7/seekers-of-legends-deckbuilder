@@ -1,7 +1,7 @@
 import {useDeck} from './context/DeckProvider.tsx';
 import {useEffect} from 'react';
 import {AvatarAndCards, CardAndCount} from './context/DeckContext.tsx';
-import {allCards, Card, cardById, CardType} from '../Card.tsx';
+import {allCards, Card, cardById, CardType} from '../Card.ts';
 
 const VERSION = "3";
 // max card is excluding zero: data-range [0-160]

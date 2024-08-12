@@ -1,7 +1,7 @@
 import {useDeck} from './context/DeckProvider.tsx';
 import {BarChart, Gauge, gaugeClasses} from '@mui/x-charts';
 import {drawerWidth} from './DeckDrawer.tsx';
-import {Card} from '../Card.tsx';
+import {Card} from '../Card.ts';
 import {Box, Tooltip} from '@mui/material';
 
 function DeckStats() {

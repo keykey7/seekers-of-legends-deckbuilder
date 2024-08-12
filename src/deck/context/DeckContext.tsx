@@ -1,4 +1,4 @@
-import {Card, CardType, DeckSort} from '../../Card.tsx';
+import {Card, CardType, DeckSort} from '../../Card.ts';
 import {fromUrl} from '../StableUrl.tsx';
 
 export type CardAndCount = [Card, 1 | 2 | 3 | 4];

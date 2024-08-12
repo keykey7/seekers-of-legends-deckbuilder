@@ -1,5 +1,5 @@
 import {Box, Icon, IconButton, InputAdornment, TextField, ToggleButton, ToggleButtonGroup, toggleButtonGroupClasses} from '@mui/material';
-import {cardById, Fraction, Fractions} from '../Card.tsx';
+import {cardById, Fraction, Fractions} from '../Card.ts';
 import {MouseEvent} from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import {mobileBreakpoint, useIsMobile} from '../MobileUtil.ts';

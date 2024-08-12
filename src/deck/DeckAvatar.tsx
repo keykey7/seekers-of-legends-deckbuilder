@@ -1,5 +1,5 @@
 import DeckItem from './DeckItem.tsx';
-import {cardById} from '../Card.tsx';
+import {cardById} from '../Card.ts';
 import StableUrl from './StableUrl.tsx';
 import {Box, Typography} from '@mui/material';
 
