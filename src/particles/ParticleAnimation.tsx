@@ -14,10 +14,7 @@ interface ParticleAnimationProps {
   to: Rect,
 }
 
-function ParticleAnimation({
-  from,
-  to,
-}: Readonly<ParticleAnimationProps>) {
+function useInitialAnime() {
   const ref = useRef<anime.AnimeInstance | null>(null);
   useEffect(() => {
     const animeTargets = document.querySelectorAll(`.${styles.dot}`);
@@ -59,11 +56,19 @@ function ParticleAnimation({
       },
     });
   }, []);
+  return ref;
+}
+
+function ParticleAnimation({
+  from,
+  to,
+}: Readonly<ParticleAnimationProps>) {
+  const ref = useInitialAnime();
   useEffect(() => {
     if (ref.current) {
       ref.current.restart();
     }
-  }, [from, to]);
+  }, [ref, from, to]);
 
   const elements: ReactElement[] = [];
   const amount = 200;
@@ -87,8 +92,8 @@ function ParticleAnimation({
     elements.push(Dot);
   }
   return (<>
-      {elements}
-    </>);
+    {elements}
+  </>);
 }
 
 export default ParticleAnimation;

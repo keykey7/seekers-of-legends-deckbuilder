@@ -6,7 +6,7 @@ import {Box, Typography} from '@mui/material';
 /**
  * A special version of a DeckItem representing the Avatar.
  */
-function DeckAvatar({cardId}: {cardId: number | undefined}) {
+function DeckAvatar({cardId}: Readonly<{cardId: number | undefined}>) {
   let element = <Box sx={{
     pt: 2,
     pb: 1,

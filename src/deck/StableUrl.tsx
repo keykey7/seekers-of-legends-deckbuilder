@@ -1,15 +1,15 @@
 import {useDeck} from './context/DeckProvider.tsx';
 import {useEffect} from 'react';
 import {AvatarAndCards, CardAndCount} from './context/DeckContext.tsx';
-import {allCards, Card, cardById, CardType} from '../Card.ts';
+import {allCards, cardById, CardType} from '../Card.ts';
 
 const VERSION = '3';
 // max card is excluding zero: data-range [0-160]
 // +1 because index is 1-based
 // +1 because we need the zero to know when we are done parsing
-const MAXID = BigInt(allCards.length + 2);
+const CARD_ID_MAX = BigInt(allCards.length + 2);
 // max card-amount (non-avatar cards), data-range [0,3]
-const MAXAMOUNT = 4n;
+const CARD_COUNT_MAX = 4n;
 // all characters allowed within an url-fragment (after the #)
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890?/:@-._~!$&\'()*+,;=';
 const CHARS_MAX = BigInt(CHARS.length);
@@ -44,13 +44,13 @@ function toUrl(deck: AvatarAndCards): string {
   let num = BigInt(0);
   deck.cards.forEach(x => {
     if (x[0].type !== CardType.Avatar) {
-      num *= MAXAMOUNT; // max amount
+      num *= CARD_COUNT_MAX; // max amount
       num += BigInt(x[1] - 1); // -1 because 0 isn't possible
     }
-    num *= MAXID;
+    num *= CARD_ID_MAX;
     num += BigInt(x[0].id); // -1 for a zero-based index
   });
-  num *= MAXID;
+  num *= CARD_ID_MAX;
   num += BigInt(deck.avatar ? deck.avatar.id : 0);
   return `${VERSION}${bigintToFragment(num)}`;
 }
@@ -64,20 +64,20 @@ function fromString(s: string): AvatarAndCards {
   let num = fragmentToBigint(s.substring(1));
   const cards: CardAndCount[] = [];
   // generally the read-order is reversed from the write-order
-  const avatarId = Number(num % MAXID);
+  const avatarId = Number(num % CARD_ID_MAX);
   const avatar = avatarId === 0 ? undefined : cardById(avatarId);
   deck = deck.withAvatar(avatar);
-  num /= MAXID;
+  num /= CARD_ID_MAX;
   while (num > BigInt(0)) {
-    const card = cardById(Number(num % MAXID));
-    num /= MAXID;
+    const card = cardById(Number(num % CARD_ID_MAX));
+    num /= CARD_ID_MAX;
     let amount = 1;
     if (card.type !== CardType.Avatar) {
       // +1 because range is [0,3]
-      amount = Number(num % MAXAMOUNT) + 1;
-      num /= MAXAMOUNT;
+      amount = Number(num % CARD_COUNT_MAX) + 1;
+      num /= CARD_COUNT_MAX;
     }
-    cards.push([card, amount] as [Card, 1 | 2 | 3 | 4]);
+    cards.push([card, amount] as CardAndCount);
   }
   return deck.withCards(cards);
 }

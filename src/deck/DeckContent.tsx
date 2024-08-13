@@ -2,12 +2,39 @@ import DeckAvatar from './DeckAvatar.tsx';
 import {Box, List} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
 import {useDeck} from './context/DeckProvider.tsx';
-import {useLayoutEffect, useRef} from 'react';
+import {RefObject, useLayoutEffect, useRef} from 'react';
 import {Rect} from '../particles/ParticleAnimation.tsx';
+import {CardAndCount, DeckActionType} from './context/DeckContext.tsx';
+import {Card} from '../Card.ts';
 
-function DeckContent({setParticleTarget}: Readonly<{setParticleTarget: (arg: Rect) => void}>) {
-  const deck = useDeck();
+interface DeckItemWithCostProps {
+  cardAndCount: CardAndCount;
+  avatar: Card | undefined;
+  thisRef: RefObject<HTMLDivElement> | null;
+}
 
+/** enhance by the actual cost of the card */
+function DeckItemWithCost(props: Readonly<DeckItemWithCostProps>) {
+  const [card, count] = props.cardAndCount;
+  const {cost} = card;
+  const mod = props.avatar?.costModifier(card.fraction) ?? 0;
+  let costStr: string;
+  if (mod === 0) {
+    costStr = cost.toString();
+  } else if (cost === 'X') {
+    costStr = `X+${mod}`;
+  } else {
+    costStr = (cost + mod).toString();
+  }
+  return (<Box ref={props.thisRef}>
+    <DeckItem cardId={card.id}
+      actualCost={costStr}
+      costModifier={mod}
+      amount={count} />
+  </Box>);
+}
+
+function useAnimationTargetRef(lastEvent: DeckActionType | undefined, setParticleTarget: (arg: Rect) => void) {
   const animationTargetRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     // we have to wait until after rendering to know the final position of the animation target
@@ -23,31 +50,25 @@ function DeckContent({setParticleTarget}: Readonly<{setParticleTarget: (arg: Rec
       }
       setParticleTarget(targetRect);
     }
-  }, [deck.lastEvent, setParticleTarget]);
+  }, [lastEvent, setParticleTarget]);
+  return animationTargetRef;
+}
+
+interface DeckContentProps {
+  setParticleTarget: (arg: Rect) => void;
+}
+
+function DeckContent({setParticleTarget}: Readonly<DeckContentProps>) {
+  const deck = useDeck();
+  const animationTargetRef = useAnimationTargetRef(deck.lastEvent, setParticleTarget);
   // all cards of the deck
   const deckItems = deck.cards.map(cardAndCount => {
     const card = cardAndCount[0];
-    const {cost} = card;
-    const mod = deck.avatar?.costModifier(card.fraction) ?? 0;
-    let costStr: string;
-    if (mod === 0) {
-      costStr = cost.toString();
-    } else if (cost === 'X') {
-      costStr = `X+${mod}`;
-    } else {
-      costStr = (cost + mod).toString();
-    }
     let thisRef = null;
     if (card.id === deck.lastEvent?.card.id) {
       thisRef = animationTargetRef;
     }
-    return (<Box key={`kk7-deckItem${card.id}`}
-      ref={thisRef}>
-      <DeckItem cardId={card.id}
-        actualCost={costStr}
-        costModifier={mod}
-        amount={cardAndCount[1]} />
-    </Box>);
+    return <DeckItemWithCost key={`kk7-deckItem${card.id}`} cardAndCount={cardAndCount} avatar={deck.avatar} thisRef={thisRef} />
   });
   // handle avatar click target
   let avatarRef = null;

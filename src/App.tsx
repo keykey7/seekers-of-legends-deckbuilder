@@ -12,19 +12,19 @@ function App() {
     },
   });
   return (<ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <Container maxWidth="xl"
-        sx={{
-          display: 'flex',
-          px: 1,
-        }}>
-        <TopHeader />
-        <DeckProvider>
-          <MainArea />
-          <DeckDrawer />
-        </DeckProvider>
-      </Container>
-    </ThemeProvider>);
+    <CssBaseline />
+    <Container maxWidth="xl"
+      sx={{
+        display: 'flex',
+        px: 1,
+      }}>
+      <TopHeader />
+      <DeckProvider>
+        <MainArea />
+        <DeckDrawer />
+      </DeckProvider>
+    </Container>
+  </ThemeProvider>);
 }
 
 export default App;
