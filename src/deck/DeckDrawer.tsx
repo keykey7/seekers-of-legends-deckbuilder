@@ -4,7 +4,7 @@ import DeckContent from './DeckContent.tsx';
 import DeckStats from './DeckStats.tsx';
 import {useState} from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import {useDeck} from './context/DeckProvider.tsx';
+import {useDeck} from './context/DeckProvider.ts';
 import {useIsMobile} from '../MobileUtil.ts';
 import ParticleAnimation, {Rect} from '../particles/ParticleAnimation.tsx';
 

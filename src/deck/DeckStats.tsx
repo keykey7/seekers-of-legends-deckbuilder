@@ -1,4 +1,4 @@
-import {useDeck} from './context/DeckProvider.tsx';
+import {useDeck} from './context/DeckProvider.ts';
 import {BarChart, Gauge, gaugeClasses} from '@mui/x-charts';
 import {drawerWidth} from './DeckDrawer.tsx';
 import {Card} from '../Card.ts';

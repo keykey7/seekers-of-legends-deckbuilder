@@ -4,7 +4,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useSwipeable} from 'react-swipeable';
 import {useIsMobile} from '../MobileUtil.ts';
-import {useDeckDispatch} from '../deck/context/DeckProvider.tsx';
+import {useDeckDispatch} from '../deck/context/DeckProvider.ts';
 
 interface NextPrevIconProps {
   direction: 'left' | 'right';

@@ -1,5 +1,5 @@
 import {Card, CardType, DeckSort} from '../../Card.ts';
-import {fromUrl} from '../StableUrl.tsx';
+import {fromUrl} from '../StableUrl.ts';
 
 export type CardAndCount = [Card, 1 | 2 | 3 | 4];
 

@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true },
+  env: {browser: true, es2020: true},
   extends: [
     'eslint:all',
     'plugin:@typescript-eslint/recommended',
@@ -10,6 +10,10 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
+    'react-refresh/only-export-components': [
+      'warn',
+      {allowConstantExport: true},
+    ],
     'no-magic-numbers': 'off',
     'one-var': 'off',
     'sort-imports': 'off',
@@ -26,10 +30,19 @@ module.exports = {
     'max-classes-per-file': 'off',
     'prefer-destructuring': 'off',
     'multiline-comment-style': 'off',
-
-    'no-empty-function': 'warn',
-    'max-lines-per-function': 'warn',
-    'max-statements': 'warn',
+    'no-empty-function': 'off',
+    'max-lines-per-function': [
+      'error',
+      {
+        max: 100,
+      },
+    ],
+    'max-statements': [
+      'error',
+      {
+        max: 20,
+      }
+    ],
     'no-console': 'warn',
   }
 }

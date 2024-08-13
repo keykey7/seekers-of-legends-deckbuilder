@@ -1,10 +1,10 @@
 import DeckAvatar from './DeckAvatar.tsx';
 import {Box, List} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
-import {useDeck} from './context/DeckProvider.tsx';
+import {useDeck} from './context/DeckProvider.ts';
 import {RefObject, useLayoutEffect, useRef} from 'react';
 import {Rect} from '../particles/ParticleAnimation.tsx';
-import {CardAndCount, DeckActionType} from './context/DeckContext.tsx';
+import {CardAndCount, DeckActionType} from './context/DeckContext.ts';
 import {Card} from '../Card.ts';
 
 interface DeckItemWithCostProps {

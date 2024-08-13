@@ -1,7 +1,7 @@
 import {Box, useTheme} from '@mui/material';
 import React from 'react';
 import {Card, CardType} from '../Card.ts';
-import {useDeck, useDeckDispatch} from '../deck/context/DeckProvider.tsx';
+import {useDeck, useDeckDispatch} from '../deck/context/DeckProvider.ts';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
 import {useIsMobile} from '../MobileUtil.ts';
