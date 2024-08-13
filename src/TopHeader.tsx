@@ -22,7 +22,8 @@ function TopHeader() {
       {!isSmallScreen && <Link color="inherit"
           href="https://github.com/keykey7/seekers-of-legends-deckbuilder"
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+          aria-label="link to github">
         <GitHubIcon />
       </Link>}
     </Toolbar>

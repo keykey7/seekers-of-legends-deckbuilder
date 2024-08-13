@@ -1,10 +1,11 @@
-import {CardMedia, Modal, modalClasses, Box, useMediaQuery} from '@mui/material';
+import {Box, CardMedia, Modal, modalClasses, useMediaQuery} from '@mui/material';
 import {Card} from '../Card.ts';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useSwipeable} from 'react-swipeable';
 import {useIsMobile} from '../MobileUtil.ts';
-import {useDeckDispatch} from '../deck/context/DeckProvider.ts';
+import {useDeckDispatch, useIsCardMaxReached} from '../deck/context/DeckProvider.ts';
+import {MaxCardAmountReachedIcon} from './HoverCard.tsx';
 
 interface NextPrevIconProps {
   direction: 'left' | 'right';
@@ -16,7 +17,11 @@ interface NextPrevIconProps {
  * Icon left/right indicating more cards,
  * moved inside image to save space on mobile.
  */
-function NextPrevIcon({direction, isVisible, onClick}: Readonly<NextPrevIconProps>) {
+function NextPrevIcon({
+  direction,
+  isVisible,
+  onClick,
+}: Readonly<NextPrevIconProps>) {
   const isLandscape = useMediaQuery('(orientation: landscape)');
   const isSmallScreen = useIsMobile();
   const showArrowsInline = isSmallScreen && !isLandscape;
@@ -27,15 +32,15 @@ function NextPrevIcon({direction, isVisible, onClick}: Readonly<NextPrevIconProp
     cursor: 'pointer',
     pointerEvents: 'initial',
   };
-  const Icon = direction==='left' ? KeyboardArrowLeftIcon : KeyboardArrowRightIcon;
-  const thisMargin = direction==='left' ? 'mr' : 'ml';
+  const Icon = direction === 'left' ? KeyboardArrowLeftIcon : KeyboardArrowRightIcon;
+  const thisMargin = direction === 'left' ? 'mr' : 'ml';
   return <Icon sx={{
     ...iconStyle,
-    visibility: isVisible ? 'visible' : 'hidden',
-    // move inside the picture to allow max width for card on small screens
+    visibility: isVisible ? 'visible' : 'hidden', // move inside the picture to allow max width for card on small screens
     // there is anyway the option to swipe on mobile...
     [thisMargin]: showArrowsInline ? -6 : 1,
-  }} onClick={onClick} />
+  }}
+    onClick={onClick} />;
 }
 
 export interface CardDetailModalProps {
@@ -53,6 +58,7 @@ export interface CardDetailModalProps {
 function CardDetailModal(props: Readonly<CardDetailModalProps>) {
   const cardDispatch = useDeckDispatch();
   const card = props.card;
+  const isMaxCount = useIsCardMaxReached(card);
 
   // https://www.npmjs.com/package/react-swipeable
   const swipeHandlers = useSwipeable({
@@ -66,17 +72,15 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
         card,
         eventOrigin: (swipeEvent.event.target as HTMLElement).getBoundingClientRect(),
       });
-    }
+    },
   });
-  return (
-    <Modal open={true}
+  return (<Modal open={true}
       onClose={props.onClose}
       sx={{
         [`& .${modalClasses.backdrop}`]: {
           backgroundColor: 'rgba(0, 0, 0, 0.8)', // slightly darker than the default
         },
-      }}
-    >
+      }}>
       <Box sx={{
         // center the modal horizontally and vertically on screen
         height: '100%',
@@ -85,20 +89,31 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
         alignItems: 'center',
         pointerEvents: 'none',
       }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <NextPrevIcon direction='left' isVisible={props.hasPrevious} onClick={props.onPrevious} />
-          <CardMedia {...swipeHandlers} draggable={false} component="img" image={card.imageSrc()} alt={card.name} sx={{
-            maxHeight: '100vh',
-            minWidth: 0, // prevent overflow of flex-items on chrome: https://stackoverflow.com/a/66689926
-            p: 2,
-            borderRadius: 7,
-            pointerEvents: 'initial',
-          }} />
-          <NextPrevIcon direction='right' isVisible={props.hasNext} onClick={props.onNext} />
+        <MaxCardAmountReachedIcon visible={isMaxCount} />
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+        }}>
+          <NextPrevIcon direction="left"
+            isVisible={props.hasPrevious}
+            onClick={props.onPrevious} />
+          <CardMedia {...swipeHandlers} draggable={false}
+            component="img"
+            image={card.imageSrc()}
+            alt={card.name}
+            sx={{
+              maxHeight: '100vh',
+              minWidth: 0, // prevent overflow of flex-items on chrome: https://stackoverflow.com/a/66689926
+              p: 2,
+              borderRadius: 7,
+              pointerEvents: 'initial',
+            }} />
+          <NextPrevIcon direction="right"
+            isVisible={props.hasNext}
+            onClick={props.onNext} />
         </Box>
       </Box>
-    </Modal>
-  );
+    </Modal>);
 }
 
 export default CardDetailModal;

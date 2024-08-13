@@ -1,24 +1,32 @@
 import {Box, useTheme} from '@mui/material';
 import React from 'react';
-import {Card, CardType} from '../Card.ts';
-import {useDeck, useDeckDispatch} from '../deck/context/DeckProvider.ts';
+import {Card} from '../Card.ts';
+import {useDeckDispatch, useIsCardMaxReached} from '../deck/context/DeckProvider.ts';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
 import {useIsMobile} from '../MobileUtil.ts';
 
+interface MaxCardAmountReachedIconProps {
+  visible: boolean,
+  scale?: number,
+}
+
 /**
  * An indicator when no more cards of a given type can be added.
  */
-function Lock({visible}: Readonly<{ visible: boolean }>) {
+export function MaxCardAmountReachedIcon({
+  visible,
+  scale = 2.5,
+}: Readonly<MaxCardAmountReachedIconProps>) {
   return <LockIcon sx={{
     position: 'absolute',
     left: '50%',
     transformOrigin: 'center center',
-    transform: ' translate(-50%, 0) scale(2.5)',
+    transform: `translate(-50%, 0) scale(${scale})`,
     top: '35%',
     filter: 'drop-shadow(0 0 2px black)',
     visibility: visible ? 'initial' : 'hidden',
-  }}/>
+  }} />;
 }
 
 export interface InfoIconProps {
@@ -29,8 +37,7 @@ export interface InfoIconProps {
  * The little i-Icon top right on every card allows viewing more details.
  */
 function InfoIcon({onDetailClick}: Readonly<InfoIconProps>) {
-  return <InfoTwoToneIcon
-    fontSize="large"
+  return <InfoTwoToneIcon fontSize="large"
     onMouseDown={e => {
       onDetailClick();
       e.stopPropagation();
@@ -53,22 +60,22 @@ function InfoIcon({onDetailClick}: Readonly<InfoIconProps>) {
         opacity: 0,
         transition: 'opacity 0.2s linear', // fade the info button in on hover
       },
-    })} />
+    })} />;
 }
 
 const moveCard = (event: React.MouseEvent<HTMLDivElement>) => {
   const dMax = 15;
-  const img = event.currentTarget
+  const img = event.currentTarget;
   const x = event.pageX - img.offsetLeft;
   const y = event.pageY - img.offsetTop;
-  const dx = dMax - (x/img.clientWidth)*2*dMax;
-  const dy = -dMax + (y/img.clientHeight)*2*dMax;
+  const dx = dMax - (x / img.clientWidth) * 2 * dMax;
+  const dy = -dMax + (y / img.clientHeight) * 2 * dMax;
   img.style.transform = `perspective(1000px) rotateX(${dy}deg) rotateY(${dx}deg) scale3d(1.1,1.1,1.1)`;
 };
 
 const resetCard = (event: React.MouseEvent<HTMLDivElement>) => {
-  event.currentTarget.style.transform = "";
-}
+  event.currentTarget.style.transform = '';
+};
 
 export interface HoverCardProps extends InfoIconProps {
   card: Card,
@@ -77,32 +84,31 @@ export interface HoverCardProps extends InfoIconProps {
 /**
  * A card of the compendium. Moves funny...
  */
-function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
+function HoverCard({
+  card,
+  onDetailClick,
+}: Readonly<HoverCardProps>) {
   const theme = useTheme();
   const cardDispatch = useDeckDispatch();
   const isSmallScreen = useIsMobile();
-  const count = useDeck().countByType(card);
-
-  const isMaxCount = count === (card.type === CardType.Avatar ? 1 : 4);
+  const isMaxCount = useIsCardMaxReached(card);
   const maxFilter = isMaxCount ? 'brightness(50%)' : '';
-  const onMoveCard = isSmallScreen ? () => {} : moveCard;
+  const onMoveCard = isSmallScreen ? () => {
+  } : moveCard;
   const addCard = (event: React.MouseEvent<HTMLDivElement>) => {
     cardDispatch({
       type: 'add',
       card,
       eventOrigin: event.currentTarget.getBoundingClientRect(),
-    })
+    });
   };
-  return (
-    <Box
-      sx={{
-        p: 2,
-        aspectRatio: '2429 / 3308', // same as actual image
-        [theme.breakpoints.down('md')]: {
-          p: 1,
-        },
-      }}
-      >
+  return (<Box sx={{
+      p: 2,
+      aspectRatio: '2429 / 3308', // same as actual image
+      [theme.breakpoints.down('md')]: {
+        p: 1,
+      },
+    }}>
       <Box aria-label={card.name}
         onMouseMove={onMoveCard}
         onMouseLeave={resetCard}
@@ -124,15 +130,14 @@ function HoverCard({card, onDetailClick}: Readonly<HoverCardProps>) {
           },
           [theme.breakpoints.up('md')]: { // hide the info icon until hover on non-touch devices
             ':hover > svg': {
-              opacity: 1
+              opacity: 1,
             },
-          }
+          },
         }}>
         <InfoIcon onDetailClick={onDetailClick} />
-        <Lock visible={isMaxCount} />
+        <MaxCardAmountReachedIcon visible={isMaxCount} />
       </Box>
-    </Box>
-  );
+    </Box>);
 }
 
 export default HoverCard;
