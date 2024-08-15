@@ -2,7 +2,8 @@ import CardBoard from './CardBoard.tsx';
 import CardFilter, {CardFilterProps} from './CardFilter.tsx';
 import {Box, Toolbar} from '@mui/material';
 import {SetStateAction, useState} from 'react';
-import {allCards, Card, DeckSort, Fraction} from '../Card.ts';
+import {Card, DeckSort, Fraction} from '../Card.ts';
+import {allCards} from '../CardData.ts';
 
 function MainArea() {
   const [filterFractions, setFilterFractions] = useState((): Fraction[] => []);
