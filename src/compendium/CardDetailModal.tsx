@@ -1,4 +1,4 @@
-import {Box, CardMedia, Modal, modalClasses, useMediaQuery} from '@mui/material';
+import {Box, Modal, modalClasses, useMediaQuery} from '@mui/material';
 import {Card} from '../Card.ts';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -38,7 +38,7 @@ function NextPrevIcon({
     ...iconStyle,
     visibility: isVisible ? 'visible' : 'hidden', // move inside the picture to allow max width for card on small screens
     // there is anyway the option to swipe on mobile...
-    [thisMargin]: showArrowsInline ? -6 : 1,
+    [thisMargin]: showArrowsInline ? -6 : 3,
   }}
     onClick={onClick} />;
 }
@@ -75,45 +75,43 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
     },
   });
   return (<Modal open={true}
-      onClose={props.onClose}
-      sx={{
-        [`& .${modalClasses.backdrop}`]: {
-          backgroundColor: 'rgba(0, 0, 0, 0.8)', // slightly darker than the default
-        },
-      }}>
-      <Box sx={{
-        // center the modal horizontally and vertically on screen
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        pointerEvents: 'none',
+    onClose={props.onClose}
+    sx={{
+      [`& .${modalClasses.backdrop}`]: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)', // slightly darker than the default
+      },
+    }}>
+    <Box sx={{
+      // center the modal horizontally and vertically on screen
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      pointerEvents: 'none',
+    }}>
+      <NextPrevIcon direction="left"
+        isVisible={props.hasPrevious}
+        onClick={props.onPrevious} />
+      <Box {...swipeHandlers} sx={{
+        borderRadius: '4%',
+        backgroundImage: `url(${card.imageSrc()})`,
+        backgroundSize: `100%`, // 105% would look more real, but becomes blurry
+        backgroundPosition: 'center',
+
+        // maximum display size while keeping aspect ratio
+        aspectRatio: '2429 / 3308', // same as actual image
+        width: 'calc(min(100vw, 2429 / 3308 * 100vh) - 8px)',
+        maxHeight: 'calc(100vh - 8px)',
+        maxWidth: '648px', // actual image width
+        pointerEvents: 'initial', // allow clicking it
       }}>
         <MaxCardAmountReachedIcon visible={isMaxCount} />
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-        }}>
-          <NextPrevIcon direction="left"
-            isVisible={props.hasPrevious}
-            onClick={props.onPrevious} />
-          <CardMedia {...swipeHandlers} draggable={false}
-            component="img"
-            image={card.imageSrc()}
-            alt={card.name}
-            sx={{
-              maxHeight: '100vh',
-              minWidth: 0, // prevent overflow of flex-items on chrome: https://stackoverflow.com/a/66689926
-              p: 2,
-              borderRadius: 7,
-              pointerEvents: 'initial',
-            }} />
-          <NextPrevIcon direction="right"
-            isVisible={props.hasNext}
-            onClick={props.onNext} />
-        </Box>
       </Box>
-    </Modal>);
+      <NextPrevIcon direction="right"
+        isVisible={props.hasNext}
+        onClick={props.onNext} />
+    </Box>
+  </Modal>);
 }
 
 export default CardDetailModal;

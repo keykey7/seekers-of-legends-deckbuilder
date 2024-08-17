@@ -8,7 +8,6 @@ import {useIsMobile} from '../MobileUtil.ts';
 
 interface MaxCardAmountReachedIconProps {
   visible: boolean,
-  scale?: number,
 }
 
 /**
@@ -16,17 +15,26 @@ interface MaxCardAmountReachedIconProps {
  */
 export function MaxCardAmountReachedIcon({
   visible,
-  scale = 2.5,
 }: Readonly<MaxCardAmountReachedIconProps>) {
-  return <LockIcon sx={{
-    position: 'absolute',
-    left: '50%',
-    transformOrigin: 'center center',
-    transform: `translate(-50%, 0) scale(${scale})`,
-    top: '35%',
-    filter: 'drop-shadow(0 0 2px black)',
-    visibility: visible ? 'initial' : 'hidden',
-  }} />;
+  if (!visible) {
+    return <></>;
+  }
+  return <Box sx={{
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}>
+    <LockIcon sx={{
+      display: 'block',
+      width: '50%',
+      height: '50%',
+      marginBottom: '32%',
+      filter: 'brightness(80%)',
+    }} />
+  </Box>;
 }
 
 export interface InfoIconProps {
@@ -92,7 +100,6 @@ function HoverCard({
   const cardDispatch = useDeckDispatch();
   const isSmallScreen = useIsMobile();
   const isMaxCount = useIsCardMaxReached(card);
-  const maxFilter = isMaxCount ? 'brightness(50%)' : '';
   const onMoveCard = isSmallScreen ? () => {
   } : moveCard;
   const addCard = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -103,41 +110,40 @@ function HoverCard({
     });
   };
   return (<Box sx={{
-      p: 2,
-      aspectRatio: '2429 / 3308', // same as actual image
-      [theme.breakpoints.down('md')]: {
-        p: 1,
-      },
-    }}>
-      <Box aria-label={card.name}
-        onMouseMove={onMoveCard}
-        onMouseLeave={resetCard}
-        onMouseDown={addCard}
-        sx={{
-          backgroundImage: `url(${card.imageSrc()})`,
-          borderRadius: 2.5,
-          transition: '1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)',
-          cursor: 'pointer', // because it's clickable
-          transform: 'translateZ(0)', // hack to avoid flickering between no-transition and transition on FF
-          backgroundSize: `105%`,  // since cards are cut
-          backgroundPosition: 'center',
-          width: '100%',
-          height: '100%',
-          backfaceVisibility: 'hidden',
-          filter: maxFilter,
-          ':hover': {
-            filter: `${maxFilter} drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))`,
+    p: 2,
+    aspectRatio: '2429 / 3308', // same as actual image
+    [theme.breakpoints.down('md')]: {
+      p: 1,
+    },
+  }}>
+    <Box aria-label={card.name}
+      onMouseMove={onMoveCard}
+      onMouseLeave={resetCard}
+      onMouseDown={addCard}
+      sx={{
+        backgroundImage: `url(${card.imageSrc()})`,
+        borderRadius: 2.5,
+        transition: '1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)',
+        cursor: 'pointer', // because it's clickable
+        transform: 'translateZ(0)', // hack to avoid flickering between no-transition and transition on FF
+        backgroundSize: `105%`,  // since cards are cut
+        backgroundPosition: 'center',
+        width: '100%',
+        height: '100%',
+        backfaceVisibility: 'hidden',
+        ':hover': {
+          filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))',
+        },
+        [theme.breakpoints.up('md')]: { // hide the info icon until hover on non-touch devices
+          ':hover > svg': {
+            opacity: 1,
           },
-          [theme.breakpoints.up('md')]: { // hide the info icon until hover on non-touch devices
-            ':hover > svg': {
-              opacity: 1,
-            },
-          },
-        }}>
-        <InfoIcon onDetailClick={onDetailClick} />
-        <MaxCardAmountReachedIcon visible={isMaxCount} />
-      </Box>
-    </Box>);
+        },
+      }}>
+      <InfoIcon onDetailClick={onDetailClick} />
+      <MaxCardAmountReachedIcon visible={isMaxCount} />
+    </Box>
+  </Box>);
 }
 
 export default HoverCard;
