@@ -1,31 +1,29 @@
-import {useDeck} from './context/DeckProvider.ts';
 import {BarChart, Gauge, gaugeClasses} from '@mui/x-charts';
 import {drawerWidth} from './DeckDrawer.tsx';
-import {Card} from '../Card.ts';
 import {Box, Tooltip} from '@mui/material';
+import {useDeck} from './context/DeckContext.ts';
+import {CardAndCount} from '../Deck.ts';
 
 function DeckStats() {
   const deck = useDeck();
   const colorCost = [0, 0, 0, 0, 0, 0, 0];
   const avatarFraction = deck.avatar?.fraction;
 
-  function addCard(card: Card, amount: number): void {
-    let costCategory = card.cost;
+  function addCard(cardAndCount: CardAndCount): void {
+    let costCategory = cardAndCount.card.cost;
     if (costCategory === 'X') {
       costCategory = 1;
     } else if (costCategory > 7) {
       costCategory = 7;
     }
-    costCategory += card.costModifier(avatarFraction);
-    colorCost[costCategory - 1] += amount;
+    costCategory += cardAndCount.card.costModifier(avatarFraction);
+    colorCost[costCategory - 1] += cardAndCount.count;
   }
 
-  if (deck.avatar !== undefined) {
-    addCard(deck.avatar, 1);
-  }
-  deck.cards.forEach((cardAndCount) => {
-    addCard(cardAndCount[0], cardAndCount[1]);
-  });
+  deck.allCards()
+    .forEach((cardAndCount) => {
+      addCard(cardAndCount);
+    });
   const count = colorCost.reduce((a, b) => a + b, 0);
   const isValid = count >= 40 && deck.avatar !== undefined;
   const max = colorCost.reduce((a, b) => Math.max(a, b), 0);
@@ -58,30 +56,29 @@ function DeckStats() {
     </Tooltip>;
   }
   return (<>
-      {gauge}
-      <BarChart tooltip={{trigger: 'none'}}
-        width={drawerWidth}
-        height={200}
-        series={[
-          {
-            data: colorCost,
-            color: '#d5d5d5',
-          },
-        ]}
-        xAxis={[
-          {
-            data: [1, 2, 3, 4, 5, 6, '7+'],
-            scaleType: 'band',
-          },
-        ]}
-        yAxis={[
-          {
-            max: Math.max(10, max),
-            tickMinStep: 1,
-          },
-        ]} />
-
-    </>);
+    {gauge}
+    <BarChart tooltip={{trigger: 'none'}}
+      width={drawerWidth}
+      height={200}
+      series={[
+        {
+          data: colorCost,
+          color: '#d5d5d5',
+        },
+      ]}
+      xAxis={[
+        {
+          data: [1, 2, 3, 4, 5, 6, '7+'],
+          scaleType: 'band',
+        },
+      ]}
+      yAxis={[
+        {
+          max: Math.max(10, max),
+          tickMinStep: 1,
+        },
+      ]} />
+  </>);
 }
 
 export default DeckStats;

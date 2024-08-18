@@ -1,11 +1,11 @@
 import DeckAvatar from './DeckAvatar.tsx';
 import {Box, List} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
-import {useDeck} from './context/DeckProvider.ts';
 import {RefObject, useLayoutEffect, useRef} from 'react';
 import {Rect} from '../particles/ParticleAnimation.tsx';
-import {CardAndCount, DeckActionType} from './context/DeckContext.ts';
+import {DeckActionType, useDeck} from './context/DeckContext.ts';
 import {Card} from '../Card.ts';
+import {CardAndCount} from '../Deck.ts';
 
 interface DeckItemWithCostProps {
   cardAndCount: CardAndCount;
@@ -15,7 +15,7 @@ interface DeckItemWithCostProps {
 
 /** enhance by the actual cost of the card */
 function DeckItemWithCost(props: Readonly<DeckItemWithCostProps>) {
-  const [card, count] = props.cardAndCount;
+  const {card, count} = props.cardAndCount;
   const {cost} = card;
   const mod = props.avatar?.costModifier(card.fraction) ?? 0;
   let costStr: string;
@@ -63,7 +63,7 @@ function DeckContent({setParticleTarget}: Readonly<DeckContentProps>) {
   const animationTargetRef = useAnimationTargetRef(deck.lastEvent, setParticleTarget);
   // all cards of the deck
   const deckItems = deck.cards.map(cardAndCount => {
-    const card = cardAndCount[0];
+    const {card} = cardAndCount;
     let thisRef = null;
     if (card.id === deck.lastEvent?.card.id) {
       thisRef = animationTargetRef;

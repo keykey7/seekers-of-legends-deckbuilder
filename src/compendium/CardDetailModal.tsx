@@ -4,8 +4,8 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useSwipeable} from 'react-swipeable';
 import {useIsMobile} from '../MobileUtil.ts';
-import {useDeckDispatch, useIsCardMaxReached} from '../deck/context/DeckProvider.ts';
 import {MaxCardAmountReachedIcon} from './HoverCard.tsx';
+import {useDeckDispatch, useIsCardMaxReached} from '../deck/context/DeckContext.ts';
 
 interface NextPrevIconProps {
   direction: 'left' | 'right';

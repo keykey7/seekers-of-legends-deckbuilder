@@ -1,6 +1,7 @@
-import {AvatarAndCards, CardAndCount} from './context/DeckContext.ts';
+
 import {CardType} from '../Card.ts';
 import {allCards, cardById} from '../CardData.ts';
+import {AvatarAndCards, CardAndCount, CardCount} from '../Deck.ts';
 
 const VERSION = '3';
 // max card is excluding zero: data-range [0-160]
@@ -44,12 +45,12 @@ function fragmentToBigint(fragment: string): bigint {
 export function toUrl(deck: AvatarAndCards): string {
   let num = 0n;
   deck.cards.forEach(x => {
-    if (x[0].type !== CardType.Avatar) {
+    if (x.card.type !== CardType.Avatar) {
       num *= CARD_COUNT_MAX; // max amount
-      num += BigInt(x[1] - 1); // -1 because 0 isn't possible
+      num += BigInt(x.count - 1); // -1 because 0 isn't possible
     }
     num *= CARD_ID_MAX;
-    num += BigInt(x[0].id); // -1 for a zero-based index
+    num += BigInt(x.card.id); // -1 for a zero-based index
   });
   num *= CARD_ID_MAX;
   num += BigInt(deck.avatar ? deck.avatar.id : 0);
@@ -72,13 +73,13 @@ function fromString(s: string): AvatarAndCards {
   while (num > 0n) {
     const card = cardById(Number(num % CARD_ID_MAX));
     num /= CARD_ID_MAX;
-    let amount = 1;
+    let amount: CardCount = 1;
     if (card.type !== CardType.Avatar) {
       // +1 because range is [0,3]
-      amount = Number(num % CARD_COUNT_MAX) + 1;
+      amount = Number(num % CARD_COUNT_MAX) + 1 as CardCount;
       num /= CARD_COUNT_MAX;
     }
-    cards.push([card, amount] as CardAndCount);
+    cards.push(new CardAndCount(card, amount));
   }
   return deck.withCards(cards);
 }

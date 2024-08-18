@@ -1,5 +1,5 @@
-import {DeckContext, DeckDispatchContext, useDeckReducer} from './DeckProvider.ts';
 import React from 'react';
+import {DeckContext, DeckDispatchContext, useDeckReducer} from './DeckContext.ts';
 
 export default function DeckProvider({children}: Readonly<{children: React.ReactNode}>) {
   const [deck, dispatch] = useDeckReducer();
