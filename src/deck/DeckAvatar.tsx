@@ -1,7 +1,7 @@
 import DeckItem from './DeckItem.tsx';
 import StableUrl from './StableUrl.tsx';
 import {Box, Typography} from '@mui/material';
-import {cardById} from '../CardData.ts';
+import {cardById} from '../core/CardData.ts';
 
 /**
  * A special version of a DeckItem representing the Avatar.

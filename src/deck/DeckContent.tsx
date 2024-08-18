@@ -4,8 +4,8 @@ import DeckItem from './DeckItem.tsx';
 import {RefObject, useLayoutEffect, useRef} from 'react';
 import {Rect} from '../particles/ParticleAnimation.tsx';
 import {DeckActionType, useDeck} from './context/DeckContext.ts';
-import {Card} from '../Card.ts';
-import {CardAndCount} from '../Deck.ts';
+import {Card} from '../core/Card.ts';
+import {CardAndCount} from '../core/Deck.ts';
 
 interface DeckItemWithCostProps {
   cardAndCount: CardAndCount;

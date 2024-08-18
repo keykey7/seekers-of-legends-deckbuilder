@@ -2,7 +2,7 @@ import {BarChart, Gauge, gaugeClasses} from '@mui/x-charts';
 import {drawerWidth} from './DeckDrawer.tsx';
 import {Box, Tooltip} from '@mui/material';
 import {useDeck} from './context/DeckContext.ts';
-import {CardAndCount} from '../Deck.ts';
+import {CardAndCount} from '../core/Deck.ts';
 
 function DeckStats() {
   const deck = useDeck();

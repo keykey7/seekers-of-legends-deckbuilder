@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
 import HoverCard from './HoverCard.tsx';
-import {Card} from '../Card.ts';
+import {Card} from '../core/Card.ts';
 import {useState} from 'react';
 import CardDetailModal, {CardDetailModalProps} from './CardDetailModal.tsx';
 import {Box} from '@mui/material';

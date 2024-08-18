@@ -1,9 +1,9 @@
 import {Box, Icon, IconButton, InputAdornment, TextField, ToggleButton, ToggleButtonGroup, toggleButtonGroupClasses} from '@mui/material';
-import {Fraction, Fractions} from '../Card.ts';
+import {Fraction, Fractions} from '../core/Card.ts';
 import {MouseEvent} from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import {mobileBreakpoint, useIsMobile} from '../MobileUtil.ts';
-import {cardById} from '../CardData.ts';
+import {cardById} from '../core/CardData.ts';
 
 function FractionFilterItem({fraction}: Readonly<{ fraction: Fraction }>) {
   const card = cardById(Fractions.indexOf(fraction) * 20 + 1);

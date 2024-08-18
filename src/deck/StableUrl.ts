@@ -1,7 +1,6 @@
-
-import {CardType} from '../Card.ts';
-import {allCards, cardById} from '../CardData.ts';
-import {AvatarAndCards, CardAndCount, CardCount} from '../Deck.ts';
+import {CardType} from '../core/Card.ts';
+import {allCards, cardById} from '../core/CardData.ts';
+import {AvatarAndCards, CardAndCount, CardCount} from '../core/Deck.ts';
 
 const VERSION = '3';
 // max card is excluding zero: data-range [0-160]

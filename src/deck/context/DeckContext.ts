@@ -1,12 +1,12 @@
-import {Card, CardType} from '../../Card.ts';
+import {Card, CardType} from '../../core/Card.ts';
 import {fromUrl} from '../StableUrl.ts';
-import {AvatarAndCards, InvalidDeckOperation} from '../../Deck.ts';
+import {AvatarAndCards, InvalidDeckOperation} from '../../core/Deck.ts';
 import React, {createContext, useContext, useReducer} from 'react';
 
 export interface DeckActionType {
-  type: 'add' | 'remove',
-  card: Card,
-  eventOrigin: DOMRectReadOnly,
+  readonly type: 'add' | 'remove',
+  readonly card: Card,
+  readonly eventOrigin: DOMRectReadOnly,
 }
 
 export const initialDeck = fromUrl();

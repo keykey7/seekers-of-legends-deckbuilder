@@ -1,7 +1,7 @@
 import {Box, ListItem} from '@mui/material';
-import {CardCostModifier} from '../Card.ts';
+import {CardCostModifier} from '../core/Card.ts';
 import {drawerWidth} from './DeckDrawer.tsx';
-import {cardById} from '../CardData.ts';
+import {cardById} from '../core/CardData.ts';
 import {useDeckDispatch} from './context/DeckContext.ts';
 
 interface DeckItemProps {

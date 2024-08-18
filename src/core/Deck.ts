@@ -1,5 +1,5 @@
 import {Card, CardType, DeckSort} from './Card.ts';
-import {DeckActionType} from './deck/context/DeckContext.ts';
+import {DeckActionType} from '../deck/context/DeckContext.ts';
 
 export type CardCount = 1 | 2 | 3 | 4;
 
@@ -44,7 +44,7 @@ export class AvatarAndCards {
     return new AvatarAndCards(undefined, [], undefined);
   }
 
-  constructor(public readonly avatar: Card | undefined, public readonly cards: CardAndCount[], public readonly lastEvent: DeckActionType | undefined) {
+  private constructor(public readonly avatar: Card | undefined, public readonly cards: CardAndCount[], public readonly lastEvent: DeckActionType | undefined) {
   }
 
   allCards(): CardAndCount[] {
@@ -95,9 +95,10 @@ export class AvatarAndCards {
   }
 
   private sorted(): AvatarAndCards {
-    return new AvatarAndCards(this.avatar, this.cards.slice()
+    const sortedCards = this.cards.slice()
       .sort((a, b) => DeckSort.byId(a.card, b.card))
-      .sort((a, b) => a.card.costNumber(this.avatar?.fraction) - b.card.costNumber(this.avatar?.fraction)), this.lastEvent);
+      .sort((a, b) => a.card.costNumber(this.avatar?.fraction) - b.card.costNumber(this.avatar?.fraction));
+    return new AvatarAndCards(this.avatar, sortedCards, this.lastEvent);
   }
 
   withCards(cards: CardAndCount[]) {

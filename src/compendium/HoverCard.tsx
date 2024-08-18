@@ -1,6 +1,6 @@
 import {Box, useTheme} from '@mui/material';
 import React from 'react';
-import {Card} from '../Card.ts';
+import {Card} from '../core/Card.ts';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
 import {useIsMobile} from '../MobileUtil.ts';

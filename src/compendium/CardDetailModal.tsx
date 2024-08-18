@@ -1,5 +1,5 @@
 import {Box, Modal, modalClasses, useMediaQuery} from '@mui/material';
-import {Card} from '../Card.ts';
+import {Card} from '../core/Card.ts';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useSwipeable} from 'react-swipeable';
