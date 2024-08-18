@@ -1,22 +1,18 @@
-import {Box, useTheme} from '@mui/material';
+import {Box} from '@mui/material';
 import React from 'react';
-import {Card} from '../core/Card.ts';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
 import {useIsMobile} from '../MobileUtil.ts';
-import {useDeckDispatch, useIsCardMaxReached} from '../deck/context/DeckContext.ts';
-
-interface MaxCardAmountReachedIconProps {
-  visible: boolean,
-}
+import {useDeckDispatch} from '../deck/context/DeckContext.ts';
+import {Card} from '../core/Card.ts';
+import {useCard, useIsMaxCount} from '../deck/context/CardContext.ts';
 
 /**
  * An indicator when no more cards of a given type can be added.
  */
-export function MaxCardAmountReachedIcon({
-  visible,
-}: Readonly<MaxCardAmountReachedIconProps>) {
-  if (!visible) {
+export function MaxCardAmountReachedIcon() {
+  const isMaxCount = useIsMaxCount();
+  if (!isMaxCount) {
     return <></>;
   }
   return <Box sx={{
@@ -85,21 +81,19 @@ const resetCard = (event: React.MouseEvent<HTMLDivElement>) => {
   event.currentTarget.style.transform = '';
 };
 
-export interface HoverCardProps extends InfoIconProps {
-  card: Card,
+export interface HoverCardProps {
+  setDetailCard: (card: Card) => void,
 }
 
 /**
  * A card of the compendium. Moves funny...
  */
 function HoverCard({
-  card,
-  onDetailClick,
+  setDetailCard,
 }: Readonly<HoverCardProps>) {
-  const theme = useTheme();
   const cardDispatch = useDeckDispatch();
   const isSmallScreen = useIsMobile();
-  const isMaxCount = useIsCardMaxReached(card);
+  const card = useCard();
   const onMoveCard = isSmallScreen ? () => {
   } : moveCard;
   const addCard = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -109,18 +103,18 @@ function HoverCard({
       eventOrigin: event.currentTarget.getBoundingClientRect(),
     });
   };
-  return (<Box sx={{
+  return (<Box sx={(theme) => ({
     p: 2,
     aspectRatio: '2429 / 3308', // same as actual image
     [theme.breakpoints.down('md')]: {
       p: 1,
     },
-  }}>
+  })}>
     <Box aria-label={card.name}
       onMouseMove={onMoveCard}
       onMouseLeave={resetCard}
       onMouseDown={addCard}
-      sx={{
+      sx={(theme) => ({
         backgroundImage: `url(${card.imageSrc()})`,
         borderRadius: 2.5,
         transition: '1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)',
@@ -139,9 +133,9 @@ function HoverCard({
             opacity: 1,
           },
         },
-      }}>
-      <InfoIcon onDetailClick={onDetailClick} />
-      <MaxCardAmountReachedIcon visible={isMaxCount} />
+      })}>
+      <InfoIcon onDetailClick={() => setDetailCard(card)} />
+      <MaxCardAmountReachedIcon />
     </Box>
   </Box>);
 }

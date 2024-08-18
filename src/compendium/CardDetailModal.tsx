@@ -1,11 +1,11 @@
 import {Box, Modal, modalClasses, useMediaQuery} from '@mui/material';
-import {Card} from '../core/Card.ts';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useSwipeable} from 'react-swipeable';
 import {useIsMobile} from '../MobileUtil.ts';
 import {MaxCardAmountReachedIcon} from './HoverCard.tsx';
-import {useDeckDispatch, useIsCardMaxReached} from '../deck/context/DeckContext.ts';
+import {useDeckDispatch} from '../deck/context/DeckContext.ts';
+import {Card} from '../core/Card.ts';
 
 interface NextPrevIconProps {
   direction: 'left' | 'right';
@@ -58,7 +58,6 @@ export interface CardDetailModalProps {
 function CardDetailModal(props: Readonly<CardDetailModalProps>) {
   const cardDispatch = useDeckDispatch();
   const card = props.card;
-  const isMaxCount = useIsCardMaxReached(card);
 
   // https://www.npmjs.com/package/react-swipeable
   const swipeHandlers = useSwipeable({
@@ -105,7 +104,7 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
         maxWidth: '648px', // actual image width
         pointerEvents: 'initial', // allow clicking it
       }}>
-        <MaxCardAmountReachedIcon visible={isMaxCount} />
+        <MaxCardAmountReachedIcon />
       </Box>
       <NextPrevIcon direction="right"
         isVisible={props.hasNext}

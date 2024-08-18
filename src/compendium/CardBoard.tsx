@@ -1,15 +1,18 @@
 import Grid from '@mui/material/Grid';
 import HoverCard from './HoverCard.tsx';
-import {Card} from '../core/Card.ts';
 import {useState} from 'react';
 import CardDetailModal, {CardDetailModalProps} from './CardDetailModal.tsx';
 import {Box} from '@mui/material';
+import {Cached, CardProvider} from '../deck/context/CardProvider.tsx';
+import {Card} from '../core/Card.ts';
+import {useDeck} from '../deck/context/DeckContext.ts';
 
 interface CardBoardProps {
   cards: Card[];
 }
 
 function CardBoard({cards}: Readonly<CardBoardProps>) {
+  const deck = useDeck();
   const [detailCard, setDetailCard] = useState<Card | undefined>(undefined);
   let modal = <></>;
   if (detailCard !== undefined) {
@@ -19,31 +22,41 @@ function CardBoard({cards}: Readonly<CardBoardProps>) {
       hasPrevious: currentIndex !== 0,
       onPrevious: () => setDetailCard(cards[currentIndex - 1]),
       card: detailCard,
-      hasNext: currentIndex!==cards.length - 1,
+      hasNext: currentIndex !== cards.length - 1,
       onNext: () => setDetailCard(cards[currentIndex + 1]),
     };
-    modal = <CardDetailModal {...modalProps} />
+    modal = <CardProvider card={detailCard}
+      count={deck.countByType(detailCard)}>
+      <CardDetailModal {...modalProps} />
+    </CardProvider>;
   }
-
-  // https://mui.com/material-ui/react-grid2/
-  return (
-    <>
-      {modal}
-      <Box sx={{
-        // lineHeight: 0,
-        justifyContent: 'center',
-      }}>
-        <Grid container columns={{xs: 2, sm: 3, md: 3, lg: 4, xl: 5}} >
-          {cards.map((card) => (
-            <Grid item key={`deck${card.id}`} xs={1}>
-              <HoverCard card={card} onDetailClick={() => setDetailCard(card)}/>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </>
-
-  );
+  return (<>
+    {modal}
+    <Box sx={{
+      // lineHeight: 0,
+      justifyContent: 'center',
+    }}>
+      <Grid container
+        columns={{
+          xs: 2,
+          sm: 3,
+          md: 3,
+          lg: 4,
+          xl: 5,
+        }}>
+        {cards.map((card) => <Cached key={`deck${card.id}`}
+          deps={[deck.isMaxCount(card)]}>
+          <Grid item
+            xs={1}>
+            <CardProvider card={card}
+              count={deck.countByType(card)}>
+              <HoverCard setDetailCard={setDetailCard} />
+            </CardProvider>
+          </Grid>
+        </Cached>)}
+      </Grid>
+    </Box>
+  </>);
 }
 
 export default CardBoard;

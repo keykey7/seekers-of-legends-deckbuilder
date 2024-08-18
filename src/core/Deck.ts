@@ -3,6 +3,8 @@ import {DeckActionType} from '../deck/context/DeckContext.ts';
 
 export type CardCount = 1 | 2 | 3 | 4;
 
+export type CardCountOr0 = 0 | CardCount;
+
 export class CardAndCount {
   constructor(public readonly card: Card, public readonly count: CardCount) {
     this.validate();
@@ -54,7 +56,12 @@ export class AvatarAndCards {
     return [CardAndCount.oneOf(this.avatar), ...this.cards];
   }
 
-  countByType(card: Card): number {
+  isMaxCount(card: Card): boolean {
+    const max = card.type === CardType.Avatar ? 1 : 4;
+    return this.countByType(card) === max;
+  }
+
+  countByType(card: Card): CardCountOr0 {
     const thisTuple = this.allCards()
       .filter(x => x.card.equals(card));
     return thisTuple.length === 0 ? 0 : thisTuple[0].count;

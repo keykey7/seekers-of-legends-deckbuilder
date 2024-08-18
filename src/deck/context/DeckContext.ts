@@ -1,4 +1,4 @@
-import {Card, CardType} from '../../core/Card.ts';
+import {Card} from '../../core/Card.ts';
 import {fromUrl} from '../StableUrl.ts';
 import {AvatarAndCards, InvalidDeckOperation} from '../../core/Deck.ts';
 import React, {createContext, useContext, useReducer} from 'react';
@@ -45,9 +45,3 @@ export const useDeck = () => useContext(DeckContext);
 export const useDeckDispatch = () => useContext(DeckDispatchContext);
 
 export const useDeckReducer = () => useReducer(deckReducer, initialDeck);
-
-export const useIsCardMaxReached = (card: Card) => {
-  const count = useDeck()
-    .countByType(card);
-  return count === (card.type === CardType.Avatar ? 1 : 4);
-};
