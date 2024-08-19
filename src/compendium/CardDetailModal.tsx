@@ -6,6 +6,8 @@ import {useIsMobile} from '../MobileUtil.ts';
 import {MaxCardAmountReachedIcon} from './HoverCard.tsx';
 import {Card} from '../core/Card.ts';
 import {addCardToDeck} from '../core/DeckSignals.ts';
+import {Signal} from '@preact/signals-react';
+import {CardProvider} from '../core/CardContext.tsx';
 
 interface NextPrevIconProps {
   direction: 'left' | 'right';
@@ -44,30 +46,37 @@ function NextPrevIcon({
 }
 
 export interface CardDetailModalProps {
-  card: Card,
-  hasNext: boolean,
-  hasPrevious: boolean,
-  onNext: () => void,
-  onPrevious: () => void,
-  onClose: () => void,
+  activeSignal: Signal<Card | undefined>,
+  readonly cards: Card[];
 }
 
 /**
  * Fullscreen popup of a single card to view its details.
  */
-function CardDetailModal(props: Readonly<CardDetailModalProps>) {
-  const card = props.card;
-
+function CardDetailModal({
+  activeSignal,
+  cards,
+}: Readonly<CardDetailModalProps>) {
+  const active = activeSignal.value;
+  const setActive = (card: Card | undefined) => {
+    activeSignal.value = card;
+  };
+  const currentIndex = active ? cards.indexOf(active) : -1;
+  const onClose = () => setActive(undefined);
+  const hasPrevious = currentIndex !== 0;
+  const onPrevious = () => setActive(cards[currentIndex - 1]);
+  const hasNext = currentIndex !== cards.length - 1;
+  const onNext = () => setActive(cards[currentIndex + 1]);
   // https://www.npmjs.com/package/react-swipeable
   const swipeHandlers = useSwipeable({
     swipeDuration: 250, // [ms]
-    onSwipedLeft: props.onNext,
-    onSwipedRight: props.onPrevious,
+    onSwipedLeft: onNext,
+    onSwipedRight: onPrevious,
     trackMouse: true, // we need the onTab to act like an onClick, because onClick and swipes don't like each other
-    onTap: swipeEvent => addCardToDeck(card, (swipeEvent.event.target as HTMLElement).getBoundingClientRect()),
+    onTap: swipeEvent => active && addCardToDeck(active, (swipeEvent.event.target as HTMLElement).getBoundingClientRect()),
   });
-  return (<Modal open={true}
-    onClose={props.onClose}
+  return (<Modal open={active !== undefined}
+    onClose={onClose}
     sx={{
       [`& .${modalClasses.backdrop}`]: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)', // slightly darker than the default
@@ -82,11 +91,11 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
       pointerEvents: 'none',
     }}>
       <NextPrevIcon direction="left"
-        isVisible={props.hasPrevious}
-        onClick={props.onPrevious} />
+        isVisible={hasPrevious}
+        onClick={onPrevious} />
       <Box {...swipeHandlers} sx={{
         borderRadius: '4%',
-        backgroundImage: `url(${card.imageSrc()})`,
+        backgroundImage: `url(${active?.imageSrc()})`,
         backgroundSize: `100%`, // 105% would look more real, but becomes blurry
         backgroundPosition: 'center',
 
@@ -97,11 +106,13 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
         maxWidth: '648px', // actual image width
         pointerEvents: 'initial', // allow clicking it
       }}>
-        <MaxCardAmountReachedIcon />
+        {active && <CardProvider card={active}>
+          <MaxCardAmountReachedIcon />
+        </CardProvider> }
       </Box>
       <NextPrevIcon direction="right"
-        isVisible={props.hasNext}
-        onClick={props.onNext} />
+        isVisible={hasNext}
+        onClick={onNext} />
     </Box>
   </Modal>);
 }
