@@ -6,7 +6,7 @@ import {useState} from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {useIsMobile} from '../MobileUtil.ts';
 import ParticleAnimation, {Rect} from '../particles/ParticleAnimation.tsx';
-import {useDeck, useDeckAnimation} from '../core/DeckSignals.ts';
+import {getDeck, useDeckAnimation} from '../core/DeckSignals.ts';
 
 export const drawerWidth = 348;
 
@@ -14,7 +14,7 @@ export const drawerWidth = 348;
  * Compacted / collapsed view of the Deck used on mobile.
  */
 function SmallScreenDeckToggle({toggle}: Readonly<{ toggle: () => void }>) {
-  const deck = useDeck().value;
+  const deck = getDeck().value;
   const count = deck.count();
   return (
     <Box sx={{

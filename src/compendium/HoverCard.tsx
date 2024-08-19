@@ -4,16 +4,16 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
 import {useIsMobile} from '../MobileUtil.ts';
 import {Card} from '../core/Card.ts';
-import {addCardToDeck, getIsMaxSignalFor} from '../core/DeckSignals.ts';
+import {addCardToDeck, getDeck} from '../core/DeckSignals.ts';
 import {useCard} from '../core/CardContext.ts';
+import {useComputed} from '@preact/signals-react';
 
 /**
  * An indicator when no more cards of a given type can be added.
  */
 export function MaxCardAmountReachedIcon() {
-  console.log("re-render of MaxCardAmountReachedIcon")
   const card = useCard();
-  const isMaxCount = getIsMaxSignalFor(card).value;
+  const isMaxCount = useComputed(() => getDeck().value.isMaxCount(card)).value;
   if (!isMaxCount) {
     return <></>;
   }

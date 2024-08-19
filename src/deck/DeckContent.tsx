@@ -5,7 +5,7 @@ import {RefObject, useLayoutEffect, useRef} from 'react';
 import {Rect} from '../particles/ParticleAnimation.tsx';
 import {Card} from '../core/Card.ts';
 import {CardAndCount} from '../core/Deck.ts';
-import {DeckAnimationType, useDeck, useDeckAnimation} from '../core/DeckSignals.ts';
+import {DeckAnimationType, getDeck, useDeckAnimation} from '../core/DeckSignals.ts';
 
 interface DeckItemWithCostProps {
   cardAndCount: CardAndCount;
@@ -59,7 +59,7 @@ interface DeckContentProps {
 }
 
 function DeckContent({setParticleTarget}: Readonly<DeckContentProps>) {
-  const deck = useDeck().value;
+  const deck = getDeck().value;
   const deckAnimation = useDeckAnimation().value;
   const animationTargetRef = useAnimationTargetRef(deckAnimation, setParticleTarget);
   // all cards of the deck
