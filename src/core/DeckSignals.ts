@@ -15,6 +15,9 @@ export const avatarSignal = computed(() => deckSignal.value.avatar);
 export const getDeck = () => computed(() => deckSignal.value);
 
 export const addCardToDeck = (card: Card, origin: Rect) => {
+  if (deckSignal.value.isMaxCount(card)) {
+    return; // noop
+  }
   batch(() => {
     deckSignal.value = deckSignal.value.withAnyCard(card);
     deckAnimationSignal.value = {

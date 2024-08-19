@@ -6,6 +6,9 @@ import DeckDrawer from './deck/DeckDrawer.tsx';
 function App() {
   // https://mui.com/material-ui/customization/dark-mode/
   const darkTheme = createTheme({
+    typography: {
+      fontFamily: `Proxima Nova Rg,Roboto,sans-serif`,
+    },
     palette: {
       mode: 'dark',
     },

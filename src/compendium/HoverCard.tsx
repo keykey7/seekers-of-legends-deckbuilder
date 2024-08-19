@@ -1,5 +1,4 @@
 import {Box} from '@mui/material';
-import React from 'react';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
 import {useIsMobile} from '../MobileUtil.ts';
@@ -12,7 +11,7 @@ import {computed} from '@preact/signals';
  */
 export function MaxCardAmountReachedIcon() {
   const card = useCard();
-  const isMaxCount = computed(() => getDeck().value.isMaxCount(card)).value; // NOT useComputed
+  const isMaxCount = computed(() => getDeck().value.isMaxCount(card)).value;
   if (!isMaxCount) {
     return null;
   }
@@ -68,9 +67,9 @@ function InfoIcon({onDetailClick}: Readonly<InfoIconProps>) {
     })} />;
 }
 
-const moveCard = (event: React.MouseEvent<HTMLDivElement>) => {
+const moveCard = (event: MouseEvent) => {
   const dMax = 15;
-  const img = event.currentTarget;
+  const img = event.currentTarget as HTMLDivElement;
   const x = event.pageX - img.offsetLeft;
   const y = event.pageY - img.offsetTop;
   const dx = dMax - (x / img.clientWidth) * 2 * dMax;
@@ -78,8 +77,8 @@ const moveCard = (event: React.MouseEvent<HTMLDivElement>) => {
   img.style.transform = `perspective(1000px) rotateX(${dy}deg) rotateY(${dx}deg) scale3d(1.1,1.1,1.1)`;
 };
 
-const resetCard = (event: React.MouseEvent<HTMLDivElement>) => {
-  event.currentTarget.style.transform = '';
+const resetCard = (event: MouseEvent) => {
+  (event.currentTarget as HTMLDivElement).style.transform = '';
 };
 
 export interface HoverCardProps {
@@ -94,7 +93,7 @@ function HoverCard({onClick}: Readonly<HoverCardProps>) {
   const card = useCard();
   const onMoveCard = isSmallScreen ? () => {
   } : moveCard;
-  const addCard = (event: React.MouseEvent<HTMLDivElement>) => addCardToDeck(card, event.currentTarget.getBoundingClientRect());
+  const addCard = (event: MouseEvent) => addCardToDeck(card, (event.currentTarget as HTMLDivElement).getBoundingClientRect());
   return (<Box sx={(theme) => ({
     p: 2,
     aspectRatio: '2429 / 3308', // same as actual image

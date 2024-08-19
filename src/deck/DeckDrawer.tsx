@@ -15,10 +15,9 @@ export const drawerWidth = 348;
 /**
  * Compacted / collapsed view of the Deck used on mobile.
  */
-function SmallScreenDeckToggle({toggle}: Readonly<{ toggle: () => void }>) {
+function SmallScreenDeckToggle({toggle}: Readonly<{toggle: () => void}>) {
   const count = useComputed(() => getDeck().value.count()).value;
-  return (
-    <Box sx={{
+  return (<Box sx={{
       m: 1,
       position: 'fixed',
       zIndex: 2000,
@@ -29,8 +28,7 @@ function SmallScreenDeckToggle({toggle}: Readonly<{ toggle: () => void }>) {
         {count}
         <ArrowDropDownIcon />
       </Button>
-    </Box>
-  );
+    </Box>);
 }
 
 function DeckDrawer() {
@@ -46,8 +44,7 @@ function DeckDrawer() {
     <ParticleAnimation destination={particleTarget} />
   </Box>;
 
-  return (
-    <>
+  return (<>
       {animation}
       {isSmallScreen && <SmallScreenDeckToggle toggle={toggle} />}
       <Drawer anchor="right"
@@ -76,8 +73,7 @@ function DeckDrawer() {
           <DeckContent setParticleTarget={setParticleTarget} />
         </Paper>
       </Drawer>
-    </>
-  );
+    </>);
 }
 
 export default DeckDrawer;
