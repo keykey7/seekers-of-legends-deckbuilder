@@ -3,7 +3,7 @@ import {drawerWidth} from './DeckDrawer.tsx';
 import {Box, Tooltip} from '@mui/material';
 import {getDeck} from '../core/DeckSignals.ts';
 import {CardAndCount} from '../core/Deck.ts';
-import {useComputed} from '@preact/signals-react';
+import {useComputed} from '@preact/signals';
 
 function DeckCounter() {
   const count = useComputed(() => getDeck().value.count()).value;

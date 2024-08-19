@@ -1,5 +1,5 @@
 import {Card} from '../core/Card.ts';
-import {computed, signal} from '@preact/signals-react';
+import {computed, signal} from '@preact/signals';
 
 export interface Rect {
   top: number;

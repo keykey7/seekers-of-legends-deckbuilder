@@ -6,7 +6,7 @@ import {useIsMobile} from '../MobileUtil.ts';
 import {MaxCardAmountReachedIcon} from './HoverCard.tsx';
 import {Card} from '../core/Card.ts';
 import {addCardToDeck} from '../core/DeckSignals.ts';
-import {Signal} from '@preact/signals-react';
+import {Signal} from '@preact/signals';
 import {CardProvider} from '../core/CardContext.tsx';
 
 interface NextPrevIconProps {

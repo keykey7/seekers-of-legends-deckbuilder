@@ -7,7 +7,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {useIsMobile} from '../MobileUtil.ts';
 import ParticleAnimation from '../particles/ParticleAnimation.tsx';
 import {getDeck} from '../core/DeckSignals.ts';
-import {useComputed} from '@preact/signals-react';
+import {useComputed} from '@preact/signals';
 import {Rect} from '../particles/ParticleSignals.ts';
 
 export const drawerWidth = 348;

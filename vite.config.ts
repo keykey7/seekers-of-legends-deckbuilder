@@ -1,12 +1,7 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import preact from '@preact/preset-vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react({
-    babel: {
-      // https://github.com/preactjs/signals/blob/main/packages/react/README.md#babel-transform
-      plugins: [['module:@preact/signals-react-transform']],
-    },
-  })],
+  plugins: [preact()],
 })

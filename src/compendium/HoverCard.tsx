@@ -5,7 +5,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import {useIsMobile} from '../MobileUtil.ts';
 import {addCardToDeck, getDeck} from '../core/DeckSignals.ts';
 import {useCard} from '../core/CardContext.ts';
-import {computed} from '@preact/signals-react';
+import {computed} from '@preact/signals';
 
 /**
  * An indicator when no more cards of a given type can be added.

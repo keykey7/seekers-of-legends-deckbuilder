@@ -4,7 +4,7 @@ import CardDetailModal from './CardDetailModal.tsx';
 import {Box} from '@mui/material';
 import {Card} from '../core/Card.ts';
 import {CardProvider} from '../core/CardContext.tsx';
-import {useSignal} from '@preact/signals-react';
+import {useSignal} from '@preact/signals';
 
 interface CardBoardProps {
   cards: Card[];

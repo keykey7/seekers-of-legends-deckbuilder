@@ -1,6 +1,6 @@
 import {Card} from './Card.ts';
 import {fromUrl, toUrl} from '../deck/StableUrl.ts';
-import {batch, computed, effect, signal} from '@preact/signals-react';
+import {batch, computed, effect, signal} from '@preact/signals';
 import {deckAnimationSignal, Rect} from '../particles/ParticleSignals.ts';
 
 const deckSignal = signal(fromUrl());
