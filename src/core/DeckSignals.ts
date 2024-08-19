@@ -1,7 +1,7 @@
 import {Card} from './Card.ts';
 import {fromUrl, toUrl} from '../deck/StableUrl.ts';
 import {batch, computed, effect, signal} from '@preact/signals-react';
-import {Rect} from '../particles/ParticleAnimation.tsx';
+import {deckAnimationSignal, Rect} from '../particles/ParticleSignals.ts';
 
 const deckSignal = signal(fromUrl());
 
@@ -10,16 +10,9 @@ effect(() => {
   document.location.hash = toUrl(deckSignal.value);
 });
 
+export const avatarSignal = computed(() => deckSignal.value.avatar);
+
 export const getDeck = () => computed(() => deckSignal.value);
-
-export interface DeckAnimationType {
-  card: Card,
-  origin: Rect,
-}
-
-const deckAnimationSignal = signal<DeckAnimationType | undefined>(undefined);
-
-export const useDeckAnimation = () => computed(() => deckAnimationSignal.value);
 
 export const addCardToDeck = (card: Card, origin: Rect) => {
   batch(() => {

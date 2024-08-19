@@ -2,10 +2,10 @@ import DeckAvatar from './DeckAvatar.tsx';
 import {Box, List} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
 import {RefObject, useLayoutEffect, useRef} from 'react';
-import {Rect} from '../particles/ParticleAnimation.tsx';
 import {Card} from '../core/Card.ts';
 import {CardAndCount} from '../core/Deck.ts';
-import {DeckAnimationType, getDeck, useDeckAnimation} from '../core/DeckSignals.ts';
+import {getDeck} from '../core/DeckSignals.ts';
+import {DeckAnimationType, Rect, useDeckAnimation} from '../particles/ParticleSignals.ts';
 
 interface DeckItemWithCostProps {
   cardAndCount: CardAndCount;

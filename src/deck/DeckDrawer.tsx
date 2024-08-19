@@ -5,8 +5,10 @@ import DeckStats from './DeckStats.tsx';
 import {useState} from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {useIsMobile} from '../MobileUtil.ts';
-import ParticleAnimation, {Rect} from '../particles/ParticleAnimation.tsx';
-import {getDeck, useDeckAnimation} from '../core/DeckSignals.ts';
+import ParticleAnimation from '../particles/ParticleAnimation.tsx';
+import {getDeck} from '../core/DeckSignals.ts';
+import {useComputed} from '@preact/signals-react';
+import {Rect} from '../particles/ParticleSignals.ts';
 
 export const drawerWidth = 348;
 
@@ -14,8 +16,7 @@ export const drawerWidth = 348;
  * Compacted / collapsed view of the Deck used on mobile.
  */
 function SmallScreenDeckToggle({toggle}: Readonly<{ toggle: () => void }>) {
-  const deck = getDeck().value;
-  const count = deck.count();
+  const count = useComputed(() => getDeck().value.count()).value;
   return (
     <Box sx={{
       m: 1,
@@ -33,7 +34,6 @@ function SmallScreenDeckToggle({toggle}: Readonly<{ toggle: () => void }>) {
 }
 
 function DeckDrawer() {
-  const deckAnimation = useDeckAnimation().value;
   const [open, setOpen] = useState(false);
   const [particleTarget, setParticleTarget] = useState<Rect>();
   const theme = useTheme();
@@ -42,13 +42,9 @@ function DeckDrawer() {
   const toggle = () => setOpen(!open);
 
   // the invisible animation node
-  let animation = <></>;
-  if (deckAnimation && particleTarget) {
-    animation = <Box sx={{zIndex: 3000}}>
-      <ParticleAnimation from={deckAnimation.origin}
-        to={particleTarget} />
-    </Box>;
-  }
+  const animation = <Box sx={{zIndex: 3000}}>
+    <ParticleAnimation destination={particleTarget} />
+  </Box>;
 
   return (
     <>

@@ -3,6 +3,41 @@ import {drawerWidth} from './DeckDrawer.tsx';
 import {Box, Tooltip} from '@mui/material';
 import {getDeck} from '../core/DeckSignals.ts';
 import {CardAndCount} from '../core/Deck.ts';
+import {useComputed} from '@preact/signals-react';
+
+function DeckCounter() {
+  const count = useComputed(() => getDeck().value.count()).value;
+  const hasAvatar = useComputed(() => getDeck().value.avatar !== undefined).value;
+  const isValid = count >= 40 && hasAvatar;
+  let gauge = <Box sx={{
+    right: '10px',
+    position: 'absolute',
+    zIndex: 10,
+  }}>
+    <Gauge width={70}
+      height={70}
+      value={count}
+      valueMax={40}
+      sx={{
+        [`& .${gaugeClasses.valueArc}`]: {
+          fill: '#d5d5d5',
+        },
+        [`& .${gaugeClasses.valueText} text`]: {
+          fill: isValid ? '#d5d5d5' : '#b71d25',
+          fontWeight: 'bold',
+        },
+      }} />
+  </Box>;
+  if (count < 40) {
+    gauge = <Tooltip title={<p>
+      Es fehlen noch mindestens<br />
+      {40 - count} Karten für ein gültiges Deck. </p>}
+      placement="left">
+      {gauge}
+    </Tooltip>;
+  }
+  return gauge;
+}
 
 function DeckStats() {
   const deck = getDeck().value;
@@ -24,39 +59,10 @@ function DeckStats() {
     .forEach((cardAndCount) => {
       addCard(cardAndCount);
     });
-  const count = colorCost.reduce((a, b) => a + b, 0);
-  const isValid = count >= 40 && deck.avatar !== undefined;
   const max = colorCost.reduce((a, b) => Math.max(a, b), 0);
-  let gauge = <Box sx={{
-    right: '10px',
-    position: 'absolute',
-    zIndex: 10,
-  }}>
-    <Gauge width={70}
-      height={70}
-      value={count}
-      valueMax={40}
-      sx={{
-        [`& .${gaugeClasses.valueArc}`]: {
-          fill: '#d5d5d5',
-        },
-        [`& .${gaugeClasses.valueText} text`]: {
-          fill: isValid ? '#d5d5d5' : '#b71d25',
-          fontWeight: 'bold',
-        },
-      }} />
-  </Box>;
 
-  if (count < 40) {
-    gauge = <Tooltip title={<p>
-      Es fehlen noch mindestens<br />
-      {40 - count} Karten für ein gültiges Deck. </p>}
-      placement="left">
-      {gauge}
-    </Tooltip>;
-  }
   return (<>
-    {gauge}
+    <DeckCounter />
     <BarChart tooltip={{trigger: 'none'}}
       width={drawerWidth}
       height={200}
