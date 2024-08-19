@@ -26,6 +26,7 @@ module.exports = {
     'line-comment-position': 'off',
     'func-style': 'off',
     'capitalized-comments': 'off',
+    'prefer-template': 'off',
     'no-ternary': 'off',
     'no-inline-comments': 'off',
     'no-undefined': 'off',
@@ -33,6 +34,7 @@ module.exports = {
     'no-useless-constructor': 'off',
     'max-classes-per-file': 'off',
     'prefer-destructuring': 'off',
+    'prefer-named-capture-group': 'off',
     'multiline-comment-style': 'off',
     'no-empty-function': 'off',
     'max-lines-per-function': [

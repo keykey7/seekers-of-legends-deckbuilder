@@ -4,6 +4,7 @@ import {drawerWidth} from './DeckDrawer.tsx';
 import {cardById} from '../core/CardData.ts';
 import {removeCardFromDeck} from '../core/DeckSignals.ts';
 import {CardCount} from '../core/Deck.ts';
+import {CardTooltip} from './CardTooltip.tsx';
 
 interface DeckItemProps {
   cardId: number,
@@ -38,6 +39,7 @@ function DeckItem({
         my: 1,
         cursor: 'pointer',
       }}>
+      <CardTooltip card={card}>
       {/* this draws the title text of the card */}
       <Box component="span"
         sx={{
@@ -74,15 +76,17 @@ function DeckItem({
             position: 'relative',
             display: 'flex',
             justifyContent: 'center',
-            top: 19,
-            fontSize: '24px',
+            top: 20,
+            right: 2,
+            fontSize: '25px',
             lineHeight: '0.9',
             letterSpacing: '-0.1em',
             color: costModifierToColor(costModifier),
           }}>
-            <Box component="span"
+            <Box component="div"
               sx={{
                 background: '#3c3c3e',
+                px: '2px',
               }}>
               {actualCost}
             </Box>
@@ -115,7 +119,7 @@ function DeckItem({
           </Box>
         </Box>
       </Box>
-
+      </CardTooltip>
     </ListItem>);
 }
 

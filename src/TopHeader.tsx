@@ -1,6 +1,7 @@
 import {AppBar, IconButton, Link, Toolbar, Typography} from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import {useIsMobile} from './MobileUtil.ts';
+import unicorn from './assets/unicorn.png';
 
 function TopHeader() {
   const isSmallScreen = useIsMobile();
@@ -11,7 +12,7 @@ function TopHeader() {
       <a href="/">
         <IconButton edge="start"
           sx={{height: '2em'}}>
-          <img src="unicorn.png"
+          <img src={unicorn}
             alt=""
             style={{height: '100%'}} />
         </IconButton>
