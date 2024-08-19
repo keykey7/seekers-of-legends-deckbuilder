@@ -11,8 +11,12 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': [
-      'warn',
-      {allowConstantExport: true},
+      'warn', {allowConstantExport: true},
+    ],
+    "no-restricted-imports": [ // https://mui.com/material-ui/guides/minimizing-bundle-size/
+      "error", {
+        "patterns": ["@mui/*/*/*"]
+      }
     ],
     'no-magic-numbers': 'off',
     'one-var': 'off',
@@ -32,14 +36,12 @@ module.exports = {
     'multiline-comment-style': 'off',
     'no-empty-function': 'off',
     'max-lines-per-function': [
-      'error',
-      {
+      'error', {
         max: 100,
       },
     ],
     'max-statements': [
-      'error',
-      {
+      'error', {
         max: 20,
       }
     ],
