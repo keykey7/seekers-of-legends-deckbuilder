@@ -1,5 +1,4 @@
 import DeckItem from './DeckItem.tsx';
-import StableUrl from './StableUrl.tsx';
 import {Box, Typography} from '@mui/material';
 import {cardById} from '../core/CardData.ts';
 
@@ -30,7 +29,6 @@ function DeckAvatar({cardId}: Readonly<{cardId: number | undefined}>) {
     </Box>;
   }
   return (<>
-      <StableUrl />
       {element}
     </>);
 }

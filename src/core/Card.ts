@@ -66,6 +66,10 @@ export class Card {
     }
   }
 
+  getMaxCount(): 1 | 4 {
+    return this.type === CardType.Avatar ? 1 : 4;
+  }
+
   costNumber(avatarFraction: Fraction | undefined = undefined): number {
     return this.cost === 'X' ? 1 : this.cost + this.costModifier(avatarFraction);
   }

@@ -2,13 +2,14 @@ import {Box, ListItem} from '@mui/material';
 import {CardCostModifier} from '../core/Card.ts';
 import {drawerWidth} from './DeckDrawer.tsx';
 import {cardById} from '../core/CardData.ts';
-import {useDeckDispatch} from './context/DeckContext.ts';
+import {removeCardFromDeck} from '../core/DeckSignals.ts';
+import {CardCount} from '../core/Deck.ts';
 
 interface DeckItemProps {
   cardId: number,
   actualCost: string,
   costModifier: CardCostModifier,
-  amount: 1 | 2 | 3 | 4,
+  amount: CardCount,
 }
 
 function costModifierToColor(costModifier: CardCostModifier): string {
@@ -30,13 +31,8 @@ function DeckItem({
   costModifier,
   amount,
 }: Readonly<DeckItemProps>) {
-  const dispatch = useDeckDispatch();
   const card = cardById(cardId);
-  return (<ListItem onClick={e => dispatch({
-      type: 'remove',
-      card,
-      eventOrigin: e.currentTarget.getBoundingClientRect(),
-    })}
+  return (<ListItem onClick={e => removeCardFromDeck(card, e.currentTarget.getBoundingClientRect())}
       sx={{
         height: '48px',
         my: 1,

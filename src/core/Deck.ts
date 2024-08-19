@@ -1,5 +1,4 @@
 import {Card, CardType, DeckSort} from './Card.ts';
-import {DeckActionType} from '../deck/context/DeckContext.ts';
 
 export type CardCount = 1 | 2 | 3 | 4;
 
@@ -43,10 +42,10 @@ export class InvalidDeckOperation extends Error {
 export class AvatarAndCards {
 
   static empty(): AvatarAndCards {
-    return new AvatarAndCards(undefined, [], undefined);
+    return new AvatarAndCards(undefined, []);
   }
 
-  private constructor(public readonly avatar: Card | undefined, public readonly cards: CardAndCount[], public readonly lastEvent: DeckActionType | undefined) {
+  private constructor(public readonly avatar: Card | undefined, public readonly cards: CardAndCount[]) {
   }
 
   allCards(): CardAndCount[] {
@@ -98,22 +97,18 @@ export class AvatarAndCards {
   }
 
   withAvatar(avatar: Card | undefined) {
-    return new AvatarAndCards(avatar, this.cards, this.lastEvent).sorted();
+    return new AvatarAndCards(avatar, this.cards).sorted();
   }
 
   private sorted(): AvatarAndCards {
     const sortedCards = this.cards.slice()
       .sort((a, b) => DeckSort.byId(a.card, b.card))
       .sort((a, b) => a.card.costNumber(this.avatar?.fraction) - b.card.costNumber(this.avatar?.fraction));
-    return new AvatarAndCards(this.avatar, sortedCards, this.lastEvent);
+    return new AvatarAndCards(this.avatar, sortedCards);
   }
 
   withCards(cards: CardAndCount[]) {
-    return new AvatarAndCards(this.avatar, cards, this.lastEvent).sorted();
-  }
-
-  withEvent(event: DeckActionType) {
-    return new AvatarAndCards(this.avatar, this.cards, event);
+    return new AvatarAndCards(this.avatar, cards).sorted();
   }
 
   withoutCard(card: Card): AvatarAndCards {

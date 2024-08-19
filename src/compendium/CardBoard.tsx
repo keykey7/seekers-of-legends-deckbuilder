@@ -3,16 +3,15 @@ import HoverCard from './HoverCard.tsx';
 import {useState} from 'react';
 import CardDetailModal, {CardDetailModalProps} from './CardDetailModal.tsx';
 import {Box} from '@mui/material';
-import {Cached, CardProvider} from '../deck/context/CardProvider.tsx';
 import {Card} from '../core/Card.ts';
-import {useDeck} from '../deck/context/DeckContext.ts';
+import {CardProvider} from '../core/CardContext.tsx';
 
 interface CardBoardProps {
   cards: Card[];
 }
 
 function CardBoard({cards}: Readonly<CardBoardProps>) {
-  const deck = useDeck();
+  // TODO: replace with signal
   const [detailCard, setDetailCard] = useState<Card | undefined>(undefined);
   let modal = <></>;
   if (detailCard !== undefined) {
@@ -25,10 +24,7 @@ function CardBoard({cards}: Readonly<CardBoardProps>) {
       hasNext: currentIndex !== cards.length - 1,
       onNext: () => setDetailCard(cards[currentIndex + 1]),
     };
-    modal = <CardProvider card={detailCard}
-      count={deck.countByType(detailCard)}>
-      <CardDetailModal {...modalProps} />
-    </CardProvider>;
+    modal = <CardDetailModal {...modalProps} />;
   }
   return (<>
     {modal}
@@ -44,16 +40,13 @@ function CardBoard({cards}: Readonly<CardBoardProps>) {
           lg: 4,
           xl: 5,
         }}>
-        {cards.map((card) => <Cached key={`deck${card.id}`}
-          deps={[deck.isMaxCount(card)]}>
-          <Grid item
-            xs={1}>
-            <CardProvider card={card}
-              count={deck.countByType(card)}>
-              <HoverCard setDetailCard={setDetailCard} />
-            </CardProvider>
-          </Grid>
-        </Cached>)}
+        {cards.map((card) => <Grid key={`deck${card.id}`}
+          item
+          xs={1}>
+          <CardProvider card={card}>
+            <HoverCard setDetailCard={setDetailCard} />
+          </CardProvider>
+        </Grid>)}
       </Grid>
     </Box>
   </>);

@@ -1,11 +1,11 @@
 import {BarChart, Gauge, gaugeClasses} from '@mui/x-charts';
 import {drawerWidth} from './DeckDrawer.tsx';
 import {Box, Tooltip} from '@mui/material';
-import {useDeck} from './context/DeckContext.ts';
+import {useDeck} from '../core/DeckSignals.ts';
 import {CardAndCount} from '../core/Deck.ts';
 
 function DeckStats() {
-  const deck = useDeck();
+  const deck = useDeck().value;
   const colorCost = [0, 0, 0, 0, 0, 0, 0];
   const avatarFraction = deck.avatar?.fraction;
 

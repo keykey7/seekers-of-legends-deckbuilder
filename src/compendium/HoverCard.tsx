@@ -3,15 +3,17 @@ import React from 'react';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
 import {useIsMobile} from '../MobileUtil.ts';
-import {useDeckDispatch} from '../deck/context/DeckContext.ts';
 import {Card} from '../core/Card.ts';
-import {useCard, useIsMaxCount} from '../deck/context/CardContext.ts';
+import {addCardToDeck, getIsMaxSignalFor} from '../core/DeckSignals.ts';
+import {useCard} from '../core/CardContext.ts';
 
 /**
  * An indicator when no more cards of a given type can be added.
  */
 export function MaxCardAmountReachedIcon() {
-  const isMaxCount = useIsMaxCount();
+  console.log("re-render of MaxCardAmountReachedIcon")
+  const card = useCard();
+  const isMaxCount = getIsMaxSignalFor(card).value;
   if (!isMaxCount) {
     return <></>;
   }
@@ -91,18 +93,11 @@ export interface HoverCardProps {
 function HoverCard({
   setDetailCard,
 }: Readonly<HoverCardProps>) {
-  const cardDispatch = useDeckDispatch();
   const isSmallScreen = useIsMobile();
   const card = useCard();
   const onMoveCard = isSmallScreen ? () => {
   } : moveCard;
-  const addCard = (event: React.MouseEvent<HTMLDivElement>) => {
-    cardDispatch({
-      type: 'add',
-      card,
-      eventOrigin: event.currentTarget.getBoundingClientRect(),
-    });
-  };
+  const addCard = (event: React.MouseEvent<HTMLDivElement>) => addCardToDeck(card, event.currentTarget.getBoundingClientRect());
   return (<Box sx={(theme) => ({
     p: 2,
     aspectRatio: '2429 / 3308', // same as actual image

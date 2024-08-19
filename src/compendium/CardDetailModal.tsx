@@ -4,8 +4,8 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useSwipeable} from 'react-swipeable';
 import {useIsMobile} from '../MobileUtil.ts';
 import {MaxCardAmountReachedIcon} from './HoverCard.tsx';
-import {useDeckDispatch} from '../deck/context/DeckContext.ts';
 import {Card} from '../core/Card.ts';
+import {addCardToDeck} from '../core/DeckSignals.ts';
 
 interface NextPrevIconProps {
   direction: 'left' | 'right';
@@ -56,7 +56,6 @@ export interface CardDetailModalProps {
  * Fullscreen popup of a single card to view its details.
  */
 function CardDetailModal(props: Readonly<CardDetailModalProps>) {
-  const cardDispatch = useDeckDispatch();
   const card = props.card;
 
   // https://www.npmjs.com/package/react-swipeable
@@ -65,13 +64,7 @@ function CardDetailModal(props: Readonly<CardDetailModalProps>) {
     onSwipedLeft: props.onNext,
     onSwipedRight: props.onPrevious,
     trackMouse: true, // we need the onTab to act like an onClick, because onClick and swipes don't like each other
-    onTap: swipeEvent => {
-      cardDispatch({
-        type: 'add',
-        card,
-        eventOrigin: (swipeEvent.event.target as HTMLElement).getBoundingClientRect(),
-      });
-    },
+    onTap: swipeEvent => addCardToDeck(card, (swipeEvent.event.target as HTMLElement).getBoundingClientRect()),
   });
   return (<Modal open={true}
     onClose={props.onClose}

@@ -3,9 +3,9 @@ import {Box, List} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
 import {RefObject, useLayoutEffect, useRef} from 'react';
 import {Rect} from '../particles/ParticleAnimation.tsx';
-import {DeckActionType, useDeck} from './context/DeckContext.ts';
 import {Card} from '../core/Card.ts';
 import {CardAndCount} from '../core/Deck.ts';
+import {DeckAnimationType, useDeck, useDeckAnimation} from '../core/DeckSignals.ts';
 
 interface DeckItemWithCostProps {
   cardAndCount: CardAndCount;
@@ -34,7 +34,7 @@ function DeckItemWithCost(props: Readonly<DeckItemWithCostProps>) {
   </Box>);
 }
 
-function useAnimationTargetRef(lastEvent: DeckActionType | undefined, setParticleTarget: (arg: Rect) => void) {
+function useAnimationTargetRef(lastEvent: DeckAnimationType | undefined, setParticleTarget: (arg: Rect) => void) {
   const animationTargetRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     // we have to wait until after rendering to know the final position of the animation target
@@ -59,20 +59,21 @@ interface DeckContentProps {
 }
 
 function DeckContent({setParticleTarget}: Readonly<DeckContentProps>) {
-  const deck = useDeck();
-  const animationTargetRef = useAnimationTargetRef(deck.lastEvent, setParticleTarget);
+  const deck = useDeck().value;
+  const deckAnimation = useDeckAnimation().value;
+  const animationTargetRef = useAnimationTargetRef(deckAnimation, setParticleTarget);
   // all cards of the deck
   const deckItems = deck.cards.map(cardAndCount => {
     const {card} = cardAndCount;
     let thisRef = null;
-    if (card.id === deck.lastEvent?.card.id) {
+    if (card.id === deckAnimation?.card.id) {
       thisRef = animationTargetRef;
     }
     return <DeckItemWithCost key={`kk7-deckItem${card.id}`} cardAndCount={cardAndCount} avatar={deck.avatar} thisRef={thisRef} />
   });
   // handle avatar click target
   let avatarRef = null;
-  if (deck.avatar && deck.avatar.id === deck.lastEvent?.card.id) {
+  if (deck.avatar && deck.avatar.id === deckAnimation?.card.id) {
     avatarRef = animationTargetRef;
   }
   return (<List>

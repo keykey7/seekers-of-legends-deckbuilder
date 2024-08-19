@@ -2,7 +2,6 @@ import {Container, createTheme, CssBaseline, ThemeProvider} from '@mui/material'
 import TopHeader from './TopHeader.tsx';
 import MainArea from './compendium/MainArea.tsx';
 import DeckDrawer from './deck/DeckDrawer.tsx';
-import DeckProvider from './deck/context/DeckProvider.tsx';
 
 function App() {
   // https://mui.com/material-ui/customization/dark-mode/
@@ -19,10 +18,8 @@ function App() {
         px: 1,
       }}>
       <TopHeader />
-      <DeckProvider>
-        <MainArea />
-        <DeckDrawer />
-      </DeckProvider>
+      <MainArea />
+      <DeckDrawer />
     </Container>
   </ThemeProvider>);
 }
