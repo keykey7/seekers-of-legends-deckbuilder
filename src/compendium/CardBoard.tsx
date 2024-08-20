@@ -4,13 +4,14 @@ import CardDetailModal from './CardDetailModal.tsx';
 import {Box} from '@mui/material';
 import {Card} from '../core/Card.ts';
 import {CardProvider} from '../core/CardContext.tsx';
-import {useSignal} from '@preact/signals';
+import {ReadonlySignal, useSignal} from '@preact/signals';
 
 interface CardBoardProps {
-  cards: Card[];
+  filteredCardsSignal: ReadonlySignal<Card[]>;
 }
 
-function CardBoard({cards}: Readonly<CardBoardProps>) {
+function CardBoard({filteredCardsSignal}: Readonly<CardBoardProps>) {
+  const cards = filteredCardsSignal.value;
   const activeSignal = useSignal<Card | undefined>(undefined);
   return (<>
     <CardDetailModal activeSignal={activeSignal}

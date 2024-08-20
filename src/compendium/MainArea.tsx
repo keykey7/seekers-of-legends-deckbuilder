@@ -1,32 +1,38 @@
 import CardBoard from './CardBoard.tsx';
-import CardFilter, {CardFilterProps} from './CardFilter.tsx';
+import CardFilter from './CardFilter.tsx';
 import {Box, Toolbar} from '@mui/material';
-import {SetStateAction, useState} from 'react';
 import {Card, DeckSort, Fraction} from '../core/Card.ts';
 import {allCards} from '../core/CardData.ts';
+import {useSignal} from '@preact/signals';
+import {useComputedCached} from '../Util.ts';
+
+export interface CardFilterType {
+  filterFractions: Fraction[],
+  filterText: string,
+}
 
 function MainArea() {
-  const [filterFractions, setFilterFractions] = useState((): Fraction[] => []);
-  const setFilterNullSafe: typeof setFilterFractions = (value: SetStateAction<string[]>) => setFilterFractions(value ?? []);
-  const fractionPredicate = (x: Card) => filterFractions.length === 0 || filterFractions.includes(x.fraction);
-  const [filterText, setFilterText] = useState('');
-  const textPredicate = (x: Card) => filterText.length === 0 || x.matchesText(filterText);
-  const filter: CardFilterProps = {
-    filterFractions,
-    setFilterFractions: setFilterNullSafe,
-    filterText,
-    setFilterText,
-  };
-
-  const shownCards = allCards.filter(fractionPredicate)
-    .filter(textPredicate)
-    .sort(DeckSort.byCost)
-    .sort(DeckSort.byFraction);
+  const filterSignal = useSignal<CardFilterType>({
+    filterFractions: [],
+    filterText: '',
+  });
+  const filteredCardsSignal = useComputedCached<Card[]>(() => {
+    const {
+      filterFractions,
+      filterText,
+    } = filterSignal.value;
+    const fractionPredicate = (x: Card) => filterFractions.length === 0 || filterFractions.includes(x.fraction);
+    const textPredicate = (x: Card) => filterText.length === 0 || x.matchesText(filterText);
+    return allCards.filter(fractionPredicate)
+      .filter(textPredicate)
+      .sort(DeckSort.byCost)
+      .sort(DeckSort.byFraction);
+  }, (a, b) => a.length === b.length); // length check is sufficient to compare equality between two renders
   return (
     <Box component="main" sx={{width: '100%'}}>
       <Toolbar />
-      <CardFilter filter={filter} />
-      <CardBoard cards={shownCards}/>
+      <CardFilter filterSignal={filterSignal} />
+      <CardBoard filteredCardsSignal={filteredCardsSignal}/>
     </Box>
   );
 }

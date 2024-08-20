@@ -2,7 +2,7 @@ import {Box, Modal, modalClasses, useMediaQuery} from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useSwipeable} from 'react-swipeable';
-import {useIsMobile} from '../MobileUtil.ts';
+import {useIsMobile} from '../Util.ts';
 import {MaxCardAmountReachedIcon} from './HoverCard.tsx';
 import {Card} from '../core/Card.ts';
 import {addCardToDeck} from '../core/DeckSignals.ts';

@@ -1,7 +1,7 @@
 import {Box} from '@mui/material';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
-import {useIsMobile} from '../MobileUtil.ts';
+import {useIsMobile} from '../Util.ts';
 import {addCardToDeck, getDeck} from '../core/DeckSignals.ts';
 import {useCard} from '../core/CardContext.ts';
 import {computed} from '@preact/signals';

@@ -1,6 +1,6 @@
 import {AppBar, IconButton, Link, Toolbar, Typography} from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import {useIsMobile} from './MobileUtil.ts';
+import {useIsMobile} from './Util.ts';
 import unicorn from './assets/unicorn.png';
 
 function TopHeader() {
