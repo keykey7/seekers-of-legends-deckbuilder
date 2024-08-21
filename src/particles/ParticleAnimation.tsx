@@ -57,7 +57,6 @@ const noRect: Rect = {
   width: 0,
 }
 
-/* eslint-disable prefer-template */
 function ParticleAnimation() {
   const deckAnimation = useDeckAnimation().value;
   const from = deckAnimation === undefined ? noRect : deckAnimation.origin;
@@ -67,7 +66,7 @@ function ParticleAnimation() {
     if (ref.current && deckAnimationTargetSignal.value && deckAnimation) {
       ref.current.restart();
     }
-  }, [ref, deckAnimationTargetSignal.value, deckAnimation]);
+  }, [ref, deckAnimation]);
   const elements: ReactElement[] = [];
   const amount = 150;
   for (let i = 0; i < amount; i += 1) {

@@ -3,14 +3,12 @@ export const FractionNames = ['', 'Vaakhil', '', '', 'Heepurianer', '', '', 'Arc
 export const FractionsColors = ['#437282', '#b71d25', '#6e439f', '#d5d5d5', '#bdb218', '#1b191a', '#2f963d', '#583016'];
 export type Fraction = typeof Fractions[number];
 
-// eslint-disable-next-line no-shadow
 export enum CardType {Avatar, Charakter, Einfluss, Aktion, Feld }
 
 export type CardCost = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 'X';
 
 export type CardCostModifier = 0 | 1 | 2;
 
-// eslint-disable-next-line no-shadow
 export enum Skill {
   Flug,
   Fernkampf,
@@ -87,14 +85,14 @@ export class Card {
       return 0;
     }
     const expensiveMap: { [key in Fraction]: Fraction } = {
-      'BLUE': 'YELLOW',
-      'RED': 'BLUE',
-      'VIOLET': 'GREEN',
-      'WHITE': 'BLACK',
-      'YELLOW': 'BROWN',
-      'BLACK': 'WHITE',
-      'GREEN': 'RED',
-      'BROWN': 'VIOLET',
+      BLUE: 'YELLOW',
+      RED: 'BLUE',
+      VIOLET: 'GREEN',
+      WHITE: 'BLACK',
+      YELLOW: 'BROWN',
+      BLACK: 'WHITE',
+      GREEN: 'RED',
+      BROWN: 'VIOLET',
     };
     if (expensiveMap[this.fraction] === targetFraction) {
       return 2;

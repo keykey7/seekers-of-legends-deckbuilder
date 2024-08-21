@@ -32,7 +32,7 @@ function MainArea() {
     <Box component="main" sx={{width: '100%'}}>
       <Toolbar />
       <CardFilter filterSignal={filterSignal} />
-      <CardBoard filteredCardsSignal={filteredCardsSignal}/>
+      <CardBoard filteredCardsSignal={filteredCardsSignal} />
     </Box>
   );
 }
