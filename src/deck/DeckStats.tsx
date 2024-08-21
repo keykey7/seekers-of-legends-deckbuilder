@@ -40,26 +40,27 @@ function DeckCounter() {
 }
 
 function DeckStats() {
-  const deck = getDeck().value;
-  const colorCost = [0, 0, 0, 0, 0, 0, 0];
-  const avatarFraction = deck.avatar?.fraction;
-
-  function addCard(cardAndCount: CardAndCount): void {
-    let costCategory = cardAndCount.card.cost;
-    if (costCategory === 'X') {
-      costCategory = 1;
-    } else if (costCategory > 7) {
-      costCategory = 7;
+  const colorCost = useComputed(() => {
+    const deck = getDeck().value;
+    const costs = [0, 0, 0, 0, 0, 0, 0];
+    const avatarFraction = deck.avatar?.fraction;
+    function addCard(cardAndCount: CardAndCount): void {
+      let costCategory = cardAndCount.card.cost;
+      if (costCategory === 'X') {
+        costCategory = 1;
+      } else if (costCategory > 7) {
+        costCategory = 7;
+      }
+      costCategory += cardAndCount.card.costModifier(avatarFraction);
+      costs[costCategory - 1] += cardAndCount.count;
     }
-    costCategory += cardAndCount.card.costModifier(avatarFraction);
-    colorCost[costCategory - 1] += cardAndCount.count;
-  }
-
-  deck.allCards()
-    .forEach((cardAndCount) => {
-      addCard(cardAndCount);
-    });
-  const max = colorCost.reduce((a, b) => Math.max(a, b), 0);
+    deck.allCards()
+      .forEach((cardAndCount) => {
+        addCard(cardAndCount);
+      });
+    return costs;
+  })
+  const max = colorCost.value.reduce((a, b) => Math.max(a, b), 0);
 
   return (<>
     <DeckCounter />
@@ -68,7 +69,7 @@ function DeckStats() {
       height={200}
       series={[
         {
-          data: colorCost,
+          data: colorCost.value,
           color: '#d5d5d5',
         },
       ]}

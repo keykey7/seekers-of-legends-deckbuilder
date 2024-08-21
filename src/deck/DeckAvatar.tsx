@@ -1,11 +1,11 @@
 import DeckItem from './DeckItem.tsx';
 import {Box, Typography} from '@mui/material';
-import {cardById} from '../core/CardData.ts';
+import {Card} from '../core/Card.ts';
 
 /**
  * A special version of a DeckItem representing the Avatar.
  */
-function DeckAvatar({cardId}: Readonly<{cardId: number | undefined}>) {
+function DeckAvatar({avatar}: Readonly<{avatar: Card | undefined}>) {
   let element = <Box sx={{
     pt: 2,
     pb: 1,
@@ -16,16 +16,12 @@ function DeckAvatar({cardId}: Readonly<{cardId: number | undefined}>) {
       Wähle dein Avatar
     </Typography>
   </Box>;
-  if (cardId !== undefined) {
-    const avatar = cardById(cardId);
+  if (avatar !== undefined) {
     element = <Box my={'20px'}
       sx={{
         boxShadow: '0 0 20px grey',
       }}>
-      <DeckItem cardId={avatar.id}
-        actualCost={avatar.cost as string}
-        costModifier={0}
-        amount={1} />
+      <DeckItem card={avatar} />
     </Box>;
   }
   return (<>

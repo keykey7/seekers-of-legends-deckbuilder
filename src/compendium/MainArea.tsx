@@ -27,7 +27,7 @@ function MainArea() {
       .filter(textPredicate)
       .sort(DeckSort.byCost)
       .sort(DeckSort.byFraction);
-  }, (a, b) => a.length === b.length); // length check is sufficient to compare equality between two renders
+  }, (a, b) => a.length === b.length && a.every((value, i) => value.id === b[i].id));
   return (
     <Box component="main" sx={{width: '100%'}}>
       <Toolbar />

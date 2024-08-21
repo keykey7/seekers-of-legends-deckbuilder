@@ -1,6 +1,7 @@
 import {Breakpoint, useMediaQuery, useTheme} from '@mui/material';
 import {ReadonlySignal, useComputed} from '@preact/signals';
 import {useRef} from 'react';
+import {Card} from './core/Card.ts';
 
 export const mobileBreakpoint: Breakpoint = 'md';
 
@@ -20,4 +21,8 @@ export function useComputedCached<T>(fn: () => T, isSame: (previous: T, updated:
     previousRef.current = updated;
     return updated;
   });
+}
+
+export function useComputedCards(fn: () => Card[]): ReadonlySignal<Card[]> {
+  return useComputedCached(fn, (a, b) => a.length === b.length && a.every((value, i) => value.id === b[i].id));
 }

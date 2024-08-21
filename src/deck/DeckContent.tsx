@@ -1,38 +1,11 @@
 import DeckAvatar from './DeckAvatar.tsx';
 import {Box, List} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
-import {RefObject, useLayoutEffect, useRef} from 'react';
-import {Card} from '../core/Card.ts';
-import {CardAndCount} from '../core/Deck.ts';
+import {useLayoutEffect, useRef} from 'react';
 import {getDeck} from '../core/DeckSignals.ts';
 import {DeckAnimationType, Rect, useDeckAnimation} from '../particles/ParticleSignals.ts';
-
-interface DeckItemWithCostProps {
-  cardAndCount: CardAndCount;
-  avatar: Card | undefined;
-  thisRef: RefObject<HTMLDivElement> | null;
-}
-
-/** enhance by the actual cost of the card */
-function DeckItemWithCost(props: Readonly<DeckItemWithCostProps>) {
-  const {card, count} = props.cardAndCount;
-  const {cost} = card;
-  const mod = props.avatar?.costModifier(card.fraction) ?? 0;
-  let costStr: string;
-  if (mod === 0) {
-    costStr = cost.toString();
-  } else if (cost === 'X') {
-    costStr = `X+${mod}`;
-  } else {
-    costStr = (cost + mod).toString();
-  }
-  return (<Box ref={props.thisRef}>
-    <DeckItem cardId={card.id}
-      actualCost={costStr}
-      costModifier={mod}
-      amount={count} />
-  </Box>);
-}
+import {useComputed} from '@preact/signals';
+import {useComputedCards} from '../Util.ts';
 
 function useAnimationTargetRef(lastEvent: DeckAnimationType | undefined, setParticleTarget: (arg: Rect) => void) {
   const animationTargetRef = useRef<HTMLDivElement>(null);
@@ -59,26 +32,29 @@ interface DeckContentProps {
 }
 
 function DeckContent({setParticleTarget}: Readonly<DeckContentProps>) {
-  const deck = getDeck().value;
+  const deckAvatar = useComputed(() => getDeck().value.avatar).value;
+  const deckCards = useComputedCards(() => getDeck().value.cards.map(x => x.card)).value;
   const deckAnimation = useDeckAnimation().value;
   const animationTargetRef = useAnimationTargetRef(deckAnimation, setParticleTarget);
   // all cards of the deck
-  const deckItems = deck.cards.map(cardAndCount => {
-    const {card} = cardAndCount;
+  const deckItems = deckCards.map(card => {
     let thisRef = null;
     if (card.id === deckAnimation?.card.id) {
       thisRef = animationTargetRef;
     }
-    return <DeckItemWithCost key={`kk7-deckItem${card.id}`} cardAndCount={cardAndCount} avatar={deck.avatar} thisRef={thisRef} />
+    return <Box key={`kk7-deckItem${card.id}`}
+      ref={thisRef}>
+      <DeckItem card={card} />
+    </Box>;
   });
   // handle avatar click target
   let avatarRef = null;
-  if (deck.avatar && deck.avatar.id === deckAnimation?.card.id) {
+  if (deckAvatar && deckAvatar.id === deckAnimation?.card.id) {
     avatarRef = animationTargetRef;
   }
   return (<List>
     <Box ref={avatarRef}>
-      <DeckAvatar cardId={deck.avatar?.id} />
+      <DeckAvatar avatar={deckAvatar} />
     </Box>
     {deckItems}
   </List>);

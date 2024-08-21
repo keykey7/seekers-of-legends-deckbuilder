@@ -1,17 +1,9 @@
 import {Box, ListItem} from '@mui/material';
-import {CardCostModifier} from '../core/Card.ts';
+import {Card, CardCost, CardCostModifier} from '../core/Card.ts';
 import {drawerWidth} from './DeckDrawer.tsx';
-import {cardById} from '../core/CardData.ts';
-import {removeCardFromDeck} from '../core/DeckSignals.ts';
-import {CardCount} from '../core/Deck.ts';
+import {getDeck, removeCardFromDeck} from '../core/DeckSignals.ts';
 import {CardTooltip} from './CardTooltip.tsx';
-
-interface DeckItemProps {
-  cardId: number,
-  actualCost: string,
-  costModifier: CardCostModifier,
-  amount: CardCount,
-}
+import {useComputed} from '@preact/signals';
 
 function costModifierToColor(costModifier: CardCostModifier): string {
   if (costModifier === 0) {
@@ -23,16 +15,32 @@ function costModifierToColor(costModifier: CardCostModifier): string {
   return 'red';
 }
 
+function DeckItemAmount({card}: Readonly<{card: Card}>){
+  const amount = useComputed(() => getDeck().value.countByType(card)).value;
+  return <>{amount > 1 ? amount : ''}</>;
+}
+
+function toActualCost(cost: CardCost, costModifier: CardCostModifier) {
+  if (costModifier === 0) {
+    return cost.toString();
+  } else if (cost === 'X') {
+    return `X+${costModifier}`;
+  }
+  return (cost + costModifier).toString();
+}
+
+interface DeckItemProps {
+  card: Card,
+}
+
 /**
  * A card-type + amount in your deck.
  */
 function DeckItem({
-  cardId,
-  actualCost,
-  costModifier,
-  amount,
+  card,
 }: Readonly<DeckItemProps>) {
-  const card = cardById(cardId);
+  const costModifier = useComputed(() => getDeck().value.avatar?.costModifier(card.fraction) ?? 0).value;
+  const actualCost = toActualCost(card.cost, costModifier);
   return (<ListItem onClick={e => removeCardFromDeck(card, e.currentTarget.getBoundingClientRect())}
       sx={{
         height: '48px',
@@ -115,7 +123,7 @@ function DeckItem({
               fontWeight: 'bold',
               textShadow: '0 0 5px #000, 0 0 10px #000', // dark glow around it
             }}>
-            {amount > 1 ? amount : ''}
+            <DeckItemAmount card={card} />
           </Box>
         </Box>
       </Box>
