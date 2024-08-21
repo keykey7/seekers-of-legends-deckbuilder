@@ -2,7 +2,7 @@ import {ReactElement, useEffect, useRef} from 'react';
 import anime from 'animejs';
 import styles from './ParticleAnimation.module.css';
 
-import {Rect, useDeckAnimation} from './ParticleSignals.ts';
+import {deckAnimationTargetSignal, Rect, useDeckAnimation} from './ParticleSignals.ts';
 
 function useInitialAnime() {
   const ref = useRef<anime.AnimeInstance | null>(null);
@@ -50,10 +50,6 @@ function useInitialAnime() {
   return ref;
 }
 
-interface ParticleAnimationProps {
-  destination: Rect | undefined,
-}
-
 const noRect: Rect = {
   top: 0,
   left: 0,
@@ -62,16 +58,16 @@ const noRect: Rect = {
 }
 
 /* eslint-disable prefer-template */
-function ParticleAnimation({destination}: Readonly<ParticleAnimationProps>) {
+function ParticleAnimation() {
   const deckAnimation = useDeckAnimation().value;
   const from = deckAnimation === undefined ? noRect : deckAnimation.origin;
-  const to = destination ?? noRect;
+  const to = deckAnimationTargetSignal.value ?? noRect;
   const ref = useInitialAnime();
   useEffect(() => {
-    if (ref.current && destination && deckAnimation) {
+    if (ref.current && deckAnimationTargetSignal.value && deckAnimation) {
       ref.current.restart();
     }
-  }, [ref, destination, deckAnimation]);
+  }, [ref, deckAnimationTargetSignal.value, deckAnimation]);
   const elements: ReactElement[] = [];
   const amount = 150;
   for (let i = 0; i < amount; i += 1) {

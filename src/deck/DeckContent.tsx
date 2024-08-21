@@ -1,18 +1,23 @@
 import DeckAvatar from './DeckAvatar.tsx';
 import {Box, List} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
-import {useLayoutEffect, useRef} from 'react';
+import {createRef, ReactNode, useLayoutEffect} from 'react';
 import {getDeck} from '../core/DeckSignals.ts';
-import {DeckAnimationType, Rect, useDeckAnimation} from '../particles/ParticleSignals.ts';
+import {deckAnimationSignal, deckAnimationTargetSignal, Rect} from '../particles/ParticleSignals.ts';
 import {useComputed} from '@preact/signals';
 import {useComputedCards} from '../Util.ts';
+import {Card} from '../core/Card.ts';
 
-function useAnimationTargetRef(lastEvent: DeckAnimationType | undefined, setParticleTarget: (arg: Rect) => void) {
-  const animationTargetRef = useRef<HTMLDivElement>(null);
+function AnimatableDeckItem({
+  card,
+  children,
+}: Readonly<{card: Card | undefined, children: ReactNode}>) {
+  const ref = createRef();
+  const isAnimationRequired = useComputed(() => deckAnimationSignal.value !== undefined && deckAnimationSignal.value.card === card).value;
   useLayoutEffect(() => {
-    // we have to wait until after rendering to know the final position of the animation target
-    if (animationTargetRef.current) {
-      let targetRect: Rect = animationTargetRef.current.getBoundingClientRect();
+    if (isAnimationRequired) {
+      // we have to wait until after rendering to know the final position of the animation target
+      let targetRect: Rect = ref.current.getBoundingClientRect();
       if (targetRect.width === 0) { // this is a hack in case the deck is collapsed
         targetRect = {
           width: 32,
@@ -21,42 +26,23 @@ function useAnimationTargetRef(lastEvent: DeckAnimationType | undefined, setPart
           left: window.innerWidth - 24 - 32,
         };
       }
-      setParticleTarget(targetRect);
+      deckAnimationTargetSignal.value = targetRect;
     }
-  }, [lastEvent, setParticleTarget]);
-  return animationTargetRef;
+  }, [card, ref, isAnimationRequired]);
+  return <Box ref={ref}>{children}</Box>;
 }
 
-interface DeckContentProps {
-  setParticleTarget: (arg: Rect) => void;
-}
-
-function DeckContent({setParticleTarget}: Readonly<DeckContentProps>) {
+function DeckContent() {
   const deckAvatar = useComputed(() => getDeck().value.avatar).value;
   const deckCards = useComputedCards(() => getDeck().value.cards.map(x => x.card)).value;
-  const deckAnimation = useDeckAnimation().value;
-  const animationTargetRef = useAnimationTargetRef(deckAnimation, setParticleTarget);
-  // all cards of the deck
-  const deckItems = deckCards.map(card => {
-    let thisRef = null;
-    if (card.id === deckAnimation?.card.id) {
-      thisRef = animationTargetRef;
-    }
-    return <Box key={`kk7-deckItem${card.id}`}
-      ref={thisRef}>
-      <DeckItem card={card} />
-    </Box>;
-  });
-  // handle avatar click target
-  let avatarRef = null;
-  if (deckAvatar && deckAvatar.id === deckAnimation?.card.id) {
-    avatarRef = animationTargetRef;
-  }
   return (<List>
-    <Box ref={avatarRef}>
+    <AnimatableDeckItem card={deckAvatar}>
       <DeckAvatar avatar={deckAvatar} />
-    </Box>
-    {deckItems}
+    </AnimatableDeckItem>
+    {deckCards.map(card => <AnimatableDeckItem key={`kk7-deckItem${card.id}`}
+      card={card}>
+      <DeckItem card={card} />
+    </AnimatableDeckItem>)}
   </List>);
 }
 

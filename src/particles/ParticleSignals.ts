@@ -13,6 +13,8 @@ export interface DeckAnimationType {
   origin: Rect,
 }
 
-export const deckAnimationSignal = signal<DeckAnimationType | undefined>(undefined);
+export const deckAnimationSignal = signal<DeckAnimationType>();
+
+export const deckAnimationTargetSignal = signal<Rect>();
 
 export const useDeckAnimation = () => computed(() => deckAnimationSignal.value);
