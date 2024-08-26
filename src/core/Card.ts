@@ -101,12 +101,15 @@ export class Card {
   }
 
   matchesText(text: string): boolean {
-    const lc = text.toLowerCase().replace("ä", "ae").replace("ü", "ue").replace("ö", "oe").trim();
-    return this.name.toLowerCase().includes(lc)
+    // lowercase, then drop accents (ä -> a), then we drop non-ascii
+    const normalize = (x: string) => x.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/[^a-z+]/ug, ' ');
+    const needle = normalize(text).trim();
+    const haystack = normalize(' ' + this.name + ' ' + this.description);
+    return haystack.includes(' ' + needle)
       // eslint-disable-next-line eqeqeq
-      || this.cost == lc
-      || CardType[this.type].toLowerCase().startsWith(lc)
-      || this.skill.find(skill => Skill[skill].toLowerCase().startsWith(lc)) !== undefined;
+      || this.cost == needle
+      || CardType[this.type].toLowerCase().startsWith(needle)
+      || this.skill.find(skill => Skill[skill].toLowerCase().startsWith(needle)) !== undefined;
   }
 }
 
