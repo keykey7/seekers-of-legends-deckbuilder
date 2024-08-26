@@ -16,7 +16,7 @@ function s(attack: number | 'X', defence: number | 'X', health: number | null = 
 
 // errata: Doppel-S schreibweise de-ch vs de-de ist nicht konsistent
 export const allCards: Readonly<Card[]> = [
-  new Card(1, 5, 'Neues Land entdecken', CardType.Aktion, 'BLUE', 'Lege alle deine Handkarten als Macht erschöpft ins Spiel. Bringe dann alle deine bisherigen Machtkarien zurück auf die Hände Ihrer Besitzer.'),
+  new Card(1, 5, 'Neues Land entdecken', CardType.Aktion, 'BLUE', 'Lege alle deine Handkarten als Macht erschöpft ins Spiel. Bringe dann alle deine bisherigen Machtkarten zurück auf die Hände Ihrer Besitzer.'),
   new Card(2, 4, 'Lazaros, der Wächter', CardType.Avatar, 'BLUE', 'Jedes Mal, wenn Lazaros, der Wächter einem Gegner Kampfschaden zufügt, wirft dieser eine Karte von seiner Hand ab.  Am Ende deines Zuges verliert jeder Gegner, welcher keine Handkarten hat, 4 Lebenspunkte.  Avatareffekt:  Zu Beginn deines ersten Zuges im Spiel wirft jeder Gegner eine Handkarte ab.', s(3, 5, 40)),
   new Card(3, 4, 'Wasserwandlerin', CardType.Charakter, 'BLUE', 'Wasserwandlerin kommt ins Spiel als Kopie eines anderen Charakters im Spiel.', s('X', 'X')),
   new Card(4, 1, 'Wasserritual', CardType.Aktion, 'BLUE', 'Bringe eine deiner Machtkarten auf die Hand ihres Besitzers zurück. Du kannst eine Karte von deiner Hand als Macht legen.', null, [Skill.Schnelligkeit]),

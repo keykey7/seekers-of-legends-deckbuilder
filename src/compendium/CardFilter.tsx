@@ -4,7 +4,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import {mobileBreakpoint, useIsMobile} from '../Util.ts';
 import {cardById} from '../core/CardData.ts';
 import {Signal, useComputed} from '@preact/signals';
-import {CardFilterType} from './MainArea.tsx';
+import {CardFilterType} from './CardFilter.ts';
 
 function FractionFilterItem({fraction}: Readonly<{fraction: Fraction}>) {
   const card = cardById(Fractions.indexOf(fraction) * 20 + 1);
@@ -13,11 +13,11 @@ function FractionFilterItem({fraction}: Readonly<{fraction: Fraction}>) {
       sx={{
         p: 0,
         [`&.${toggleButtonGroupClasses.selected}`]: {
-          boxShadow: '0 0 10px grey',
+          boxShadow: '0 0 12px #d5d5d5',
         },
       }}>
       <Icon sx={(theme) => ({
-        // original image list, then a black diamon around it, then lighten with the background
+        // original image list, then a black diamond around it, then lighten with the background
         background: `linear-gradient(45deg, black 27%, transparent 27%), ` +
           `linear-gradient(135deg, black 27%, transparent 27%), ` +
           `linear-gradient(225deg, black 27%, transparent 27%), ` +
