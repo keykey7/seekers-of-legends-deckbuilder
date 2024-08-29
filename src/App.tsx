@@ -1,8 +1,5 @@
-import {Box, Container, createTheme, CssBaseline, ThemeProvider} from '@mui/material';
-import TopHeader from './TopHeader.tsx';
-import MainArea from './compendium/MainArea.tsx';
-import DeckDrawer from './deck/DeckDrawer.tsx';
-import ParticleAnimation from './particles/ParticleAnimation.tsx';
+import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
+import GameBoard from './hand/GameBoard.tsx';
 
 function App() {
   // https://mui.com/material-ui/customization/dark-mode/
@@ -16,18 +13,7 @@ function App() {
   });
   return (<ThemeProvider theme={darkTheme}>
     <CssBaseline />
-    <Container maxWidth="xl"
-      sx={{
-        display: 'flex',
-        px: 1,
-      }}>
-      <TopHeader />
-      <MainArea />
-      <DeckDrawer />
-      <Box sx={{zIndex: 3000}}>
-        <ParticleAnimation />
-      </Box>;
-    </Container>
+    <GameBoard />
   </ThemeProvider>);
 }
 
