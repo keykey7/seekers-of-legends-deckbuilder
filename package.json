@@ -10,25 +10,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0",
-    "@fontsource/roboto": "^5.0.14",
-    "@mui/icons-material": "^5.16.6",
-    "@mui/material": "^5.16.6",
-    "@mui/x-charts": "^7.12.0",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@mui/icons-material": "^5",
+    "@mui/material": "^5",
+    "@mui/x-charts": "^7",
     "@preact/signals": "^1",
     "animejs": "^3",
     "font-proxima-nova": "^1.0.1",
     "preact": "^10",
     "react-string-replace": "^1.1.1",
-    "react-swipeable": "^7.0.1"
+    "react-swipeable": "^7"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2",
     "@testing-library/preact": "^3",
     "@types/animejs": "^3",
-    "@typescript-eslint/eslint-plugin": "^7",
-    "@typescript-eslint/parser": "^7",
+    "@typescript-eslint/eslint-plugin": "^8",
+    "@typescript-eslint/parser": "^8",
     "eslint": "^8",
     "eslint-config-preact": "^1",
     "eslint-plugin-jest": "^28",

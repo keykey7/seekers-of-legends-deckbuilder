@@ -48,10 +48,11 @@ function DeckStats() {
       let costCategory = cardAndCount.card.cost;
       if (costCategory === 'X') {
         costCategory = 1;
-      } else if (costCategory > 7) {
-        costCategory = 7;
       }
       costCategory += cardAndCount.card.costModifier(avatarFraction);
+      if (costCategory > 7) {
+        costCategory = 7;
+      }
       costs[costCategory - 1] += cardAndCount.count;
     }
     deck.allCards()
@@ -61,7 +62,6 @@ function DeckStats() {
     return costs;
   })
   const max = colorCost.value.reduce((a, b) => Math.max(a, b), 0);
-
   return (<>
     <DeckCounter />
     <BarChart tooltip={{trigger: 'none'}}
