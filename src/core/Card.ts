@@ -100,16 +100,8 @@ export class Card {
     return 1;
   }
 
-  matchesText(text: string): boolean {
-    // lowercase, then drop accents (ä -> a), then we drop non-ascii
-    const normalize = (x: string) => x.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/[^a-z0-9+]/ug, ' ');
-    const needle = normalize(text).trim();
-    const haystack = normalize(' ' + this.name + ' ' + this.description);
-    return haystack.includes(' ' + needle)
-      // eslint-disable-next-line eqeqeq
-      || this.cost == needle
-      || CardType[this.type].toLowerCase().startsWith(needle)
-      || this.skill.find(skill => Skill[skill].toLowerCase().startsWith(needle)) !== undefined;
+  toJSON() {
+    return this.id;
   }
 }
 
