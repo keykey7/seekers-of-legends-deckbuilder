@@ -6,11 +6,14 @@ import {deckAnimationSignal, Rect} from '../particles/ParticleSignals.ts';
 const deckSignal = signal(fromUrl());
 
 effect(() => {
-  console.debug('deck update', deckSignal.value);
-  document.location.hash = toUrl(deckSignal.value);
+  const newHash = toUrl(deckSignal.value);
+  if (newHash.length === 0) {
+    // drop hash from URL: https://stackoverflow.com/a/5298684
+    history.pushState('', document.title, window.location.pathname + window.location.search);
+  } else {
+    document.location.hash = newHash;
+  }
 });
-
-export const avatarSignal = computed(() => deckSignal.value.avatar);
 
 export const getDeck = () => computed(() => deckSignal.value);
 

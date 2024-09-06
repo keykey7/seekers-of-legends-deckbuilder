@@ -53,7 +53,11 @@ export function toUrl(deck: AvatarAndCards): string {
   });
   num *= CARD_ID_MAX;
   num += BigInt(deck.avatar ? deck.avatar.id : 0);
-  return `${VERSION}${bigintToFragment(num)}`;
+  const data = bigintToFragment(num);
+  if (data.length === 0) {
+    return '';
+  }
+  return `${VERSION}${data}`;
 }
 
 function fromString(s: string): AvatarAndCards {
