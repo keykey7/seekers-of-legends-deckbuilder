@@ -5,7 +5,11 @@ import {Card} from './core/Card.ts';
 
 export const mobileBreakpoint: Breakpoint = 'md';
 
-export function useIsMobile(): boolean {
+export function useIsTouchDevice(): boolean {
+  return useMediaQuery('(hover: none)');
+}
+
+export function useIsSmallScreen(): boolean {
   const theme = useTheme();
   const permanentDrawerBreakpoint = theme.breakpoints.down(mobileBreakpoint);
   return useMediaQuery(permanentDrawerBreakpoint);

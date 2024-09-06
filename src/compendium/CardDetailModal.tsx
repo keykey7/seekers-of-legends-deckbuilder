@@ -2,7 +2,7 @@ import {Box, Modal, modalClasses, useMediaQuery} from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useSwipeable} from 'react-swipeable';
-import {useIsMobile} from '../Util.ts';
+import {useIsSmallScreen} from '../Util.ts';
 import {MaxCardAmountReachedIcon} from './HoverCard.tsx';
 import {Card} from '../core/Card.ts';
 import {addCardToDeck} from '../core/DeckSignals.ts';
@@ -25,7 +25,7 @@ function NextPrevIcon({
   onClick,
 }: Readonly<NextPrevIconProps>) {
   const isLandscape = useMediaQuery('(orientation: landscape)');
-  const isSmallScreen = useIsMobile();
+  const isSmallScreen = useIsSmallScreen();
   const showArrowsInline = isSmallScreen && !isLandscape;
   // https://mui.com/material-ui/react-modal/
   const iconStyle = {

@@ -4,7 +4,7 @@ import DeckContent from './DeckContent.tsx';
 import DeckStats from './DeckStats.tsx';
 import {useState} from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import {useIsMobile} from '../Util.ts';
+import {useIsSmallScreen} from '../Util.ts';
 import {getDeck} from '../core/DeckSignals.ts';
 import {useComputed} from '@preact/signals';
 
@@ -33,7 +33,7 @@ function DeckDrawer() {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const permanentDrawerBreakpoint = theme.breakpoints.down('md');
-  const isSmallScreen = useIsMobile();
+  const isSmallScreen = useIsSmallScreen();
   const toggle = () => setOpen(!open);
   return (<>
     {isSmallScreen && <SmallScreenDeckToggle toggle={toggle} />}

@@ -1,7 +1,7 @@
 import {Box} from '@mui/material';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
-import {useIsMobile} from '../Util.ts';
+import {useIsTouchDevice} from '../Util.ts';
 import {addCardToDeck, getDeck} from '../core/DeckSignals.ts';
 import {useCard} from '../core/CardContext.ts';
 import {computed} from '@preact/signals';
@@ -22,6 +22,7 @@ export function MaxCardAmountReachedIcon() {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 2.5, // same as below
   }}>
     <LockIcon sx={{
       display: 'block',
@@ -60,7 +61,7 @@ function InfoIcon({onDetailClick}: Readonly<InfoIconProps>) {
         top: 1,
         transform: 'scale(1.6)',
       },
-      [theme.breakpoints.up('md')]: {
+      '@media (hover: hover)': { // always show the info button on touch-devices
         opacity: 0,
         transition: 'opacity 0.2s linear', // fade the info button in on hover
       },
@@ -89,9 +90,9 @@ export interface HoverCardProps {
  * A card of the compendium. Moves funny...
  */
 function HoverCard({onClick}: Readonly<HoverCardProps>) {
-  const isSmallScreen = useIsMobile();
+  const isTouch = useIsTouchDevice();
   const card = useCard();
-  const onMoveCard = isSmallScreen ? () => {
+  const onMoveCard = isTouch ? () => {
   } : moveCard;
   const addCard = (event: MouseEvent) => addCardToDeck(card, (event.currentTarget as HTMLDivElement).getBoundingClientRect());
   return (<Box sx={(theme) => ({

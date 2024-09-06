@@ -1,10 +1,10 @@
 import {AppBar, IconButton, Link, Toolbar, Typography} from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import {useIsMobile} from './Util.ts';
+import {useIsSmallScreen} from './Util.ts';
 import unicorn from './assets/unicorn.png';
 
 function TopHeader() {
-  const isSmallScreen = useIsMobile();
+  const isSmallScreen = useIsSmallScreen();
   // https://mui.com/material-ui/material-icons/
   return <AppBar position="fixed"
     sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>

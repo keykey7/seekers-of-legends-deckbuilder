@@ -1,7 +1,7 @@
 import {Box, Icon, IconButton, InputAdornment, TextField, ToggleButton, ToggleButtonGroup, toggleButtonGroupClasses} from '@mui/material';
 import {Fraction, Fractions} from '../core/Card.ts';
 import ClearIcon from '@mui/icons-material/Clear';
-import {mobileBreakpoint, useIsMobile} from '../Util.ts';
+import {mobileBreakpoint, useIsSmallScreen} from '../Util.ts';
 import {cardById} from '../core/CardData.ts';
 import {Signal, useComputed} from '@preact/signals';
 import {CardFilterType} from './CardFilter.ts';
@@ -56,7 +56,7 @@ function SearchFilterInputClearIcon({filterSignal}: Readonly<Filter>) {
 }
 
 function SearchFilter({filterSignal}: Readonly<Filter>) {
-  const isSmallScreen = useIsMobile();
+  const isSmallScreen = useIsSmallScreen();
   const setFilterText = (txt: string) => {
     filterSignal.value = {...filterSignal.value, filterText: txt};
   };

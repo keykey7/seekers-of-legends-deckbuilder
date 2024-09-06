@@ -1,7 +1,7 @@
 import {Card, Skill} from '../core/Card.ts';
 import {ReactNode} from 'react';
 import {IconButton, Tooltip, Typography} from '@mui/material';
-import {useIsMobile} from '../Util.ts';
+import {useIsSmallScreen} from '../Util.ts';
 import unicorn from '../assets/unicorn.png';
 import reactStringReplace from 'react-string-replace';
 import CachedIcon from '@mui/icons-material/Cached';
@@ -83,7 +83,7 @@ export function CardTooltip({
   card,
   children,
 }: Readonly<CardTooltipTextProps>) {
-  const isMobile = useIsMobile();
+  const isMobile = useIsSmallScreen();
   return <Tooltip enterDelay={500}
     disableInteractive
     placement={isMobile ? 'top' : 'left'}
