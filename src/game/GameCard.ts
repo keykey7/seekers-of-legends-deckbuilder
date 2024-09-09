@@ -3,6 +3,7 @@ import {Card} from '../core/Card.ts';
 interface GameCard {
   readonly uid: number;
   readonly card: Card;
+  // eslint-disable-next-line no-use-before-define
   readonly owner: Player;
   customState?: object;
 }

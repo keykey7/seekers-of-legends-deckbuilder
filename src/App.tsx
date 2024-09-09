@@ -1,5 +1,5 @@
 import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
-import GameBoard from './hand/GameBoard.tsx';
+import GameBoard from './game/GameBoard.tsx';
 
 function App() {
   // https://mui.com/material-ui/customization/dark-mode/
