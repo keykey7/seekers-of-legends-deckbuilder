@@ -1,7 +1,7 @@
 import {Card} from '../core/Card.ts';
 import {Box} from '@mui/material';
 import {useDraggable} from '@dnd-kit/core';
-import {ReactNode} from 'react';
+import {ReactNode, useState} from 'react';
 
 interface CardInHandProps {
   card: Card;
@@ -11,12 +11,6 @@ function CardInHand({card}: Readonly<CardInHandProps>) {
   return (<Box sx={{
     height: '300px',
     aspectRatio: '2429 / 3308', // same as actual image
-
-    // transition: 'top 0.5s ease-in-out',
-    // ':hover': {
-    //   top: '-100px',
-    // },
-    // top: '0px', // required for transition effect
   }}>
     <Box aria-label={card.name}
       sx={{
@@ -46,38 +40,41 @@ function AnimatedCardInHand({
   handIndex,
   handMax,
 }: Readonly<AnimatedCardInHandProps>) {
+  const maxFan = 35; // [deg]
   const offset = -handMax / 2 + handIndex + 0.5;
-  const deg = offset * 8 + 0.1;
+  const degBetweenCards = Math.min(maxFan / handMax, 10);
+  const deg = offset * degBetweenCards + 0.1;
+  const [mousePos, setMousePos] = useState<[number, number]>([0, 0]);
   return <Box sx={{ // faning out of cards over the hand
     zIndex: handIndex,
     transform: `rotate(${deg}deg)`,
-    transformOrigin: 'center 250%',
+    transformOrigin: 'center 500%', // the further down, the flatter the cards arangement
   }}>
-    <Box sx={{ // when grabbing a card rotate it back to stand straight
-        transition: 'transform 0.27s ease-in-out',
-        ':hover:active': {
-          transformOrigin: 'center center', // should be position of mouse pointer
-          transform: `rotate(${-deg}deg)`,
-        }
-    }}>
-      <Box sx={{ // on hover
-        pointerEvents: 'initial',
-        transition: 'transform 0.5s ease-in-out',
-        transform: `translateY(0)`,
-        ':hover': {
-          transform: 'translateY(-150px)',
-          ':active': {
-            animationPlayState: 'paused',
-          }
+    <Box sx={{ // on hover, show the card better
+      pointerEvents: 'initial',
+      transition: 'transform 0.5s ease-in-out',
+      transform: `translateY(0)`,
+      ':hover': {
+        transform: 'translateY(-150px)',
+        ':active': {
+          animationPlayState: 'paused', // doesn't seem to work
         },
-      }}>
+      },
+    }}>
+      <Box onMouseDown={(mouseEvent: MouseEvent) => setMousePos([mouseEvent.layerX, mouseEvent.layerY])}
+        sx={{ // when grabbing a card rotate it back to stand straight
+          transition: 'transform 0.27s ease-in-out',
+          ':hover:active': {
+            transformOrigin: mousePos ? `${mousePos[0]}px ${mousePos[1]}px` : 'center center',
+            transform: `rotate(${-deg}deg)`,
+          },
+        }}>
         <DraggableCard card={card}>
           <CardInHand card={card} />
         </DraggableCard>
       </Box>
     </Box>
   </Box>;
-
 }
 
 interface DraggableCardProps {
@@ -102,8 +99,11 @@ function DraggableCard(props: Readonly<DraggableCardProps>) {
   // @ts-expect-error idk
   return <Box ref={setNodeRef} {...listeners} {...attributes}
     sx={{
-      cursor: 'grab',
       transform: dragTransform,
+      cursor: 'grab',
+      ':active': {
+        cursor: 'grabbing',
+      },
     }}>
     {props.children}
   </Box>;
