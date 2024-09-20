@@ -24,7 +24,7 @@ export const allCards: Readonly<Card[]> = [
   new Card(6, 3, 'Tiefsee', CardType.Feld, 'BLUE', 'Charaktere verlieren alle Fähigkeiten und können keine Fähigkeiten erhalten.'),
   new Card(7, 3, 'Stürmische See', CardType.Feld, 'BLUE', 'Effekte, welche nur bis zum Ende des Zuges aktiv sind, bleiben auch danach weiterhin aktiv.'),
   new Card(8, 2, 'Schwert des Wassers', CardType.Einfluss, 'BLUE', 'Immer, wenn der ausgerüstete Charakter angreift, lege einen [+1/+1]-Zähler auf ihn und erschöpfe einen Charakter deiner Wahl, den der verteidigende Spieler kontrolliert.  1 :macht:, :pfeil:: Ausrüsten.'),
-  new Card(9, 2, 'Tiefenkrieger', CardType.Charakter, 'BLUE', '', s(3, 5), [Skill.Schnelligkeit]),
+  new Card(9, 2, 'Tiefenkrieger', CardType.Charakter, 'BLUE', '', s(3, 5), [Skill.Schnelligkeit, Skill.Schild]),
   new Card(10, 3, 'Psari Klonos', CardType.Charakter, 'BLUE', 'Bari Klonos komm ins Spiel als Kopie eines anderen Charakters im Spiel.', s('X', 'X')),
   new Card(11, 3, 'Prinzessin Amaryllis', CardType.Avatar, 'BLUE', '4 :macht:, bringe einen deiner ungeblockten Angreifer zurück auf die Hand ihres Besitzers: Bringe danach einen Charakter von deiner Hand angreifend und erschöpft ins Spiel.  Avatareffekt:  Zu Beginn deines ersten Zuges im Spiel ziehe eine zusätzliche Karte.', s(4, 8, 45)),
   new Card(12, 5, 'Panzerspeer Okeanos', CardType.Avatar, 'BLUE', 'Du kannst erholte, verdeckte Macht, welche sich unter deiner Kontrolle befindet, ausspielen, als wäre sie auf deiner Hand.  Avatareffekt:  Jedes Mal, wenn du eine Macht aus dem Machtbereich aufdeckst und in einen anderen Bereich ausspielst, ziehe eine Karte.', s(5, 10, 40)),
