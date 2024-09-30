@@ -37,7 +37,10 @@ module.exports = {
     'prefer-destructuring': 'off',
     'prefer-named-capture-group': 'off',
     'multiline-comment-style': 'off',
+    'max-params': 'off',
     'no-empty-function': 'off',
+    'no-unused-vars': 'warn',
+    'no-plusplus': 'off',
     'max-lines-per-function': [
       'error', {
         max: 100,

@@ -2,32 +2,8 @@ import {Card} from '../core/Card.ts';
 import {Box} from '@mui/material';
 import {useDraggable} from '@dnd-kit/core';
 import {ReactNode, useState} from 'react';
-
-interface CardInHandProps {
-  card: Card;
-}
-
-function CardInHand({card}: Readonly<CardInHandProps>) {
-  return (<Box sx={{
-    height: '300px',
-    aspectRatio: '2429 / 3308', // same as actual image
-  }}>
-    <Box aria-label={card.name}
-      sx={{
-        backgroundImage: `url(${card.imageSrc()})`,
-        borderRadius: 2.5, //transition: '1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)',
-        backgroundSize: `105%`,  // since cards are cut
-        backgroundPosition: 'center',
-        width: '100%',
-        height: '100%',
-        backfaceVisibility: 'hidden',
-        filter: 'drop-shadow(0 0 5px rgba(0, 0, 0, 0.4))',
-        position: 'relative',
-        imageRendering: 'crisp-edges',
-
-      }} />
-  </Box>);
-}
+import {CardInPlay} from './GameCard.tsx';
+import {CSS} from '@dnd-kit/utilities';
 
 interface AnimatedCardInHandProps {
   card: Card;
@@ -55,7 +31,7 @@ function AnimatedCardInHand({
       transition: 'transform 0.5s ease-in-out',
       transform: `translateY(0)`,
       ':hover': {
-        transform: 'translateY(-150px)',
+        transform: 'translate3d(0, -150px, 0)',
         ':active': {
           animationPlayState: 'paused', // doesn't seem to work
         },
@@ -70,7 +46,7 @@ function AnimatedCardInHand({
           },
         }}>
         <DraggableCard card={card}>
-          <CardInHand card={card} />
+          <CardInPlay card={card} />
         </DraggableCard>
       </Box>
     </Box>
@@ -95,7 +71,7 @@ function DraggableCard(props: Readonly<DraggableCardProps>) {
       card: props.card,
     },
   });
-  const dragTransform = transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : 'translateZ(0)';
+  const dragTransform = transform ? CSS.Translate.toString(transform) : 'translateZ(0)';
   // @ts-expect-error idk
   return <Box ref={setNodeRef} {...listeners} {...attributes}
     sx={{

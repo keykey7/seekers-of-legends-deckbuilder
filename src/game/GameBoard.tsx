@@ -4,6 +4,7 @@ import {cardById} from '../core/CardData.ts';
 import {Active, DndContext, DragEndEvent} from '@dnd-kit/core';
 import {signal} from '@preact/signals';
 import type {DragStartEvent} from '@dnd-kit/core/dist/types';
+import TableSelf from './TableSelf.tsx';
 
 export const dragOngoingSignal = signal<Active | null>();
 
@@ -18,6 +19,7 @@ function GameBoard() {
   }
 
   const cards = [2, 5, 66, 67, 7,1,11,12,14,34,100,101,102,103].map(x => cardById(x));
+  const cards2 = [4,9].map(x => cardById(x));
   return (<Box sx={{
     width: '100vw',
     height: '100vh',
@@ -33,6 +35,7 @@ function GameBoard() {
       position: 'relative', // because we position children relative to it
     }}>
       <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd} onDragCancel={onDragEnd}>
+        <TableSelf cards={cards2} />
         <Hand cards={cards} />
       </DndContext>
     </Box>
