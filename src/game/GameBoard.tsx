@@ -1,10 +1,11 @@
 import {Box} from '@mui/material';
 import Hand from './Hand.tsx';
 import {cardById} from '../core/CardData.ts';
-import {Active, DndContext, DragEndEvent} from '@dnd-kit/core';
+import {Active, DndContext, DragEndEvent, DragOverlay} from '@dnd-kit/core';
 import {signal} from '@preact/signals';
 import type {DragStartEvent} from '@dnd-kit/core/dist/types';
 import TableSelf from './TableSelf.tsx';
+import {CardInPlay} from './GameCard.tsx';
 
 export const dragOngoingSignal = signal<Active | null>();
 
@@ -37,6 +38,9 @@ function GameBoard() {
       <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd} onDragCancel={onDragEnd}>
         <TableSelf cards={cards2} />
         <Hand cards={cards} />
+        <DragOverlay>
+          {dragOngoingSignal.value === null ? null : <CardInPlay card={dragOngoingSignal.value?.data.current?.card} />}
+        </DragOverlay>
       </DndContext>
     </Box>
   </Box>);

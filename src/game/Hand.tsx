@@ -71,7 +71,7 @@ function DraggableCard(props: Readonly<DraggableCardProps>) {
       card: props.card,
     },
   });
-  const dragTransform = transform ? CSS.Translate.toString(transform) : 'translateZ(0)';
+  const dragTransform = /*transform ? CSS.Translate.toString(transform) :*/ 'translateZ(0)';
   // @ts-expect-error idk
   return <Box ref={setNodeRef} {...listeners} {...attributes}
     sx={{
