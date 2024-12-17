@@ -1,5 +1,14 @@
-import {Box, Icon, IconButton, InputAdornment, TextField, ToggleButton, ToggleButtonGroup, toggleButtonGroupClasses} from '@mui/material';
-import {Fraction, Fractions} from '../core/Card.ts';
+import {
+  Box,
+  Icon,
+  IconButton,
+  InputAdornment,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+  toggleButtonGroupClasses, Tooltip,
+} from '@mui/material';
+import { Fraction, FractionNames, Fractions } from '../core/Card.ts';
 import ClearIcon from '@mui/icons-material/Clear';
 import {mobileBreakpoint, useIsSmallScreen} from '../Util.ts';
 import {cardById} from '../core/CardData.ts';
@@ -9,16 +18,18 @@ import {CardFilterType} from './CardFilter.ts';
 function FractionFilterItem({fraction}: Readonly<{fraction: Fraction}>) {
   const card = cardById(Fractions.indexOf(fraction) * 20 + 1);
   const blackToTrans = 'rgba(0,0,0,0.6) 27%, transparent 27%';
+  const tooltip = `Filter ${FractionNames[Fractions.indexOf(fraction)]}`;
   return (<ToggleButton value={`${fraction}`}
-      aria-label={`filter for `}
+      aria-label={tooltip}
       sx={{
-        height: '3em',
-        width: '3em',
+        p: 0,
+        border: 'none',
         [`&.${toggleButtonGroupClasses.selected}`]: {
           boxShadow: 'inset #d5d5d5 0 0 6px',
           borderRadius: 2,
         },
       }}>
+    <Tooltip title={tooltip} aria-hidden={true}>
       <Icon sx={(theme) => ({
         // original image list, then a black diamond around it, then lighten with the background
         background: `linear-gradient(45deg, ${blackToTrans}), ` +
@@ -28,16 +39,17 @@ function FractionFilterItem({fraction}: Readonly<{fraction: Fraction}>) {
           `url('${card.imageSrc()}') 207% 4.5% / 800%`,
         mixBlendMode: 'lighten',
         borderRadius: 2,
-        height: '2em',
-        width: '2em',
+        border: 1,
+        borderColor: theme.palette.divider,
+        height: '3.5rem',
+        width: '3.5rem',
+        m: 0.25,
         [theme.breakpoints.down('lg')]: {
-          height: '1.5em',
-          width: '1.5em',
-          m: 0.5,
-          border: 1,
-          borderColor: theme.palette.divider,
+          height: '2rem',
+          width: '2rem',
         },
       })} />
+    </Tooltip>
     </ToggleButton>);
 }
 
@@ -56,7 +68,9 @@ function SearchFilterInputClearIcon({filterSignal}: Readonly<Filter>) {
   return <InputAdornment position="end">
     <IconButton disabled={isEmpty.value}
       aria-label="clear search"
-      onClick={onClear}>
+      onClick={onClear} sx={{
+        visibility: isEmpty.value ? 'hidden' : 'visible',
+    }}>
       <ClearIcon />
     </IconButton>
   </InputAdornment>;

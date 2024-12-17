@@ -19,11 +19,14 @@ function DeckCounter() {
       value={count}
       valueMax={40}
       sx={{
+        [`& .${gaugeClasses.referenceArc}`]: {
+          fill: '#652121',
+        },
         [`& .${gaugeClasses.valueArc}`]: {
           fill: '#d5d5d5',
         },
         [`& .${gaugeClasses.valueText} text`]: {
-          fill: isValid ? '#d5d5d5' : '#b71d25',
+          fill: isValid ? '#d5d5d5' : '#ff5555',
           fontWeight: 'bold',
         },
       }} />
@@ -32,6 +35,13 @@ function DeckCounter() {
     gauge = <Tooltip title={<p>
       Es fehlen noch mindestens<br />
       {40 - count} Karten für ein gültiges Deck. </p>}
+      placement="left">
+      {gauge}
+    </Tooltip>;
+  } else if (!hasAvatar) {
+    gauge = <Tooltip title={<p>
+      Es fehlt noch der Avatar<br />
+      für ein gültiges Deck. </p>}
       placement="left">
       {gauge}
     </Tooltip>;

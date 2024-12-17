@@ -9,6 +9,7 @@ function App() {
   const darkTheme = createTheme({
     typography: {
       fontFamily: `Proxima Nova Rg,Roboto,sans-serif`,
+      fontSize: 16,
     },
     palette: {
       mode: 'dark',
