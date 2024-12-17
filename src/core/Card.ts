@@ -1,5 +1,5 @@
 export const Fractions = ['BLUE', 'RED', 'VIOLET', 'WHITE', 'YELLOW', 'BLACK', 'GREEN', 'BROWN'];
-export const FractionNames = ['', 'Vaakhil', '', '', 'Heepurianer', '', '', 'Archtaren'];
+export const FractionNames = ['Vaiunas', 'Vaakhil', 'Tempestrier', 'Renischen', 'Heepurianer', 'Dunlaar', 'Cofaleri', 'Archtaren'];
 export const FractionsColors = ['#437282', '#b71d25', '#6e439f', '#d5d5d5', '#bdb218', '#1b191a', '#2f963d', '#583016'];
 export type Fraction = typeof Fractions[number];
 

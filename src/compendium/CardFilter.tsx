@@ -8,27 +8,34 @@ import {CardFilterType} from './CardFilter.ts';
 
 function FractionFilterItem({fraction}: Readonly<{fraction: Fraction}>) {
   const card = cardById(Fractions.indexOf(fraction) * 20 + 1);
+  const blackToTrans = 'rgba(0,0,0,0.6) 27%, transparent 27%';
   return (<ToggleButton value={`${fraction}`}
-      aria-label={fraction}
+      aria-label={`filter for `}
       sx={{
-        p: 0,
+        height: '3em',
+        width: '3em',
         [`&.${toggleButtonGroupClasses.selected}`]: {
-          boxShadow: '0 0 12px #d5d5d5',
+          boxShadow: 'inset #d5d5d5 0 0 6px',
+          borderRadius: 2,
         },
       }}>
       <Icon sx={(theme) => ({
         // original image list, then a black diamond around it, then lighten with the background
-        background: `linear-gradient(45deg, black 27%, transparent 27%), ` +
-          `linear-gradient(135deg, black 27%, transparent 27%), ` +
-          `linear-gradient(225deg, black 27%, transparent 27%), ` +
-          `linear-gradient(-45deg, black 27%, transparent 27%), ` +
+        background: `linear-gradient(45deg, ${blackToTrans}), ` +
+          `linear-gradient(135deg, ${blackToTrans}), ` +
+          `linear-gradient(225deg, ${blackToTrans}), ` +
+          `linear-gradient(-45deg, ${blackToTrans}), ` +
           `url('${card.imageSrc()}') 207% 4.5% / 800%`,
         mixBlendMode: 'lighten',
+        borderRadius: 2,
         height: '2em',
         width: '2em',
         [theme.breakpoints.down('lg')]: {
           height: '1.5em',
           width: '1.5em',
+          m: 0.5,
+          border: 1,
+          borderColor: theme.palette.divider,
         },
       })} />
     </ToggleButton>);
