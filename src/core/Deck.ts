@@ -104,6 +104,7 @@ export class AvatarAndCards {
     const sortedCards = this.cards.slice()
       .sort((a, b) => DeckSort.byId(a.card, b.card))
       .sort((a, b) => a.card.costNumber(this.avatar?.fraction) - b.card.costNumber(this.avatar?.fraction));
+    console.log(sortedCards);
     return new AvatarAndCards(this.avatar, sortedCards);
   }
 
@@ -126,7 +127,7 @@ export class AvatarAndCards {
       }
       return x;
     })
-      .filter(x => x !== null) as CardAndCount[];
+      .filter(x => x !== null);
     if (!found) {
       throw new InvalidDeckOperation('cannot remove a card which is missing in the deck');
     }

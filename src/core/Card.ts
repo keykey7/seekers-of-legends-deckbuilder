@@ -1,5 +1,14 @@
 export const Fractions = ['BLUE', 'RED', 'VIOLET', 'WHITE', 'YELLOW', 'BLACK', 'GREEN', 'BROWN'];
-export const FractionNames = ['Vaiunas', 'Vaakhil', 'Tempestrier', 'Renischen', 'Heepurianer', 'Dunlaar', 'Cofaleri', 'Archtaren'];
+export const FractionNames = [
+  'Vaiunas',
+  'Vaakhil',
+  'Tempestrier',
+  'Renischen',
+  'Heepurianer',
+  'Dunlaar',
+  'Cofaleri',
+  'Archtaren',
+];
 export const FractionsColors = ['#437282', '#b71d25', '#6e439f', '#d5d5d5', '#bdb218', '#1b191a', '#2f963d', '#583016'];
 export type Fraction = typeof Fractions[number];
 
@@ -40,16 +49,14 @@ export interface AvatarStats extends CharacterStats {
 
 export class Card {
   // eslint-disable-next-line max-params
-  constructor(
-    public readonly id: number,
+  constructor(public readonly id: number,
     public readonly cost: CardCost,
     public readonly name: string,
     public readonly type: CardType,
     public readonly fraction: Fraction,
     public readonly description: string,
     public readonly stats: CharacterStats | AvatarStats | null = null,
-    public readonly skill: Skill[] = [],
-  ) {
+    public readonly skill: Skill[] = []) {
     if ((this.type === CardType.Charakter || this.type === CardType.Avatar) && this.stats === null) {
       throw new Error(`character ${id} missing stats`);
     }
@@ -80,8 +87,8 @@ export class Card {
     return `/cards/card-${String(this.id).padStart(3, '0')}.jpg`;
   }
 
-  costModifier(targetFraction: Fraction | undefined): CardCostModifier {
-    if (targetFraction === undefined || targetFraction === this.fraction) {
+  costModifier(avatarFraction: Fraction | undefined): CardCostModifier {
+    if (avatarFraction === undefined || avatarFraction === this.fraction) {
       return 0;
     }
     const expensiveMap: { [key in Fraction]: Fraction } = {
@@ -94,7 +101,7 @@ export class Card {
       GREEN: 'RED',
       BROWN: 'VIOLET',
     };
-    if (expensiveMap[this.fraction] === targetFraction) {
+    if (expensiveMap[avatarFraction] === this.fraction) {
       return 2;
     }
     return 1;
@@ -102,7 +109,10 @@ export class Card {
 
   matchesText(text: string): boolean {
     // lowercase, then drop accents (ä -> a), then we drop non-ascii
-    const normalize = (x: string) => x.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/[^a-z0-9+]/ug, ' ');
+    const normalize = (x: string) => x.toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')
+      .replace(/[^a-z0-9+]/ug, ' ');
     const needle = normalize(text).trim();
     const haystack = normalize(' ' + this.name + ' ' + this.description);
     return haystack.includes(' ' + needle)

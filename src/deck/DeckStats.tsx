@@ -1,9 +1,9 @@
-import {BarChart, Gauge, gaugeClasses} from '@mui/x-charts';
-import {drawerWidth} from './DeckDrawer.tsx';
-import {Box, Tooltip} from '@mui/material';
-import {getDeck} from '../core/DeckSignals.ts';
-import {CardAndCount} from '../core/Deck.ts';
-import {useComputed} from '@preact/signals';
+import { BarChart, Gauge, gaugeClasses } from '@mui/x-charts';
+import { drawerWidth } from './DeckDrawer.tsx';
+import { Box, Tooltip } from '@mui/material';
+import { getDeck } from '../core/DeckSignals.ts';
+import { CardAndCount } from '../core/Deck.ts';
+import { useComputed } from '@preact/signals';
 
 function DeckCounter() {
   const count = useComputed(() => getDeck().value.count()).value;
@@ -20,7 +20,7 @@ function DeckCounter() {
       valueMax={40}
       sx={{
         [`& .${gaugeClasses.referenceArc}`]: {
-          fill: '#652121',
+          fill: '#652121', // an error-color to indicate missing cards
         },
         [`& .${gaugeClasses.valueArc}`]: {
           fill: '#d5d5d5',
@@ -54,6 +54,7 @@ function DeckStats() {
     const deck = getDeck().value;
     const costs = [0, 0, 0, 0, 0, 0, 0];
     const avatarFraction = deck.avatar?.fraction;
+
     function addCard(cardAndCount: CardAndCount): void {
       let costCategory = cardAndCount.card.cost;
       if (costCategory === 'X') {
@@ -65,18 +66,26 @@ function DeckStats() {
       }
       costs[costCategory - 1] += cardAndCount.count;
     }
+
     deck.allCards()
       .forEach((cardAndCount) => {
         addCard(cardAndCount);
       });
     return costs;
-  })
+  });
   const max = colorCost.value.reduce((a, b) => Math.max(a, b), 0);
   return (<>
     <DeckCounter />
     <BarChart tooltip={{trigger: 'none'}}
       width={drawerWidth}
       height={200}
+      disableAxisListener={true}
+      margin={{
+        top: 32,
+        right: 16,
+        bottom: 32,
+        left: 42,
+      }}
       series={[
         {
           data: colorCost.value,
