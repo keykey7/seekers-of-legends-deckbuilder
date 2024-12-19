@@ -13,6 +13,12 @@ function App() {
     },
     palette: {
       mode: 'dark',
+      primary: {
+        main: '#d5d5d5',
+      },
+      secondary: {
+        main: '#6e439f',
+      }
     },
   });
   return (<ThemeProvider theme={darkTheme}>

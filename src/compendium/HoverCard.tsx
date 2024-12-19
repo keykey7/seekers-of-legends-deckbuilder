@@ -118,9 +118,12 @@ function HoverCard({onClick}: Readonly<HoverCardProps>) {
         width: '100%',
         height: '100%',
         backfaceVisibility: 'hidden',
+        position: 'relative', // because z-index would not work on absolute positioning
+        zIndex: 0,
         ':hover': {
           border: 1,
           borderColor: 'rgba(255, 255, 255, 0.4)',
+          zIndex: 1,
         },
         '@media not (hover: none)': { // hide the info icon until hover on non-touch devices
           ':hover > svg': {

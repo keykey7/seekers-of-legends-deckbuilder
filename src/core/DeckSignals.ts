@@ -2,6 +2,7 @@ import {Card} from './Card.ts';
 import {fromUrl, toUrl} from '../deck/StableUrl.ts';
 import {batch, computed, effect, signal} from '@preact/signals';
 import {deckAnimationSignal, Rect} from '../particles/ParticleSignals.ts';
+import { AvatarAndCards } from './Deck.ts';
 
 const deckSignal = signal(fromUrl());
 
@@ -38,4 +39,8 @@ export const removeCardFromDeck = (card: Card, origin: Rect) => {
       origin,
     };
   });
+}
+
+export const clearDeck = () => {
+  deckSignal.value = AvatarAndCards.empty();
 }
