@@ -1,10 +1,10 @@
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import LockIcon from '@mui/icons-material/Lock';
-import {useIsTouchDevice} from '../Util.ts';
-import {addCardToDeck, getDeck} from '../core/DeckSignals.ts';
-import {useCard} from '../core/CardContext.ts';
-import {computed} from '@preact/signals';
+import { useIsTouchDevice } from '../Util.ts';
+import { addCardToDeck, getDeck } from '../core/DeckSignals.ts';
+import { useCard } from '../core/CardContext.ts';
+import { computed } from '@preact/signals';
 
 /**
  * An indicator when no more cards of a given type can be added.
@@ -94,7 +94,8 @@ function HoverCard({onClick}: Readonly<HoverCardProps>) {
   const card = useCard();
   const onMoveCard = isTouch ? () => {
   } : moveCard;
-  const addCard = (event: MouseEvent) => addCardToDeck(card, (event.currentTarget as HTMLDivElement).getBoundingClientRect());
+  const addCard = (event: MouseEvent) => addCardToDeck(card,
+    (event.currentTarget as HTMLDivElement).getBoundingClientRect());
   return (<Box sx={(theme) => ({
     p: 2,
     aspectRatio: '2429 / 3308', // same as actual image
@@ -106,7 +107,7 @@ function HoverCard({onClick}: Readonly<HoverCardProps>) {
       onMouseMove={onMoveCard}
       onMouseLeave={resetCard}
       onMouseDown={addCard}
-      sx={(theme) => ({
+      sx={{
         backgroundImage: `url(${card.imageSrc()})`,
         borderRadius: 2.5,
         transition: '1000ms cubic-bezier(0.03, 0.98, 0.52, 0.99)',
@@ -118,14 +119,15 @@ function HoverCard({onClick}: Readonly<HoverCardProps>) {
         height: '100%',
         backfaceVisibility: 'hidden',
         ':hover': {
-          filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))',
+          border: 1,
+          borderColor: 'rgba(255, 255, 255, 0.4)',
         },
-        [theme.breakpoints.up('md')]: { // hide the info icon until hover on non-touch devices
+        '@media not (hover: none)': { // hide the info icon until hover on non-touch devices
           ':hover > svg': {
             opacity: 1,
           },
         },
-      })}>
+      }}>
       <InfoIcon onDetailClick={onClick} />
       <MaxCardAmountReachedIcon />
     </Box>

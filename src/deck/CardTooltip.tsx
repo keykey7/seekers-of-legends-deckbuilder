@@ -1,7 +1,7 @@
-import {Card, Skill} from '../core/Card.ts';
-import {ReactNode} from 'react';
-import {IconButton, Tooltip, Typography} from '@mui/material';
-import {useIsSmallScreen} from '../Util.ts';
+import { Card, Skill } from '../core/Card.ts';
+import { ReactNode } from 'react';
+import { IconButton, Tooltip, Typography } from '@mui/material';
+import { useIsSmallScreen } from '../Util.ts';
 import unicorn from '../assets/unicorn.png';
 import reactStringReplace from 'react-string-replace';
 import CachedIcon from '@mui/icons-material/Cached';
@@ -42,7 +42,7 @@ function CardTooltipStats({card}: Readonly<CardTooltipTextProps>) {
 }
 
 function CardTooltipText({card}: Readonly<CardTooltipTextProps>) {
-  const re = /(:macht:|:pfeil:| {2}|Avatareffekt|Flug|Fernkampf|Hast|Ausdauer|Lebensraub|Ersthieb|Doppelhieb|Dreifachhieb|Durchbruch|Duellant|Fäulnis|Ansturm|Festigung|Verhüllung|Schild|Unbesiegbarkeit|Schnelligkeit)/ug;
+  const re = /(:macht:|:pfeil:| {2}|\[[^]+\][A-Za-z-]*|Avatareffekt|Flug|Fernkampf|Hast|Ausdauer|Lebensraub|Ersthieb|Doppelhieb|Dreifachhieb|Durchbruch|Duellant|Fäulnis|Ansturm|Festigung|Verhüllung|Schild|Unbesiegbarkeit|Schnelligkeit)/ug;
   const prefix = card.skill.length === 0 ? '' :
     card.skill.map(x => Skill[x].replace('Faeulnis', 'Fäulnis').replace('Verhuellung', 'Verhüllung')).join(', ') + '  ';
   const richText = reactStringReplace(prefix + card.description, re, (match) => {
@@ -60,11 +60,13 @@ function CardTooltipText({card}: Readonly<CardTooltipTextProps>) {
             style={{height: '100%'}} />
         </IconButton>;
       case ':pfeil:':
-        return <CachedIcon alt="erschöpfen"
-          sx={inlineIconStyle} />;
+        return <CachedIcon sx={inlineIconStyle} />;
       case '  ':
         return <br />;
       default:
+        if (match.startsWith('[')) {
+          return <span style="white-space: nowrap;">{match}</span>;
+        }
         return <b>{match}</b>;
     }
   });
@@ -73,7 +75,8 @@ function CardTooltipText({card}: Readonly<CardTooltipTextProps>) {
       variant="subtitle2">
       <CardTooltipStats card={card} />
     </Typography>
-    <Typography color="inherit" variant="body1">
+    <Typography color="inherit"
+      variant="body1">
       {richText}
     </Typography>
   </>;
