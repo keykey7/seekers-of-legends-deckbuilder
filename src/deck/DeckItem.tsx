@@ -39,7 +39,7 @@ interface DeckItemProps {
 function DeckItem({
   card,
 }: Readonly<DeckItemProps>) {
-  const costModifier = useComputed(() => getDeck().value.avatar?.costModifier(card.fraction) ?? 0).value;
+  const costModifier = useComputed(() => card.costModifier(getDeck().value.avatar?.fraction)).value;
   const actualCost = toActualCost(card.cost, costModifier);
   return (<ListItem onClick={e => removeCardFromDeck(card, e.currentTarget.getBoundingClientRect())}
       sx={{
