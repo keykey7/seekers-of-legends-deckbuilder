@@ -4,5 +4,8 @@ import preact from '@preact/preset-vite';
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    chunkSizeWarningLimit: 1024
+  },
   plugins: [preact()],
 });

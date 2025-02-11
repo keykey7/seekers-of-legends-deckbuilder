@@ -1,13 +1,14 @@
-import {Box, Modal, modalClasses, useMediaQuery} from '@mui/material';
+import { Box, Modal, modalClasses, useMediaQuery } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import {useSwipeable} from 'react-swipeable';
-import {useIsSmallScreen} from '../Util.ts';
-import {MaxCardAmountReachedIcon} from './HoverCard.tsx';
-import {Card} from '../core/Card.ts';
-import {addCardToDeck} from '../core/DeckSignals.ts';
-import {Signal} from '@preact/signals';
-import {CardProvider} from '../core/CardContext.tsx';
+import { useSwipeable } from 'react-swipeable';
+import { useIsSmallScreen } from '../Util.ts';
+import { MaxCardAmountReachedIcon } from './HoverCard.tsx';
+import { Card } from '../core/Card.ts';
+import { addCardToDeck } from '../core/DeckSignals.ts';
+import { Signal } from '@preact/signals';
+import { CardProvider } from '../core/CardContext.tsx';
+import { useEffect } from 'react';
 
 interface NextPrevIconProps {
   direction: 'left' | 'right';
@@ -50,6 +51,20 @@ export interface CardDetailModalProps {
   readonly cards: Card[];
 }
 
+function useArrowKeys(onLeft: () => void, onRight: () => void) {
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        onLeft();
+      } else if (event.key === 'ArrowRight') {
+        onRight();
+      }
+    };
+    document.addEventListener('keydown', listener);
+    return () => document.removeEventListener('keydown', listener);
+  }, [onLeft, onRight]);
+}
+
 /**
  * Fullscreen popup of a single card to view its details.
  */
@@ -67,13 +82,15 @@ function CardDetailModal({
   const onPrevious = () => setActive(cards[currentIndex - 1]);
   const hasNext = currentIndex !== cards.length - 1;
   const onNext = () => setActive(cards[currentIndex + 1]);
+  useArrowKeys(onPrevious, onNext);
   // https://www.npmjs.com/package/react-swipeable
   const swipeHandlers = useSwipeable({
     swipeDuration: 250, // [ms]
     onSwipedLeft: onNext,
     onSwipedRight: onPrevious,
     trackMouse: true, // we need the onTab to act like an onClick, because onClick and swipes don't like each other
-    onTap: swipeEvent => active && addCardToDeck(active, (swipeEvent.event.target as HTMLElement).getBoundingClientRect()),
+    onTap: swipeEvent => active &&
+      addCardToDeck(active, (swipeEvent.event.target as HTMLElement).getBoundingClientRect()),
   });
   return (<Modal open={active !== undefined}
     onClose={onClose}
@@ -108,7 +125,7 @@ function CardDetailModal({
       }}>
         {active && <CardProvider card={active}>
           <MaxCardAmountReachedIcon />
-        </CardProvider> }
+        </CardProvider>}
       </Box>
       <NextPrevIcon direction="right"
         isVisible={hasNext}
