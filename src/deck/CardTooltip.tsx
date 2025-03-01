@@ -1,4 +1,4 @@
-import { Card, skillAsText } from '../core/Card.ts';
+import { Card, Skill } from '../core/Card.ts';
 import { ReactNode } from 'react';
 import { IconButton, Tooltip, Typography } from '@mui/material';
 import { useIsSmallScreen } from '../Util.ts';
@@ -42,11 +42,12 @@ function CardTooltipStats({card}: Readonly<CardTooltipTextProps>) {
 }
 
 function CardTooltipText({card}: Readonly<CardTooltipTextProps>) {
-  const re = /(:macht:|:pfeil:| {2}|\[[^]+\][A-Za-z-]*|Avatareffekt|Flug|Fernkampf|Hast|Ausdauer|Lebensraub|Ersthieb|Doppelhieb|Dreifachhieb|Durchbruch|Duellant|Fäulnis|Ansturm|Festigung|Verhüllung|Schild|Unbesiegbarkeit|Schnelligkeit)/ug;
-  const prefix = card.skill.length === 0 ? '' : card.skill.map(x => skillAsText(x)).join(', ') + '  ';
+  const allSkills = Object.values(Skill).join('|');
+  const re = new RegExp(`(:macht:|:pfeil:| {2}|\\[[^]+\\][A-Za-z-]*|Avatareffekt|${allSkills})`, 'ug');
+  const prefix = card.skill.length === 0 ? '' : card.skill.join(', ') + '  ';
   const richText = reactStringReplace(prefix + card.description, re, (match) => {
     switch (match) {
-      case ':macht:':
+      case ':macht:': // replace with a unicorn-icon
         return <IconButton sx={{
           position: 'relative',
           bottom: '3px',
@@ -58,15 +59,15 @@ function CardTooltipText({card}: Readonly<CardTooltipTextProps>) {
             alt="Macht"
             style={{height: '100%'}} />
         </IconButton>;
-      case ':pfeil:':
+      case ':pfeil:': // replace with a "tap"/erschöpfen-icon
         return <CachedIcon sx={inlineIconStyle} />;
-      case '  ':
+      case '  ': // two spaces become a newline
         return <br />;
       default:
-        if (match.startsWith('[')) {
+        if (match.startsWith('[')) { // prevent line-splitting in between [+1/+1] markers
           return <span style="white-space: nowrap;">{match}</span>;
         }
-        return <b>{match}</b>;
+        return <b>{match}</b>; // and everything else: make it bold (like skills)
     }
   });
   return <>

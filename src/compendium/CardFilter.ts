@@ -1,5 +1,5 @@
 import { allCards } from '../core/CardData.ts';
-import { Card, CardType, DeckSort, Fraction, skillAsText } from '../core/Card.ts';
+import { Card, CardType, DeckSort, Fraction } from '../core/Card.ts';
 import { useComputedCards } from '../Util.ts';
 import { signal } from '@preact/signals';
 
@@ -9,9 +9,8 @@ const normalize = (x: string) => x.toLowerCase()
   .replace(/[^a-z0-9+/]/ug, ' ');
 
 // lowercase, then drop accents (ä -> a), then we drop non-ascii
-const filterPreload: string[] = allCards.map(card => normalize(
-  ' ' + card.name + ' ' + card.description + ' ' + CardType[card.type] + ' ' +
-  card.skill.map(x => skillAsText(x)).join(' ')));
+const filterPreload: string[] = allCards.map(
+  card => normalize(' ' + card.name + ' ' + card.description + ' ' + CardType[card.type] + ' ' + card.skill.join(' ')));
 
 export interface CardFilterType {
   filterFractions: Fraction[],

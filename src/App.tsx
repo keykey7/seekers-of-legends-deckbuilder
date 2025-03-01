@@ -8,8 +8,11 @@ function App() {
   // https://mui.com/material-ui/customization/dark-mode/
   const darkTheme = createTheme({
     typography: {
-      fontFamily: `Proxima Nova Rg,Roboto,sans-serif`,
-      fontSize: 16,
+      fontFamily: `FuturaEF-Book,Roboto,sans-serif`,
+      fontSize: 17,
+      body1: {
+        lineHeight: 1,
+      }
     },
     palette: {
       mode: 'dark',

@@ -18,7 +18,6 @@
     "@mui/x-charts": "^7",
     "@preact/signals": "^1",
     "animejs": "^3",
-    "font-proxima-nova": "^1.0.1",
     "preact": "^10",
     "react-string-replace": "^1.1.1",
     "react-swipeable": "^7"

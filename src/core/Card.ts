@@ -1,13 +1,6 @@
 export const Fractions = ['BLUE', 'RED', 'VIOLET', 'WHITE', 'YELLOW', 'BLACK', 'GREEN', 'BROWN'];
 export const FractionNames = [
-  'Vaiunas',
-  'Vaakhil',
-  'Tempestrier',
-  'Renischen',
-  'Heepurianer',
-  'Dunlaar',
-  'Cofaleri',
-  'Archtaren',
+  'Vaiunas', 'Vaakhil', 'Tempestrier', 'Renischen', 'Heepurianer', 'Dunlaar', 'Cofaleri', 'Archtaren',
 ];
 export const FractionsColors = ['#437282', '#b71d25', '#6e439f', '#d5d5d5', '#bdb218', '#1b191a', '#2f963d', '#583016'];
 export type Fraction = typeof Fractions[number];
@@ -19,33 +12,23 @@ export type CardCost = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 'X';
 export type CardCostModifier = 0 | 1 | 2;
 
 export enum Skill {
-  Flug,
-  Fernkampf,
-  Hast,
-  Ausdauer,
-  Lebensraub,
-  Ersthieb,
-  Doppelhieb,
-  Dreifachhieb,
-  Durchbruch,
-  Duellant,
-  Faeulnis,
-  Ansturm,
-  Festigung,
-  Verhuellung,
-  Schild,
-  Unbesiegbarkeit,
-  Schnelligkeit,
-}
-
-export function skillAsText(skill: Skill): string {
-  if (skill === Skill.Verhuellung) {
-    return 'Verhüllung';
-  }
-  if (skill === Skill.Faeulnis) {
-    return 'Fäulnis';
-  }
-  return Skill[skill];
+  Flug = 'Flug',
+  Fernkampf = 'Fernkampf', // legacy naming: Reichweite
+  Hast = 'Hast',
+  Ausdauer = 'Ausdauer',
+  Lebensraub = 'Lebensraub',
+  Ersthieb = 'Ersthieb',
+  Doppelhieb = 'Doppelhieb',
+  Dreifachhieb = 'Dreifachhieb',
+  Durchbruch = 'Durchbruch',
+  Duellant = 'Duellant',
+  Faeulnis = 'Fäulnis',
+  Ansturm = 'Ansturm',
+  Festigung = 'Festigung',
+  Verhuellung = 'Verhüllung',
+  Schild = 'Schild',
+  Unbesiegbarkeit = 'Unbesiegbarkeit',
+  Schnelligkeit = 'Schnelligkeit',
 }
 
 export interface CharacterStats {
@@ -115,21 +98,6 @@ export class Card {
       return 2;
     }
     return 1;
-  }
-
-  matchesText(text: string): boolean {
-    // lowercase, then drop accents (ä -> a), then we drop non-ascii
-    const normalize = (x: string) => x.toLowerCase()
-      .normalize('NFD')
-      .replace(/\p{Diacritic}/gu, '')
-      .replace(/[^a-z0-9+]/ug, ' ');
-    const needle = normalize(text).trim();
-    const haystack = normalize(' ' + this.name + ' ' + this.description);
-    return haystack.includes(' ' + needle)
-      // eslint-disable-next-line eqeqeq
-      || this.cost == needle
-      || CardType[this.type].toLowerCase().startsWith(needle)
-      || this.skill.find(skill => Skill[skill].toLowerCase().startsWith(needle)) !== undefined;
   }
 }
 

@@ -1,45 +1,11 @@
-/*based on import 'font-proxima-nova/style.css' */
-
 @font-face {
-    font-family: 'Proxima Nova Rg';
-    src: url('font-proxima-nova/fonts/ProximaNova-Regular.eot');
-    src: local('Proxima Nova Regular'), local('ProximaNova-Regular'),
-    url('font-proxima-nova/fonts/ProximaNova-Regular.eot?#iefix') format('embedded-opentype'),
-    url('font-proxima-nova/fonts/ProximaNova-Regular.woff') format('woff'),
-    url('font-proxima-nova/fonts/ProximaNova-Regular.ttf') format('truetype');
+    font-family: 'FuturaEF-Book';
+    src: url('./assets/fonts/FuturaEF-Book.eot');
+    src: local('FuturaEF-Book'), local('Futura EF Book'), local('Futura Text EF Pro Book'),
+    url('./assets/fonts/FuturaEF-Book.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/FuturaEF-Book.woff2') format('woff2'),
+    url('./assets/fonts/FuturaEF-Book.woff') format('woff'),
+    url('./assets/fonts/FuturaEF-Book.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
-}
-
-@font-face {
-    font-family: 'Proxima Nova Rg';
-    src: url('font-proxima-nova/fonts/ProximaNova-RegularIt.eot');
-    src: local('Proxima Nova Regular Italic'), local('ProximaNova-RegularIt'),
-    url('font-proxima-nova/fonts/ProximaNova-RegularIt.eot?#iefix') format('embedded-opentype'),
-    url('font-proxima-nova/fonts/ProximaNova-RegularIt.woff') format('woff'),
-    url('font-proxima-nova/fonts/ProximaNova-RegularIt.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'Proxima Nova Rg';
-    src: url('font-proxima-nova/fonts/ProximaNova-Bold.eot');
-    src: local('Proxima Nova Bold'), local('ProximaNova-Bold'),
-    url('font-proxima-nova/fonts/ProximaNova-Bold.eot?#iefix') format('embedded-opentype'),
-    url('font-proxima-nova/fonts/ProximaNova-Bold.woff') format('woff'),
-    url('font-proxima-nova/fonts/ProximaNova-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Proxima Nova Rg';
-    src: url('font-proxima-nova/fonts/ProximaNova-BoldIt.eot');
-    src: local('Proxima Nova Bold Italic'), local('ProximaNova-BoldIt'),
-    url('font-proxima-nova/fonts/ProximaNova-BoldIt.eot?#iefix') format('embedded-opentype'),
-    url('font-proxima-nova/fonts/ProximaNova-BoldIt.woff') format('woff'),
-    url('font-proxima-nova/fonts/ProximaNova-BoldIt.ttf') format('truetype');
-    font-weight: bold;
-    font-style: italic;
 }
