@@ -1,4 +1,4 @@
-import { Card, Skill } from '../core/Card.ts';
+import { Card, skillAsText } from '../core/Card.ts';
 import { ReactNode } from 'react';
 import { IconButton, Tooltip, Typography } from '@mui/material';
 import { useIsSmallScreen } from '../Util.ts';
@@ -43,8 +43,7 @@ function CardTooltipStats({card}: Readonly<CardTooltipTextProps>) {
 
 function CardTooltipText({card}: Readonly<CardTooltipTextProps>) {
   const re = /(:macht:|:pfeil:| {2}|\[[^]+\][A-Za-z-]*|Avatareffekt|Flug|Fernkampf|Hast|Ausdauer|Lebensraub|Ersthieb|Doppelhieb|Dreifachhieb|Durchbruch|Duellant|Fäulnis|Ansturm|Festigung|Verhüllung|Schild|Unbesiegbarkeit|Schnelligkeit)/ug;
-  const prefix = card.skill.length === 0 ? '' :
-    card.skill.map(x => Skill[x].replace('Faeulnis', 'Fäulnis').replace('Verhuellung', 'Verhüllung')).join(', ') + '  ';
+  const prefix = card.skill.length === 0 ? '' : card.skill.map(x => skillAsText(x)).join(', ') + '  ';
   const richText = reactStringReplace(prefix + card.description, re, (match) => {
     switch (match) {
       case ':macht:':

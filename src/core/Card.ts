@@ -38,6 +38,16 @@ export enum Skill {
   Schnelligkeit,
 }
 
+export function skillAsText(skill: Skill): string {
+  if (skill === Skill.Verhuellung) {
+    return 'Verhüllung';
+  }
+  if (skill === Skill.Faeulnis) {
+    return 'Fäulnis';
+  }
+  return Skill[skill];
+}
+
 export interface CharacterStats {
   attack: number | 'X',
   defence: number | 'X',

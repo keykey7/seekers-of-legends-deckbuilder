@@ -100,7 +100,7 @@ export const allCards: Readonly<Card[]> = [
   new Card(82, 2, 'Vereidigender Triarius', CardType.Charakter, 'YELLOW', '', s(6, 2), [Skill.Fernkampf, Skill.Festigung]),
   new Card(83, 3, 'Thulius Feuerblitz', CardType.Avatar, 'YELLOW', 'Alle deine Charaktere haben Hast.  Jedes Mal, wenn einer deiner Charaktere, der in diesem Zug ins Spiel gekommen ist, einem Gegner Kampfschaden zufügt, ziehe eine Karte.  Avatareffekt:  Deine anderen Heepurianer-Charaktere erhalten +1/+0.', s(4, 5, 30), [Skill.Hast]),
   new Card(84, 2, 'Seemanöver', CardType.Aktion, 'YELLOW', 'Bestimme neue Ziele für eine Aktion deiner Wahl.', null, [Skill.Schnelligkeit]),
-  new Card(85, 1, 'Schützender Princeps', CardType.Charakter, 'YELLOW', 'Ein Charakter deiner Wahl erhält Schild und Unbesiegbarkeit bis zum Ende des Zuges.', s(1, 1)),
+  new Card(85, 1, 'Schützender Princeps', CardType.Charakter, 'YELLOW', ':pfeil:: Ein Charakter deiner Wahl erhält Schild und Unbesiegbarkeit bis zum Ende des Zuges.', s(1, 1)),
   new Card(86, 2, 'Schildwall', CardType.Aktion, 'YELLOW', 'Das nächste Mal, wenn in diesem Zug Schaden zugefügt werden würde, lenke ihn stattdessen auf einen Spieler oder Charakter deiner Wahl um.', null, [Skill.Schnelligkeit]),
   new Card(87, 2, 'Leuchtende Explorata', CardType.Charakter, 'YELLOW', '', s(6, 5), [Skill.Schnelligkeit]),
   new Card(88, 1, 'Impeta Fulgur', CardType.Charakter, 'YELLOW', '', s(4, 1), [Skill.Schnelligkeit]),
