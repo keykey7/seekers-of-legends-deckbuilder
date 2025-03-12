@@ -12,17 +12,16 @@ function TopHeader() {
   return <AppBar position="fixed"
     sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
     <Toolbar>
-      <a href="/">
-        <IconButton edge="start"
-          sx={{
-            height: '2em',
-            mr: 1,
-          }}>
-          <img src={unicorn}
-            alt=""
-            style={{height: '100%'}} />
-        </IconButton>
-      </a>
+      <IconButton edge="start"
+        disabled={true}
+        sx={{
+          height: '2em',
+          mr: 1,
+        }}>
+        <img src={unicorn}
+          alt=""
+          style={{height: '100%'}} />
+      </IconButton>
       <Typography noWrap
         variant="h5"
         sx={{flexGrow: 1}}>Deck Builder -{' '}

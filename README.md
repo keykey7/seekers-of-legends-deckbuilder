@@ -7,6 +7,6 @@ every card. As you explore and play, you become part of an ever-evolving story, 
 Gather your deck, summon your allies, and embark on a journey to save Vorkoon 🔥. Let the legend begin!
 
 - 🪄 Live deckbuilder https://sol.kk7.ch/
-- 🎲 Official rules are maintained by https://www.unision.ch/seekers-of-legends-spielregeln/
+- 🎲 Official rules are maintained by https://sol.unision.ch/
 
 ![Harjit Uruk](./public/cards/card-033.jpg)
