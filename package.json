@@ -14,7 +14,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@mui/icons-material": "^5",
-    "@mui/material": "^5",
+    "@mui/material": "^7",
     "@mui/x-charts": "^7",
     "@preact/signals": "^1",
     "animejs": "^3",
