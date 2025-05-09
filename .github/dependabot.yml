@@ -1,0 +1,6 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    allow:
+      - dependency-type: production
+  - package-ecosystem: "github-actions"
