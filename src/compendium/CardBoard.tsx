@@ -1,10 +1,10 @@
-import Grid from '@mui/material/Grid';
-import HoverCard from './HoverCard.tsx';
-import CardDetailModal from './CardDetailModal.tsx';
-import {Box} from '@mui/material';
-import {Card} from '../core/Card.ts';
-import {CardProvider} from '../core/CardContext.tsx';
-import {ReadonlySignal, useSignal} from '@preact/signals';
+import Grid from "@mui/material/Grid";
+import HoverCard from "./HoverCard.tsx";
+import CardDetailModal from "./CardDetailModal.tsx";
+import {Box} from "@mui/material";
+import {Card} from "../core/Card.ts";
+import {CardProvider} from "../core/CardContext.tsx";
+import {ReadonlySignal, useSignal} from "@preact/signals";
 
 interface CardBoardProps {
   filteredCardsSignal: ReadonlySignal<Card[]>;
@@ -17,7 +17,7 @@ function CardBoard({filteredCardsSignal}: Readonly<CardBoardProps>) {
     <CardDetailModal activeSignal={activeSignal}
       cards={cards} />
     <Box sx={{
-      justifyContent: 'center',
+      justifyContent: "center",
     }}>
       <Grid container
         columns={{
@@ -28,8 +28,7 @@ function CardBoard({filteredCardsSignal}: Readonly<CardBoardProps>) {
           xl: 5,
         }}>
         {cards.map((card) => <Grid key={`deck${card.id}`}
-          item
-          xs={1}>
+          size={1}>
           <CardProvider card={card}>
             <HoverCard onClick={() => {
               activeSignal.value = card;
