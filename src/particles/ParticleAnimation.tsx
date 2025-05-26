@@ -1,49 +1,48 @@
 import {ReactElement, useEffect, useRef} from 'react';
-import anime from 'animejs';
+import {animate, utils, stagger, AnimeInstance} from "animejs";
 import styles from './ParticleAnimation.module.css';
 
 import {deckAnimationTargetSignal, Rect, useDeckAnimation} from './ParticleSignals.ts';
 
 function useInitialAnime() {
-  const ref = useRef<anime.AnimeInstance | null>(null);
+  const ref = useRef<AnimeInstance | null>(null);
   useEffect(() => {
     const animeTargets = document.querySelectorAll(`.${styles.dot}`);
-    const stagger = anime.stagger(1.5, {easing: 'easeInCubic'}); // https://easings.net/
+    const stag = stagger(1.5, {ease: 'inCubic'}); // https://easings.net/
     const dtMax = 500; // [ms]
-    ref.current = anime({
-      targets: animeTargets,
+    ref.current = animate(animeTargets, {
       autoplay: false, // only render on restart
       loop: false,
-      easing: 'linear',
+      ease: 'linear',
       opacity: [
         {
-          value: 1,
+          to: 1,
           duration: 100,
-          delay: stagger,
+          delay: stag,
         }, {
-          value: 0,
-          duration: () => anime.random(500, dtMax),
+          to: 0,
+          duration: () => utils.random(400, dtMax),
         },
       ],
       width: {
-        value: 2,
+        to: 2,
         duration: 500,
-        delay: stagger,
+        delay: stag,
       },
       height: {
-        value: 2,
+        to: 2,
         duration: 500,
-        delay: stagger,
+        delay: stag,
       },
       translateX: {
-        value: () => anime.random(-5, 50),
+        to: () => utils.random(-5, 50),
         duration: dtMax,
-        delay: stagger,
+        delay: stag,
       },
       translateY: {
-        value: () => anime.random(-20, 20),
+        to: () => utils.random(-20, 20),
         duration: dtMax,
-        delay: stagger,
+        delay: stag,
       },
     });
   }, []);
@@ -58,15 +57,15 @@ const noRect: Rect = {
 }
 
 function ParticleAnimation() {
-  const deckAnimation = useDeckAnimation().value;
-  const from = deckAnimation === undefined ? noRect : deckAnimation.origin;
-  const to = deckAnimationTargetSignal.value ?? noRect;
   const ref = useInitialAnime();
+  const deckAnimation = useDeckAnimation().value;
   useEffect(() => {
     if (ref.current && deckAnimationTargetSignal.value && deckAnimation) {
       ref.current.restart();
     }
   }, [ref, deckAnimation]);
+  const from = deckAnimation === undefined ? noRect : deckAnimation.origin;
+  const to = deckAnimationTargetSignal.value ?? noRect;
   const elements: ReactElement[] = [];
   const amount = 150;
   for (let i = 0; i < amount; i += 1) {
@@ -76,16 +75,16 @@ function ParticleAnimation() {
       width: from.width + (to.width - from.width) / amount * i,
       height: from.height + (to.height - from.height) / amount * i,
     };
-    const size = anime.random(10, 20);
+    const size = utils.random(10, 20);
     // string concat is faster than templatestrings: https://jsperf.app/es6-string-literals-vs-string-concatenation
     const Dot = <div key={'anim' + i}
       className={styles.dot}
       style={{
         width: size + 'px',
         height: size + 'px',
-        top: spawnArea.top + anime.random(0, spawnArea.height - size) + 'px',
-        left: spawnArea.left + anime.random(0, spawnArea.width - size) + 'px',
-        opacity: 0,
+        top: spawnArea.top + utils.random(0, spawnArea.height - size) + 'px',
+        left: spawnArea.left + utils.random(0, spawnArea.width - size) + 'px',
+        opacity: 1,
       }} />;
     elements.push(Dot);
   }
