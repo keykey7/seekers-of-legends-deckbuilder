@@ -8,7 +8,7 @@ updates:
       - dependency-type: production
     ignore:
       - dependency-name: "*"
-      - update-types:
+        update-types:
           - version-update:semver-minor
           - version-update:semver-patch
     groups:
