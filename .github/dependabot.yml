@@ -6,7 +6,19 @@ updates:
       interval: weekly
     allow:
       - dependency-type: production
+    ignore:
+      - update-types:
+          - version-update:semver-minor
+          - version-update:semver-patch
+    groups:
+      all-npm:
+        patterns:
+          - "*"
   - package-ecosystem: "github-actions"
     directory: /
     schedule:
       interval: monthly
+    groups:
+      all-actions:
+        patterns:
+          - "*"
