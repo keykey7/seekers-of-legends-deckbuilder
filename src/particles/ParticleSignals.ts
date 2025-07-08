@@ -1,5 +1,5 @@
 import {Card} from '../core/Card.ts';
-import {computed, signal} from '@preact/signals';
+import {computed, signal} from "@preact/signals";
 
 export interface Rect {
   top: number;
@@ -11,10 +11,9 @@ export interface Rect {
 export interface DeckAnimationType {
   card: Card,
   origin: Rect,
+  target: Rect | undefined,
 }
 
 export const deckAnimationSignal = signal<DeckAnimationType>();
-
-export const deckAnimationTargetSignal = signal<Rect>();
 
 export const useDeckAnimation = () => computed(() => deckAnimationSignal.value);

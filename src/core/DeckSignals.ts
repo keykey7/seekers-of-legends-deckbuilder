@@ -37,6 +37,7 @@ export const addCardToDeck = (card: Card, origin: Rect) => {
     deckAnimationSignal.value = {
       card,
       origin,
+      target: undefined, // will be set later
     };
   });
 };
@@ -47,6 +48,7 @@ export const removeCardFromDeck = (card: Card, origin: Rect) => {
     deckAnimationSignal.value = {
       card,
       origin,
+      target: origin, // same
     };
   });
 };

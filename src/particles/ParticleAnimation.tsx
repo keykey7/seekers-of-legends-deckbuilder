@@ -2,11 +2,12 @@ import {ReactElement, useEffect, useRef} from 'react';
 import {animate, utils, stagger, AnimeInstance} from "animejs";
 import styles from './ParticleAnimation.module.css';
 
-import {deckAnimationTargetSignal, Rect, useDeckAnimation} from './ParticleSignals.ts';
+import {Rect, useDeckAnimation} from './ParticleSignals.ts';
 
 function useInitialAnime() {
   const ref = useRef<AnimeInstance | null>(null);
   useEffect(() => {
+    console.log("INITIALIZE ANIME")
     const animeTargets = document.querySelectorAll(`.${styles.dot}`);
     const stag = stagger(1.5, {ease: 'inCubic'}); // https://easings.net/
     const dtMax = 500; // [ms]
@@ -57,15 +58,17 @@ const noRect: Rect = {
 }
 
 function ParticleAnimation() {
-  const ref = useInitialAnime();
+  const animeRef = useInitialAnime();
   const deckAnimation = useDeckAnimation().value;
   useEffect(() => {
-    if (ref.current && deckAnimationTargetSignal.value && deckAnimation) {
-      ref.current.restart();
+    if (deckAnimation?.target) {
+      animeRef.current?.restart();
     }
-  }, [ref, deckAnimation]);
-  const from = deckAnimation === undefined ? noRect : deckAnimation.origin;
-  const to = deckAnimationTargetSignal.value ?? noRect;
+  }, [animeRef, deckAnimation?.target]);
+
+  const initialOpacity = deckAnimation?.target ? 1 : 0;
+  const from = deckAnimation?.origin ?? noRect;
+  const to = deckAnimation?.target ?? noRect;
   const elements: ReactElement[] = [];
   const amount = 150;
   for (let i = 0; i < amount; i += 1) {
@@ -84,7 +87,7 @@ function ParticleAnimation() {
         height: size + 'px',
         top: spawnArea.top + utils.random(0, spawnArea.height - size) + 'px',
         left: spawnArea.left + utils.random(0, spawnArea.width - size) + 'px',
-        opacity: 1,
+        opacity: initialOpacity,
       }} />;
     elements.push(Dot);
   }
