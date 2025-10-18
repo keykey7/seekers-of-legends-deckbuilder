@@ -1,7 +1,7 @@
 import DeckAvatar from './DeckAvatar.tsx';
 import {Box, List} from '@mui/material';
 import DeckItem from './DeckItem.tsx';
-import {createRef, ReactNode, useLayoutEffect} from 'react';
+import {ReactNode, useLayoutEffect, useRef} from 'react';
 import {getDeck} from '../core/DeckSignals.ts';
 import {deckAnimationSignal, Rect} from '../particles/ParticleSignals.ts';
 import {useComputed} from '@preact/signals';
@@ -12,16 +12,15 @@ function AnimatableDeckItem({
   card,
   children,
 }: Readonly<{card: Card | undefined, children: ReactNode}>) {
-  const ref = createRef();
-  const isSetTargetRequired = useComputed(() =>
+  const ref = useRef<HTMLDivElement>();
+  const shouldSetTarget = useComputed(() =>
     card !== undefined &&
     deckAnimationSignal.value?.card === card).value &&
     deckAnimationSignal.value?.target === undefined;
   useLayoutEffect(() => {
-    if (isSetTargetRequired) {
-      console.log("setting target to ", card?.name)
+    if (shouldSetTarget) {
       // we have to wait until after rendering to know the final position of the animation target
-      let targetRect: Rect = ref.current.getBoundingClientRect();
+      let targetRect: Rect = ref.current!.getBoundingClientRect();
       if (targetRect.width === 0) { // this is a hack in case the deck is collapsed
         targetRect = {
           width: 32,
@@ -32,7 +31,7 @@ function AnimatableDeckItem({
       }
       deckAnimationSignal.value = {...deckAnimationSignal.value!, target:targetRect};
     }
-  }, [card, ref, isSetTargetRequired]);
+  }, [card, ref, shouldSetTarget]);
   return <Box ref={ref}>{children}</Box>;
 }
 

@@ -104,7 +104,6 @@ export class AvatarAndCards {
     const sortedCards = this.cards.slice()
       .sort((a, b) => DeckSort.byId(a.card, b.card))
       .sort((a, b) => a.card.costNumber(this.avatar?.fraction) - b.card.costNumber(this.avatar?.fraction));
-    console.log(sortedCards);
     return new AvatarAndCards(this.avatar, sortedCards);
   }
 

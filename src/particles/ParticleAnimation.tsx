@@ -7,7 +7,6 @@ import {Rect, useDeckAnimation} from './ParticleSignals.ts';
 function useInitialAnime() {
   const ref = useRef<AnimeInstance | null>(null);
   useEffect(() => {
-    console.log("INITIALIZE ANIME")
     const animeTargets = document.querySelectorAll(`.${styles.dot}`);
     const stag = stagger(1.5, {ease: 'inCubic'}); // https://easings.net/
     const dtMax = 500; // [ms]
