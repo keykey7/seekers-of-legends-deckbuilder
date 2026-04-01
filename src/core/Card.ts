@@ -41,7 +41,6 @@ export interface AvatarStats extends CharacterStats {
 }
 
 export class Card {
-  // eslint-disable-next-line max-params
   constructor(public readonly id: number,
     public readonly cost: CardCost,
     public readonly name: string,
